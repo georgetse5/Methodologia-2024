@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class GameLoop {
     private Scanner scanner;
 
-    public GameLoop(Room startingRoom) {
+    public GameLoop() {
         scanner = new Scanner(System.in);
         run();
     }
