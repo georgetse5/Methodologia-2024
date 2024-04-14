@@ -1,3 +1,4 @@
+package Rooms;
 
 public class HallOfFameRoom extends Room {
     boolean hasOven;
@@ -21,5 +22,5 @@ public class HallOfFameRoom extends Room {
     }
 }
 
-// This is a testing class for a Random Room
+// This is a testing class for a Random Rooms.Room
 
