@@ -1,3 +1,5 @@
+package MainLoop;
+
 import java.util.Scanner;
 
 public class GameLoop {
