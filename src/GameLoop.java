@@ -33,9 +33,9 @@ public class GameLoop {
 
             }
 
-
-            scanner.close();
         }
+
+        scanner.close();
     }
 }
 
