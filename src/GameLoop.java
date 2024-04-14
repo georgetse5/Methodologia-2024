@@ -9,11 +9,11 @@ public class GameLoop {
     }
 
     private void run() {
-        System.out.println("Welcome adventurer! Type 'help' for available commands.");
+        System.out.println("\nWelcome adventurer! Type 'help' for available commands.");
 
 
         while (true) {
-            System.out.print("\n>> ");
+            System.out.print(">> ");
             String command = scanner.nextLine();
 
 
