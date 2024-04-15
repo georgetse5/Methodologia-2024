@@ -22,7 +22,7 @@ public class GameLoop {
             processesedCmd = processCommand(command);
 
 
-            if (command.equalsIgnoreCase("quit")) {
+            if (processesedCmd.get(0).equalsIgnoreCase("quit")) {
                 System.out.println("Exiting the game...");
                 break;
             }
