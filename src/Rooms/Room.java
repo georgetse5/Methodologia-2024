@@ -15,6 +15,13 @@ public class Room {
         exits = new HashMap<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 
     public void addExit(String direction, Room destination) {
         exits.put(direction, destination);
