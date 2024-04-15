@@ -1,3 +1,5 @@
+import Rooms.*;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.ArrayList;
@@ -12,11 +14,15 @@ public class GameLoop {
         add("east");
         add("west");
     }};
+    private Room[] rooms;
+    Room startingRoom, nextRoom;
 
 // ==================================================================================================================
 
     public GameLoop() { ;
         scanner = new Scanner(System.in);
+        rooms = initializeMap();
+        startingRoom = rooms[0];
         run();
     }
 
@@ -24,6 +30,14 @@ public class GameLoop {
 
     private void run() {
         System.out.println("\nWelcome adventurer! Type 'help' for available commands.");
+
+// =============  For testing purposes  ===============================
+        System.out.println("You are now to " + startingRoom.getName());
+        System.out.println(startingRoom.getDescription());
+        nextRoom = rooms[1];
+        System.out.println("You must find the exit for " + nextRoom.getName());
+        System.out.println(startingRoom.getExit());
+// ====================================================================
 
 
         while (true) {
@@ -108,8 +122,19 @@ public class GameLoop {
 
 // ==================================================================================================================
 
-    private void initializeMap() {
+    private Room[] initializeMap() {
 
+        Room[] rooms = new Room[2];
+
+        Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
+        Room hallOfFame = new HallOfFameRoom("Hall Of Fame", "A Great Place for great people");
+
+        startingRoom.addExit("east", hallOfFame);
+
+        rooms[0] = startingRoom;
+        rooms[1] = hallOfFame;
+
+        return rooms;
     }
 
 // ==================================================================================================================
