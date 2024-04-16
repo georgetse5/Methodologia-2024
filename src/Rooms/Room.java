@@ -6,6 +6,7 @@ import java.util.Map;
 public class Room {
     String name;
     String description;
+    String direction;
     Map<String, Room> exits;
 
 
@@ -28,7 +29,7 @@ public class Room {
     }
 
 
-    public Room getExit(String direction) {
+    public Room getExit() {
         return exits.get(direction);
     }
 }
