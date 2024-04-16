@@ -17,13 +17,14 @@ rooms with the class Room as superclass for the common attributes of all classes
 - Items
 - Player
 - Container
-- Exits
 - NPC
 
 <hr>
 
 - <h3>Main class </h3>
+  
   - There appears the Starting banner of the game, and the initialization of the GameLoop class.
+  
 ```
     System.out.println(banner);
         new GameLoop();
@@ -32,6 +33,7 @@ rooms with the class Room as superclass for the common attributes of all classes
 <hr>
 
 - <h3>GameLoop Class</h3>
+  
   - There will be the main game loop. The initialization of the Rooms, the infinite loop which runs until
     the player exit the game, the input and the analysis of the player prompt. Also, the decision-making
     about the navigation based on players prompt all made here.
@@ -65,6 +67,7 @@ the size of the rooms list and make the following steps:
 <hr>
 
 - <h3>Rooms package</h3>
+  
   - There are all the classes of every room.
     
 The super class has the basic constructor, methods and arguments such as Name, Description, 
@@ -92,21 +95,31 @@ public void addExit(String direction, Room destination) {
 <hr>
 
 - <h3>Player Class</h3>
-  - Name, personal data, inventory
+  
+  - Name, Personal data, Inventory, Current room
+
+<h4>Available methods:</h4>
+
+- getName()
+- getInventory()
+- setCurrentRoom()
+- getCurrentRoom()
+- addItemToInventory()
+- removeItemFromInventory()
+- listInventory()
     
 <hr>
 
 - <h3>Items Class</h3>
-  - Nothing yet
+
+<h4>Available methods:</h4>
+
+- getName()
+- getDescription()
 
 <hr>
 
 - <h3>Container Class</h3>
-    - Nothing yet
-
-<hr>
-
-- <h3>Exits Class</h3>
     - Nothing yet
 
 <hr>
