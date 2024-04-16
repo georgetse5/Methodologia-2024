@@ -55,7 +55,9 @@ the size of the rooms list and make the following steps:
         return rooms;
     }
 ```
+
 <h4>Available methods:</h4>
+
 - run()
 - processCommand()
 - initializeMap()
@@ -79,7 +81,9 @@ public void addExit(String direction, Room destination) {
         exits.put(direction, destination);
     }
 ```
+
 <h4>Available methods:</h4>
+
 - getName()
 - getDescription()
 - addExit()
