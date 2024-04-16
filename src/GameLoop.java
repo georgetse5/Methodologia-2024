@@ -15,7 +15,7 @@ public class GameLoop {
         add("west");
     }};
     private Room[] rooms;
-    Room startingRoom, nextRoom;
+    Room startingRoom, nextRoom, currentRoom;
 
 // ==================================================================================================================
 
@@ -23,6 +23,7 @@ public class GameLoop {
         scanner = new Scanner(System.in);
         rooms = initializeMap();
         startingRoom = rooms[0];
+        currentRoom = startingRoom;
         run();
     }
 
@@ -32,11 +33,23 @@ public class GameLoop {
         System.out.println("\nWelcome adventurer! Type 'help' for available commands.");
 
 // =============  For testing purposes  ===============================
-        System.out.println("You are now to " + startingRoom.getName());
+        System.out.println("You are now to " + currentRoom.getName());
         System.out.println(startingRoom.getDescription());
         nextRoom = rooms[1];
         System.out.println("You must find the exit for " + nextRoom.getName());
         System.out.println(startingRoom.getExit());
+
+//        if (startingRoom instanceof StartingRoom) {
+//            ((StartingRoom) startingRoom).startingRoomMessage();
+//        } else {
+//            System.out.println("This room does not have a unique message.");
+//        }
+
+        ((StartingRoom) startingRoom).startingRoomMessage();
+        ((HallOfFameRoom) nextRoom).testRoom();
+        ((HallOfFameRoom) nextRoom).AnotherTestMethod();
+
+
 // ====================================================================
 
 
@@ -68,6 +81,15 @@ public class GameLoop {
                     }
                     if (directions.contains(processesedCmd.get(1))) {
                         System.out.println("You are going " + processesedCmd.get(1));
+
+                        if (processesedCmd.get(1).equalsIgnoreCase("east")) {
+                            currentRoom = nextRoom;
+                            if (currentRoom.getName().equalsIgnoreCase("Hall Of Fame")) {
+                                ((HallOfFameRoom) currentRoom).AnotherTestMethod();
+                            }
+                            System.out.println("You are now in " + currentRoom.getName());
+                        }
+
                     } else {
                         System.out.println("this direction is not valid. You can use (north, south, east, west)");
                     }
