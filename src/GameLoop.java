@@ -93,10 +93,10 @@ public class GameLoop {
                     if (directions.contains(processesedCmd.get(1))) {
                         System.out.println("You are going " + processesedCmd.get(1));
 
-                        // Ελέγχουμε αν υπάρχει έξοδος προς την κατεύθυνση που δόθηκε
+                        // Checks if the exit exists for the given direction
                         Map<String, Room> exits = player.getCurrentRoom().getExit();
                         if (exits.containsKey(processesedCmd.get(1))) {
-                            // Εάν υπάρχει έξοδος, μετακινούμε τον παίκτη στο επόμενο δωμάτιο
+                            // If the exit exists, moving to the next room
                             player.setCurrentRoom(exits.get(processesedCmd.get(1)));
                             System.out.println("You are now in " + player.getCurrentRoom().getName());
                         } else {
