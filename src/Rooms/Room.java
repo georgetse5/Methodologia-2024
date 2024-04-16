@@ -29,8 +29,8 @@ public class Room {
     }
 
 
-    public Room getExit() {
-        return exits.get(direction);
+    public Map<String, Room> getExit() {
+        return exits;
     }
 }
 
