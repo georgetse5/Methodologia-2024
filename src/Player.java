@@ -1,9 +1,11 @@
+import Rooms.Room;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
     private String name;
     private List<Item> inventory;
+    private Room currentRoom;
 
     public Player(String name) {
         this.name = name;
@@ -16,6 +18,14 @@ public class Player {
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public void setCurrentRoom(Room room) {
+        this.currentRoom = room;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
     }
 
     public void addItemToInventory(Item item) {

@@ -14,7 +14,8 @@ public class GameLoop {
         add("east");
         add("west");
     }};
-    private Room[] rooms;
+    private List<Room> rooms;
+    private Player player = new Player("John");
     Room startingRoom, nextRoom, currentRoom;
 
 // ==================================================================================================================
@@ -22,8 +23,8 @@ public class GameLoop {
     public GameLoop() { ;
         scanner = new Scanner(System.in);
         rooms = initializeMap();
-        startingRoom = rooms[0];
-        currentRoom = startingRoom;
+        startingRoom = rooms.get(0);
+        player.setCurrentRoom(startingRoom);
         run();
     }
 
@@ -33,22 +34,32 @@ public class GameLoop {
         System.out.println("\nWelcome adventurer! Type 'help' for available commands.");
 
 // =============  For testing purposes  ===============================
-        System.out.println("You are now to " + currentRoom.getName());
-        System.out.println(startingRoom.getDescription());
-        nextRoom = rooms[1];
+        System.out.println("You are now to " + player.getCurrentRoom().getName());
+        System.out.println(player.getCurrentRoom().getDescription());
+        nextRoom = rooms.get(1);
+        player.setCurrentRoom(nextRoom);
         System.out.println("You must find the exit for " + nextRoom.getName());
         System.out.println(startingRoom.getExit());
+        System.out.println("You are now to " + player.getCurrentRoom().getName());
 
-//        if (startingRoom instanceof StartingRoom) {
-//            ((StartingRoom) startingRoom).startingRoomMessage();
-//        } else {
-//            System.out.println("This room does not have a unique message.");
-//        }
+        Room currentRoom = player.getCurrentRoom();
+        for (Room room : rooms) {
+            if (room.equals(currentRoom)) {
+                System.out.println("Player is currently in room: " + room.getName());
 
-        ((StartingRoom) startingRoom).startingRoomMessage();
-        ((HallOfFameRoom) nextRoom).testRoom();
-        ((HallOfFameRoom) nextRoom).AnotherTestMethod();
+                if (room instanceof StartingRoom) {
+                    StartingRoom startingRoom = (StartingRoom) room;
+                    startingRoom.startingRoomMessage();
 
+                } else if (room instanceof HallOfFameRoom) {
+                    HallOfFameRoom hallOfFameRoom = (HallOfFameRoom) room;
+                    hallOfFameRoom.AnotherTestMethod();
+                }
+
+                break;
+            }
+        }
+// =============  End of testing purposes  ===============================
 
 // ====================================================================
 
@@ -82,13 +93,16 @@ public class GameLoop {
                     if (directions.contains(processesedCmd.get(1))) {
                         System.out.println("You are going " + processesedCmd.get(1));
 
-                        if (processesedCmd.get(1).equalsIgnoreCase("east")) {
-                            currentRoom = nextRoom;
-                            if (currentRoom.getName().equalsIgnoreCase("Hall Of Fame")) {
-                                ((HallOfFameRoom) currentRoom).AnotherTestMethod();
-                            }
-                            System.out.println("You are now in " + currentRoom.getName());
+                        // Ελέγχουμε αν υπάρχει έξοδος προς την κατεύθυνση που δόθηκε
+                        Map<String, Room> exits = player.getCurrentRoom().getExit();
+                        if (exits.containsKey(processesedCmd.get(1))) {
+                            // Εάν υπάρχει έξοδος, μετακινούμε τον παίκτη στο επόμενο δωμάτιο
+                            player.setCurrentRoom(exits.get(processesedCmd.get(1)));
+                            System.out.println("You are now in " + player.getCurrentRoom().getName());
+                        } else {
+                            System.out.println("There is no exit in that direction.");
                         }
+
 
                     } else {
                         System.out.println("this direction is not valid. You can use (north, south, east, west)");
@@ -144,17 +158,17 @@ public class GameLoop {
 
 // ==================================================================================================================
 
-    private Room[] initializeMap() {
-
-        Room[] rooms = new Room[2];
+    private List<Room> initializeMap() {
 
         Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
         Room hallOfFame = new HallOfFameRoom("Hall Of Fame", "A Great Place for great people");
 
         startingRoom.addExit("east", hallOfFame);
+        hallOfFame.addExit("west", startingRoom);
 
-        rooms[0] = startingRoom;
-        rooms[1] = hallOfFame;
+        List<Room> rooms = new ArrayList<>();
+        rooms.add(startingRoom);
+        rooms.add(hallOfFame);
 
         return rooms;
     }
