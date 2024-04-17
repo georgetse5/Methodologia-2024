@@ -12,7 +12,7 @@ public class HallOfFameRoom extends Room {
     }
 
     public void AnotherTestMethod() {
-        System.out.println("This is the other test room message");
+        System.out.println("(HallOfFameMessage): This is the other test room message");
     }
 
 }

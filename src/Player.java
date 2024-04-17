@@ -1,3 +1,4 @@
+import Item.Item;
 import Rooms.Room;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Player {
         if (inventory.remove(item)) {
             System.out.println(name + " dropped " + item.getName());
         } else {
-            System.out.println("Item not found in inventory");
+            System.out.println("Item.Item not found in inventory");
         }
     }
 

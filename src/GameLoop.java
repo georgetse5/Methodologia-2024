@@ -1,4 +1,5 @@
 import Rooms.*;
+import Item.Item;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,16 +37,12 @@ public class GameLoop {
 // =============  For testing purposes  ===============================
         System.out.println("You are now to " + player.getCurrentRoom().getName());
         System.out.println(player.getCurrentRoom().getDescription());
-        nextRoom = rooms.get(1);
-        player.setCurrentRoom(nextRoom);
-        System.out.println("You must find the exit for " + nextRoom.getName());
-        System.out.println(startingRoom.getExit());
-        System.out.println("You are now to " + player.getCurrentRoom().getName());
+        System.out.println("Items found: " + player.getCurrentRoom().getItems().toString());
 
         Room currentRoom = player.getCurrentRoom();
         for (Room room : rooms) {
             if (room.equals(currentRoom)) {
-                System.out.println("Player is currently in room: " + room.getName());
+//                System.out.println("Player is currently in room: " + room.getName());
 
                 if (room instanceof StartingRoom) {
                     StartingRoom startingRoom = (StartingRoom) room;
@@ -99,6 +96,7 @@ public class GameLoop {
                             // If the exit exists, moving to the next room
                             player.setCurrentRoom(exits.get(processesedCmd.get(1)));
                             System.out.println("You are now in " + player.getCurrentRoom().getName());
+                            System.out.println("Items found: " + player.getCurrentRoom().getItems().toString());
                         } else {
                             System.out.println("There is no exit in that direction.");
                         }
@@ -160,13 +158,28 @@ public class GameLoop {
 
     private List<Room> initializeMap() {
 
+        // Room initialization
         Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
         Room hallOfFame = new HallOfFameRoom("Hall Of Fame", "A Great Place for great people");
 
+        // Add exits to the rooms
         startingRoom.addExit("east", hallOfFame);
         hallOfFame.addExit("west", startingRoom);
 
+        // Item initialization
+        Item key = new Item ("Rusty Key", "It's just a key");
+        Item broken_watch = new Item ("Broken watch", "A vintage broken watch");
+        Item item2 = new Item("Item2", "Item2 Desc");
+
+        // Adding items to the rooms
+        startingRoom.addItem(key);
+        startingRoom.addItem(broken_watch);
+
+        hallOfFame.addItem(item2);
+
         List<Room> rooms = new ArrayList<>();
+
+        // Adding the rooms to the list rooms
         rooms.add(startingRoom);
         rooms.add(hallOfFame);
 

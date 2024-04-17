@@ -8,7 +8,7 @@ public class StartingRoom extends Room {
     }
 
     public void startingRoomMessage() {
-        System.out.println("This is not the game prologue but is a also a starting message");
+        System.out.println("(startingRoomMessage): This is not the game prologue but is a also a starting message");
     }
 
 }
