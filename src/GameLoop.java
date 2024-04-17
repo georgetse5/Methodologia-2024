@@ -1,7 +1,6 @@
 import Rooms.*;
 import Item.Item;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -48,8 +47,8 @@ public class GameLoop {
                     StartingRoom startingRoom = (StartingRoom) room;
                     startingRoom.startingRoomMessage();
 
-                } else if (room instanceof HallOfFameRoom) {
-                    HallOfFameRoom hallOfFameRoom = (HallOfFameRoom) room;
+                } else if (room instanceof KitchenRoom) {
+                    KitchenRoom hallOfFameRoom = (KitchenRoom) room;
                     hallOfFameRoom.AnotherTestMethod();
                 }
 
@@ -160,14 +159,17 @@ public class GameLoop {
 
         // Room initialization
         Room Living_Room = new Living_Room("Living Room", "Living Room");
-        Room Hall_1 = new Hall_1("Hall 1 ", "First Room");
+        Room hall_1 = new Hall_1("Hall 1 ", "First Room");
         Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
-        Room hallOfFame = new HallOfFameRoom("Hall Of Fame", "A Great Place for great people");
+        Room kitchen = new KitchenRoom("Kitchen", "A Great Place for a great cook");
 
         // Add exits to the rooms
-        Hall_1.addExit("south",Living_Room);
-        startingRoom.addExit("west", Hall_1);
-        hallOfFame.addExit("west", startingRoom);
+        hall_1.addExit("south",Living_Room);
+        hall_1.addExit("north",kitchen);
+
+        startingRoom.addExit("east", hall_1);
+
+        kitchen.addExit("south", hall_1);
 
         // Item initialization
         Item key = new Item ("Rusty Key", "It's just a key");
@@ -178,14 +180,14 @@ public class GameLoop {
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);
 
-        hallOfFame.addItem(item2);
+        kitchen.addItem(item2);
 
         List<Room> rooms = new ArrayList<>();
 
         // Adding the rooms to the list rooms
         rooms.add(startingRoom);
-        rooms.add(hallOfFame);
-        rooms.add(Hall_1);
+        rooms.add(kitchen);
+        rooms.add(hall_1);
         rooms.add(Living_Room);
 
         return rooms;

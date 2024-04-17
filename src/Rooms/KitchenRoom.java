@@ -1,9 +1,9 @@
 package Rooms;
 
-public class HallOfFameRoom extends Room {
+public class KitchenRoom extends Room {
 
 
-    public HallOfFameRoom(String name, String description) {
+    public KitchenRoom(String name, String description) {
         super(name, description);
     }
 
@@ -16,6 +16,3 @@ public class HallOfFameRoom extends Room {
     }
 
 }
-
-// This is a testing class for a Random Rooms.Room
-
