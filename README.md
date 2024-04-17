@@ -10,10 +10,23 @@ rooms with the class Room as superclass for the common attributes of all classes
 - Main
 - GameLoop
 - Room
-   - Starting Room
-   - Room 2
-   - Room 3
-   - etc
+  - StartingRoom
+  - Hall_1
+  - Kitchen
+  - Cellar
+  - Living_Room
+  - Dinning_Room 
+  - Hall_2
+  - Library
+  - Office
+  - Secret_Room
+  - Bedroom_1
+  - Bedroom_2
+  - Secondary_Room_1 (It's like "bridge" between the Bedroom_1 and Bedroom_3)
+  - Secondary_Room_2 (It's like "bridge" between the Bedroom_2 and Staff_Bedroom)
+  - Bedroom_3
+  - Staff_Bedroom
+  - Attic
 - Items
 - Player
 - Container
@@ -26,7 +39,6 @@ rooms with the class Room as superclass for the common attributes of all classes
   - There appears the Starting banner of the game, and the initialization of the GameLoop class.
   
 ```
-    System.out.println(banner);
         new GameLoop();
 ```
 
@@ -44,15 +56,27 @@ the size of the rooms list and make the following steps:
   // For example (code snippet from the project)
   
   //Initializing the rooms by giving them as arguments Name and Description
+  Room Living_Room = new Living_Room("Living Room", "Living Room");
+  Room hall_1 = new Hall_1("Hall 1 ", "First Room");
   Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
-  Room hallOfFame = new HallOfFameRoom("Hall Of Fame", "A Great Place for great people");
 
-  // Adding the exits to startingRoom
-  startingRoom.addExit("east", hallOfFame);
+  // Add exits to the rooms
+  hall_1.addExit("south",Living_Room);
 
-  // Adding the room instances into the rooms List
-  rooms[0] = startingRoom;
-  rooms[1] = hallOfFame;
+  startingRoom.addExit("east", hall_1);
+
+  // Item initialization
+  Item broken_watch = new Item ("Broken watch", "A vintage broken watch");
+
+  // Adding items to the rooms
+  startingRoom.addItem(broken_watch);
+
+  List<Room> rooms = new ArrayList<>();
+
+  // Adding the rooms to the list rooms
+  rooms.add(startingRoom);
+  rooms.add(hall_1);
+  rooms.add(Living_Room);
 
         return rooms;
     }
@@ -91,6 +115,9 @@ public void addExit(String direction, Room destination) {
 - getDescription()
 - addExit()
 - getExit()
+- addItem()
+- removeItem()
+- getItems()
     
 <hr>
 
