@@ -1,4 +1,5 @@
 import Rooms.*;
+import Item.Item;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,16 +37,12 @@ public class GameLoop {
 // =============  For testing purposes  ===============================
         System.out.println("You are now to " + player.getCurrentRoom().getName());
         System.out.println(player.getCurrentRoom().getDescription());
-        nextRoom = rooms.get(1);
-        player.setCurrentRoom(nextRoom);
-        System.out.println("You must find the exit for " + nextRoom.getName());
-        System.out.println(startingRoom.getExit());
-        System.out.println("You are now to " + player.getCurrentRoom().getName());
+        System.out.println("Items found: " + player.getCurrentRoom().getItems().toString());
 
         Room currentRoom = player.getCurrentRoom();
         for (Room room : rooms) {
             if (room.equals(currentRoom)) {
-                System.out.println("Player is currently in room: " + room.getName());
+//                System.out.println("Player is currently in room: " + room.getName());
 
                 if (room instanceof StartingRoom) {
                     StartingRoom startingRoom = (StartingRoom) room;
@@ -99,6 +96,7 @@ public class GameLoop {
                             // If the exit exists, moving to the next room
                             player.setCurrentRoom(exits.get(processesedCmd.get(1)));
                             System.out.println("You are now in " + player.getCurrentRoom().getName());
+                            System.out.println("Items found: " + player.getCurrentRoom().getItems().toString());
                         } else {
                             System.out.println("There is no exit in that direction.");
                         }
@@ -165,6 +163,15 @@ public class GameLoop {
 
         startingRoom.addExit("east", hallOfFame);
         hallOfFame.addExit("west", startingRoom);
+
+        Item key = new Item ("Rusty Key", "It's just a key");
+        Item teddy_bear = new Item ("Broken watch", "A vintage broken watch");
+        Item item2 = new Item("Item2", "Item2 Desc");
+
+        startingRoom.addItem(key);
+        startingRoom.addItem(teddy_bear);
+
+        hallOfFame.addItem(item2);
 
         List<Room> rooms = new ArrayList<>();
         rooms.add(startingRoom);
