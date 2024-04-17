@@ -158,22 +158,28 @@ public class GameLoop {
 
     private List<Room> initializeMap() {
 
+        // Room initialization
         Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
         Room hallOfFame = new HallOfFameRoom("Hall Of Fame", "A Great Place for great people");
 
+        // Add exits to the rooms
         startingRoom.addExit("east", hallOfFame);
         hallOfFame.addExit("west", startingRoom);
 
+        // Item initialization
         Item key = new Item ("Rusty Key", "It's just a key");
-        Item teddy_bear = new Item ("Broken watch", "A vintage broken watch");
+        Item broken_watch = new Item ("Broken watch", "A vintage broken watch");
         Item item2 = new Item("Item2", "Item2 Desc");
 
+        // Adding items to the rooms
         startingRoom.addItem(key);
-        startingRoom.addItem(teddy_bear);
+        startingRoom.addItem(broken_watch);
 
         hallOfFame.addItem(item2);
 
         List<Room> rooms = new ArrayList<>();
+
+        // Adding the rooms to the list rooms
         rooms.add(startingRoom);
         rooms.add(hallOfFame);
 
