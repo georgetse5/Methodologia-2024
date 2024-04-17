@@ -159,11 +159,14 @@ public class GameLoop {
     private List<Room> initializeMap() {
 
         // Room initialization
+        Room Living_Room = new Living_Room("Living Room", "Living Room");
+        Room Hall_1 = new Hall_1("Hall 1 ", "First Room");
         Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
         Room hallOfFame = new HallOfFameRoom("Hall Of Fame", "A Great Place for great people");
 
         // Add exits to the rooms
-        startingRoom.addExit("east", hallOfFame);
+        Hall_1.addExit("south",Living_Room);
+        startingRoom.addExit("west", Hall_1);
         hallOfFame.addExit("west", startingRoom);
 
         // Item initialization
@@ -182,6 +185,8 @@ public class GameLoop {
         // Adding the rooms to the list rooms
         rooms.add(startingRoom);
         rooms.add(hallOfFame);
+        rooms.add(Hall_1);
+        rooms.add(Living_Room);
 
         return rooms;
     }
