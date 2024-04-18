@@ -13,10 +13,18 @@ public class GameLoop {
         add("south");
         add("east");
         add("west");
+        add("upstairs");
+        add("downstairs");
+        add("northwest");
+        add("northeast");
+        add("southwest");
+        add("southeast");
+
     }};
     private List<Room> rooms;
     private Player player = new Player("John");
     Room startingRoom, nextRoom, currentRoom;
+
 
 // ==================================================================================================================
 
@@ -25,6 +33,7 @@ public class GameLoop {
         rooms = initializeMap();
         startingRoom = rooms.get(0);
         player.setCurrentRoom(startingRoom);
+        System.out.println("pame kala");
         run();
     }
 
@@ -159,17 +168,70 @@ public class GameLoop {
 
         // Room initialization
         Room Living_Room = new Living_Room("Living Room", "Living Room");
-        Room hall_1 = new Hall_1("Hall 1 ", "First Room");
+        Room hall_1 = new Hall_1("Hall", "First Room");
         Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
         Room kitchen = new KitchenRoom("Kitchen", "A Great Place for a great cook");
+        Room dinningRoom = new Dinning_Room("Dinning Room", "A fancy table with fancy tableware");
+        Room wineCellar = new Wine_Cellar("Wine Cellar", "You can smell the wood of the barrels used to age the fine wine in this room");
+        Room hall_2 = new Hall_2("First floor hall", "Another long hallway");
+        Room library = new Library("Library" , "A well persevered book collection");
+        Room office = new Office("Office", "Seems like an ordinary office, you feel a draft behind the east bookcase");
+        Room secretRoom = new Secret_Room("Secret Room", "This is a very weird room");
+        // edw vazw text otan mpeni mesa you see 4 doors. kai epilegi me (go door1 h door 2 ) h (go southwest h go southeast)
+        Room hall_3 = new Hall_3 ("Second floor hall", "A room with 4 doors");
+        Room bedroom_1 = new Bedroom_1("First Bedroom", "A room with a huge bed");
+        Room bedroom_2 = new Bedroom_2("Second Bedroom", "A room with a weird swing");
+        Room bedroom_3 = new Bedroom_3("Third Bedroom", "A room with a huge bed");
+        Room bedroom_guest = new Bedroom_Guest("Guest Bedroom", "A room for the guests");
+        Room attic = new Attic("Attic","A room with a lot of dusty stuff and some spider colonies");
 
         // Add exits to the rooms
-        hall_1.addExit("south",Living_Room);
-        hall_1.addExit("north",kitchen);
-
+        //Room1
         startingRoom.addExit("east", hall_1);
+        //Main Hallway
+        hall_1.addExit("west", startingRoom);
+        hall_1.addExit("north", dinningRoom);
+        hall_1.addExit("south",Living_Room);
+        hall_1.addExit("upstairs" , hall_2);
+        //Dinning Room
+        dinningRoom.addExit("south", hall_1);
+        dinningRoom.addExit("east", kitchen);
+        //Kitchen
+        kitchen.addExit("west", dinningRoom);
+        kitchen.addExit("east", wineCellar);
+        //Wine Cellar
+        wineCellar.addExit("west", kitchen);
+        //Floor 1 Hallway
+        hall_2.addExit("downstairs", hall_1);
+        hall_2.addExit("north", library);
+        hall_2.addExit("south", office);
+        hall_2.addExit("upstairs", hall_3);
+        //Library
+        library.addExit("south" , hall_2);
+        //Office
+        office.addExit("north", hall_2);
+        office.addExit("bookcase", secretRoom);
+        //Secret Room
+        secretRoom.addExit("west", secretRoom);
+        //Floor 2 Hallway
+        hall_3.addExit("downstairs", hall_2);
+        hall_3.addExit("northwest", bedroom_1);
+        hall_3.addExit("northeast", bedroom_2);
+        hall_3.addExit("southwest", bedroom_3);
+        hall_3.addExit("southeast", bedroom_guest);
+        hall_3.addExit("upstairs", attic);
+        //Bedroom 1
+        bedroom_1.addExit("back",hall_3);
+        //Bedroom 2
+        bedroom_2.addExit("back", hall_3);
+        //Bedroom 3
+        bedroom_3.addExit("back", hall_3);
+        //Bedroom Guest
+        bedroom_guest.addExit("back", hall_3);
+        //Attic
+        attic.addExit("downstairs", hall_3);
 
-        kitchen.addExit("south", hall_1);
+
 
         // Item initialization
         Item key = new Item ("Rusty Key", "It's just a key");
@@ -186,9 +248,21 @@ public class GameLoop {
 
         // Adding the rooms to the list rooms
         rooms.add(startingRoom);
-        rooms.add(kitchen);
+        rooms.add(attic);
+        rooms.add(bedroom_1);
+        rooms.add(bedroom_2);
+        rooms.add(bedroom_3);
+        rooms.add(bedroom_guest);
+        rooms.add(dinningRoom);
         rooms.add(hall_1);
+        rooms.add(hall_2);
+        rooms.add(hall_3);
+        rooms.add(kitchen);
+        rooms.add(library);
         rooms.add(Living_Room);
+        rooms.add(office);
+        rooms.add(secretRoom);
+        rooms.add(wineCellar);
 
         return rooms;
     }
