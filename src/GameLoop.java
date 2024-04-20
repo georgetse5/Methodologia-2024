@@ -23,7 +23,7 @@ public class GameLoop {
     }};
     private List<Room> rooms;
     private Player player = new Player("John");
-    Room startingRoom, nextRoom, currentRoom;
+    Room startingRoom;
 
     String ANSI_RESET = "\u001B[0m";
     String ANSI_RED = "\u001B[31m";
@@ -40,7 +40,6 @@ public class GameLoop {
         rooms = initializeMap();
         startingRoom = rooms.get(0);
         player.setCurrentRoom(startingRoom);
-        System.out.println("pame kala");
         run();
     }
 
@@ -84,9 +83,6 @@ public class GameLoop {
                         System.out.println("- quit");
                         System.out.println("- help");
                     break;
-                case "whereami":
-                        System.out.println(player.getCurrentRoom().getName());
-                    break;
                 case "go":
 //                        System.out.println("[DEBUG]> Command GO selected");
                     if (processesedCmd.size() == 1) {
@@ -119,6 +115,8 @@ public class GameLoop {
                     }
                     break;
                 case "look":
+
+                    // search for all available exits of player's current location (room)
                     if (processesedCmd.size() > 1 && processesedCmd.get(1).equals("exits")) {
                         Map<String, Room> exits = player.getCurrentRoom().getExit();
                         if (!exits.isEmpty()) {
