@@ -23,7 +23,14 @@ public class GameLoop {
     }};
     private List<Room> rooms;
     private Player player = new Player("John");
-    Room startingRoom, nextRoom, currentRoom;
+    Room startingRoom;
+
+    String ANSI_RESET = "\u001B[0m";
+    String ANSI_RED = "\u001B[31m";
+    String ANSI_GREEN = "\u001B[32m";
+    String ANSI_GOLD = "\u001B[33m";
+    String ANSI_CYAN = "\u001B[36m";
+    String ANSI_BLUE = "\u001B[34m";
 
 
 // ==================================================================================================================
@@ -33,7 +40,6 @@ public class GameLoop {
         rooms = initializeMap();
         startingRoom = rooms.get(0);
         player.setCurrentRoom(startingRoom);
-        System.out.println("pame kala");
         run();
     }
 
@@ -43,30 +49,18 @@ public class GameLoop {
         System.out.println("\nWelcome adventurer! Type 'help' for available commands.");
 
 // =============  For testing purposes  ===============================
-        System.out.println("You are now to " + player.getCurrentRoom().getName());
+        System.out.println("You are now to " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
         System.out.println(player.getCurrentRoom().getDescription());
-        System.out.println("Items found: " + player.getCurrentRoom().getItems().toString());
+        System.out.println("Items found: " + ANSI_GOLD + player.getCurrentRoom().getItems().toString() + ANSI_RESET);
 
         Room currentRoom = player.getCurrentRoom();
         for (Room room : rooms) {
             if (room.equals(currentRoom)) {
 //                System.out.println("Player is currently in room: " + room.getName());
 
-                if (room instanceof StartingRoom) {
-                    StartingRoom startingRoom = (StartingRoom) room;
-                    startingRoom.startingRoomMessage();
-
-                } else if (room instanceof KitchenRoom) {
-                    KitchenRoom hallOfFameRoom = (KitchenRoom) room;
-                    hallOfFameRoom.AnotherTestMethod();
-                }
-
                 break;
             }
         }
-// =============  End of testing purposes  ===============================
-
-// ====================================================================
 
 
         while (true) {
@@ -90,21 +84,21 @@ public class GameLoop {
                         System.out.println("- help");
                     break;
                 case "go":
-                        System.out.println("[DEBUG]> Command GO selected");
+//                        System.out.println("[DEBUG]> Command GO selected");
                     if (processesedCmd.size() == 1) {
                         System.out.println("Command GO must have a noun.\nFor example GO EAST");
                         break;
                     }
                     if (directions.contains(processesedCmd.get(1))) {
-                        System.out.println("You are going " + processesedCmd.get(1));
+                        System.out.println("Going " + ANSI_GREEN + processesedCmd.get(1) + ANSI_RESET);
 
                         // Checks if the exit exists for the given direction
                         Map<String, Room> exits = player.getCurrentRoom().getExit();
                         if (exits.containsKey(processesedCmd.get(1))) {
                             // If the exit exists, moving to the next room
                             player.setCurrentRoom(exits.get(processesedCmd.get(1)));
-                            System.out.println("You are now in " + player.getCurrentRoom().getName());
-                            System.out.println("Items found: " + player.getCurrentRoom().getItems().toString());
+                            System.out.println("You are now in " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
+                            System.out.println("Items found: " + ANSI_GOLD + player.getCurrentRoom().getItems().toString() + ANSI_RESET);
                         } else {
                             System.out.println("There is no exit in that direction.");
                         }
@@ -115,11 +109,26 @@ public class GameLoop {
                     }
                     break;
                 case "take":
-                        System.out.println("[DEBUG]> Command TAKE selected");
+//                        System.out.println("[DEBUG]> Command TAKE selected");
                     if (processesedCmd.size() == 1) {
                         System.out.println("Command TAKE must have a noun.\nFor example TAKE KEY");
                     }
                     break;
+                case "look":
+
+                    // search for all available exits of player's current location (room)
+                    if (processesedCmd.size() > 1 && processesedCmd.get(1).equals("exits")) {
+                        Map<String, Room> exits = player.getCurrentRoom().getExit();
+                        if (!exits.isEmpty()) {
+                            System.out.println(ANSI_BLUE + "Available exits:" + ANSI_RESET);
+                            for (String direction : exits.keySet()) {
+                                System.out.println("- " + ANSI_CYAN + direction + ANSI_RESET + ": " + ANSI_CYAN + exits.get(direction).getName() + ANSI_RESET);
+                            }
+                        } else {
+                            System.out.println("There are no exits in this room.");
+                        }
+                    }
+                break;
                 default:
                     System.out.println("This command does not exists");
                     break;
@@ -143,13 +152,13 @@ public class GameLoop {
                 if (parts.length >= 2) {
                     String noun = parts[1];
 
-                    System.out.println("[DEBUG]> The verb is: " + verb);
-                    System.out.println("[DEBUG]> The noun is: " + noun);
+//                    System.out.println("[DEBUG]> The verb is: " + verb);
+//                    System.out.println("[DEBUG]> The noun is: " + noun);
 
                     processedCommand.add(verb);
                     processedCommand.add(noun);
                 } else {
-                    System.out.println("[DEBUG]> The verb is: " + verb);
+//                    System.out.println("[DEBUG]> The verb is: " + verb);
                     processedCommand.add(verb);
                 }
             } else {
