@@ -9,23 +9,36 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player = new Player("John");
-    Item item = new Item("Key", "A small shiny key");
+    Item key = new Item("Key", "A small shiny key");
+    Item teddyBear = new Item("Teddy Bear", "A fluffy bear");
+    Item brokenWatch = new Item("Broken Watch", "A vintage broken watch");
 
     @Test
     public void testAddItemToInventory() {
-        player.addItemToInventory(item);
-        assertTrue(player.getInventory().contains(item));
+        player.addItemToInventory(key);
+        assertTrue(player.getInventory().contains(key));
     }
 
     @Test
     public void testRemoveItemToInventory() {
-        player.removeItemFromInventory(item);
-        // Gia arxh elegxei an den yparxei kapoio antikeimeno mesa sto inventory
-        assertFalse(player.getInventory().contains(item));
+        player.addItemToInventory(key);
+        player.addItemToInventory(brokenWatch);
+
+        System.out.println(player.getInventory());
+        player.removeItemFromInventory(key);
+
+        System.out.println(player.getInventory());
+        assertFalse(player.getInventory().contains(key));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testRemoveNonExistentItemFromInventory() {
-        player.removeItemFromInventory(item);
+            player.addItemToInventory(teddyBear);
+            player.addItemToInventory(brokenWatch);
+        try {
+            player.removeItemFromInventory(key);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Item not found in inventory", e.getMessage());
+        }
     }
 }

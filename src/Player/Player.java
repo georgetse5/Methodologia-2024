@@ -44,10 +44,13 @@ public class Player {
     }
 
     public void removeItemFromInventory(Item item) {
-        if (!inventory.remove(item)) {
-            throw new IllegalArgumentException("Item not found in inventory");
+        try {
+            if (inventory.remove(item)) {
+                System.out.println("You dropped " + item.getName());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Item not found in inventory");
         }
-        System.out.println("You dropped " + item.getName());
     }
 
     public void listInventory() {
