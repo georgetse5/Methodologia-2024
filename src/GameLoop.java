@@ -1,3 +1,4 @@
+import Container.Container;
 import Rooms.*;
 import Item.Item;
 
@@ -57,6 +58,7 @@ public class GameLoop {
         for (Object item : player.getCurrentRoom().getItems()) {
             System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
         }
+        System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
 
         Room currentRoom = player.getCurrentRoom();
         for (Room room : rooms) {
@@ -108,6 +110,7 @@ public class GameLoop {
                             for (Object item : player.getCurrentRoom().getItems()) {
                                 System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
                             }
+                            System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
                         } else {
                             System.out.println("There is no exit in that direction.");
                         }
@@ -270,6 +273,11 @@ public class GameLoop {
         attic.addExit("downstairs", hall_3);
 
 
+        // Container initialization
+        Container testingContainer = new Container("Mystery Box", false, "");
+        startingRoom.addContainer(testingContainer);
+
+
 
         // Item initialization
         Item item = new Item("item", "An item for testing purposes");
@@ -277,10 +285,12 @@ public class GameLoop {
         Item broken_watch = new Item ("Broken watch", "A vintage broken watch");
         Item item2 = new Item("Item2", "Item2 Desc");
 
+        // Adding items to containers
+        testingContainer.addItem(item);
+
         // Adding items to the rooms
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);
-        startingRoom.addItem(item);
 
         kitchen.addItem(item2);
 

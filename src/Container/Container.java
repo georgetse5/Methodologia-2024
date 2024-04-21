@@ -7,11 +7,13 @@ import java.util.List;
 
 public class Container {
     private List<Item> items;
+    private String name;
     private boolean requiresKey;
     private String key;
 
-    public Container(boolean requiresKey, String key) {
+    public Container(String name, boolean requiresKey, String key) {
         this.items = new ArrayList<>();
+        this.name = name;
         this.requiresKey = requiresKey;
         this.key = key;
     }
@@ -42,6 +44,11 @@ public class Container {
 
     public boolean containsItem(Item item) {
         return items.contains(item);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
 
