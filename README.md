@@ -147,7 +147,35 @@ public void addExit(String direction, Room destination) {
 <hr>
 
 - <h3>Container Class</h3>
-    - Nothing yet
+
+Player can find and pickup stored items which can help the scenario and his progress.
+
+The available parameters of the constructor:
+
+```
+Container(String name, boolean requiresKey, String key)
+```
+
+Initialize a container in GameLoop class, adding an item, and the container
+to room:
+
+```
+Container testingContainer = new Container("Mystery Box", false, "");
+
+Item item = new Item("item", "An item for testing purposes");
+testingContainer.addItem(item);
+startingRoom.addContainer(testingContainer);
+```
+
+<h4>Available methods:</h4>
+
+- requiresKey()
+- setAsUnlocked()
+- getKey()
+- getItems()
+- addItem()
+- removeItem()
+- containsItem()
 
 <hr>
 
