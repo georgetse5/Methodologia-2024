@@ -28,7 +28,7 @@ rooms with the class Room as superclass for the common attributes of all classes
   - Staff_Bedroom
   - Attic
 - Items
-- Player
+- Player.Player
 - Container
 - NPC
 
@@ -121,7 +121,7 @@ public void addExit(String direction, Room destination) {
     
 <hr>
 
-- <h3>Player Class</h3>
+- <h3>Player.Player Class</h3>
   
   - Name, Personal data, Inventory, Current room
 
@@ -148,7 +148,7 @@ public void addExit(String direction, Room destination) {
 
 - <h3>Container Class</h3>
 
-Player can find and pickup stored items which can help the scenario and his progress.
+Player.Player can find and pickup stored items which can help the scenario and his progress.
 
 The available parameters of the constructor:
 

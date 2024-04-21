@@ -1,3 +1,5 @@
+package Player;
+
 import Item.Item;
 import Rooms.Room;
 import java.util.ArrayList;
@@ -42,11 +44,10 @@ public class Player {
     }
 
     public void removeItemFromInventory(Item item) {
-        if (inventory.remove(item)) {
-            System.out.println("You dropped " + item.getName());
-        } else {
-            System.out.println("Item.Item not found in inventory");
+        if (!inventory.remove(item)) {
+            throw new IllegalArgumentException("Item not found in inventory");
         }
+        System.out.println("You dropped " + item.getName());
     }
 
     public void listInventory() {

@@ -1,4 +1,5 @@
 import Container.Container;
+import Player.Player;
 import Rooms.*;
 import Item.Item;
 
@@ -63,7 +64,7 @@ public class GameLoop {
         Room currentRoom = player.getCurrentRoom();
         for (Room room : rooms) {
             if (room.equals(currentRoom)) {
-//                System.out.println("Player is currently in room: " + room.getName());
+//                System.out.println("Player.Player is currently in room: " + room.getName());
 
                 break;
             }
