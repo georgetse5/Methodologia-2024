@@ -1,10 +1,9 @@
 package Rooms;
 
 import Item.Item;
+import Container.Container;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 public class Room {
     String name;
@@ -12,6 +11,7 @@ public class Room {
     String direction;
     Map<String, Room> exits;
     private Vector items;
+    private List<Container> containers;
 
 
     public Room(String name, String description) {
@@ -19,6 +19,7 @@ public class Room {
         this.description = description;
         exits = new HashMap<>();
         items = new Vector();
+        containers = new ArrayList<>();
     }
 
     public String getName() {
@@ -50,6 +51,18 @@ public class Room {
 
     public Vector getItems() {
         return (Vector) items;
+    }
+
+    public void addContainer(Container container) {
+        containers.add(container);
+    }
+
+    public void removeContainer(Container container) {
+        containers.remove(container);
+    }
+
+    public List<Container> getContainers() {
+        return containers;
     }
 
 }

@@ -8,6 +8,13 @@ public class Player {
     private List<Item> inventory;
     private Room currentRoom;
 
+    private String ANSI_RESET = "\u001B[0m";
+    private String ANSI_RED = "\u001B[31m";
+    private String ANSI_GREEN = "\u001B[32m";
+    private String ANSI_GOLD = "\u001B[33m";
+    private String ANSI_CYAN = "\u001B[36m";
+    private String ANSI_BLUE = "\u001B[34m";
+
     public Player(String name) {
         this.name = name;
         this.inventory = new ArrayList<>();
@@ -31,12 +38,12 @@ public class Player {
 
     public void addItemToInventory(Item item) {
         inventory.add(item);
-        System.out.println(name + " picked up " + item.getName());
+        System.out.println("You have picked up " + ANSI_GOLD + item.getName() + ANSI_RESET);
     }
 
     public void removeItemFromInventory(Item item) {
         if (inventory.remove(item)) {
-            System.out.println(name + " dropped " + item.getName());
+            System.out.println("You dropped " + item.getName());
         } else {
             System.out.println("Item.Item not found in inventory");
         }

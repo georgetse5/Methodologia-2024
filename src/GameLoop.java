@@ -1,3 +1,4 @@
+import Container.Container;
 import Rooms.*;
 import Item.Item;
 
@@ -31,6 +32,7 @@ public class GameLoop {
     String ANSI_GOLD = "\u001B[33m";
     String ANSI_CYAN = "\u001B[36m";
     String ANSI_BLUE = "\u001B[34m";
+    int gameTurn = 1;
 
 
 // ==================================================================================================================
@@ -46,12 +48,17 @@ public class GameLoop {
 // ==================================================================================================================
 
     private void run() {
-        System.out.println("\nWelcome adventurer! Type 'help' for available commands.");
+        System.out.println("\nWelcome" + player.getName() + "! Type 'help' for available commands.");
 
 // =============  For testing purposes  ===============================
+        System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
         System.out.println("You are now to " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
         System.out.println(player.getCurrentRoom().getDescription());
-        System.out.println("Items found: " + ANSI_GOLD + player.getCurrentRoom().getItems().toString() + ANSI_RESET);
+        System.out.println("Items found: ");
+        for (Object item : player.getCurrentRoom().getItems()) {
+            System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
+        }
+        System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
 
         Room currentRoom = player.getCurrentRoom();
         for (Room room : rooms) {
@@ -61,7 +68,6 @@ public class GameLoop {
                 break;
             }
         }
-
 
         while (true) {
             System.out.print(">> ");
@@ -97,8 +103,14 @@ public class GameLoop {
                         if (exits.containsKey(processesedCmd.get(1))) {
                             // If the exit exists, moving to the next room
                             player.setCurrentRoom(exits.get(processesedCmd.get(1)));
+                            gameTurn = gameTurn + 1;
+                            System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
                             System.out.println("You are now in " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
-                            System.out.println("Items found: " + ANSI_GOLD + player.getCurrentRoom().getItems().toString() + ANSI_RESET);
+                            System.out.println("Items found: ");
+                            for (Object item : player.getCurrentRoom().getItems()) {
+                                System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
+                            }
+                            System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
                         } else {
                             System.out.println("There is no exit in that direction.");
                         }
@@ -112,6 +124,20 @@ public class GameLoop {
 //                        System.out.println("[DEBUG]> Command TAKE selected");
                     if (processesedCmd.size() == 1) {
                         System.out.println("Command TAKE must have a noun.\nFor example TAKE KEY");
+                    } else {
+                        String itemName = processesedCmd.get(1);
+                        Vector<Item> items = player.getCurrentRoom().getItems();
+                        Iterator<Item> iterator = items.iterator();
+                        while (iterator.hasNext()) {
+                            Item item = iterator.next();
+                            if (itemName.equalsIgnoreCase(item.getName())) {
+                                player.addItemToInventory(item);
+                                iterator.remove();
+//                                player.getCurrentRoom().removeItem(item);
+                            } else {
+                                System.out.println("There is no " + itemName + " to take in this room.");
+                            }
+                        }
                     }
                     break;
                 case "look":
@@ -128,11 +154,17 @@ public class GameLoop {
                             System.out.println("There are no exits in this room.");
                         }
                     }
+                    if (processesedCmd.size() > 1 && processesedCmd.get(1).equals("inv")) {
+                        player.getInventory();
+                        System.out.println("\n\n\n");
+                        player.listInventory();
+                    }
                 break;
                 default:
                     System.out.println("This command does not exists");
                     break;
             }
+            System.out.println("===========================================\n");
 
         }
 
@@ -241,11 +273,20 @@ public class GameLoop {
         attic.addExit("downstairs", hall_3);
 
 
+        // Container initialization
+        Container testingContainer = new Container("Mystery Box", false, "");
+        startingRoom.addContainer(testingContainer);
+
+
 
         // Item initialization
+        Item item = new Item("item", "An item for testing purposes");
         Item key = new Item ("Rusty Key", "It's just a key");
         Item broken_watch = new Item ("Broken watch", "A vintage broken watch");
         Item item2 = new Item("Item2", "Item2 Desc");
+
+        // Adding items to containers
+        testingContainer.addItem(item);
 
         // Adding items to the rooms
         startingRoom.addItem(key);
