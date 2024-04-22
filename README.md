@@ -82,11 +82,49 @@ the size of the rooms list and make the following steps:
     }
 ```
 
+<br>
+Now the switch has changed to:
+
+```
+     switch (verb.toLowerCase()) {
+          case "help":
+                     helpCommand();
+                break;
+          case "go":
+                     goCommand(noun);
+                break;
+          case "take":
+                     takeCommand(noun);
+                break;
+          case "look":
+               if (noun == null) {
+                    System.out.println("Command LOOK must have a noun.\nFor example LOOK INV, LOOK EXITS");
+               }
+               else if (processedCmdSize > 1 && noun.equals("exits")) {
+                            lookForExits();
+               }
+               else if (processedCmdSize > 1 && noun.equals("inv")) {
+                            player.listInventory();
+               }
+               break;
+          default:
+               System.out.println("This command does not exists");
+               break;
+     }
+```
+
 <h4>Available methods:</h4>
 
 - run()
+- mainLoop()
+- lookForExits()
+- takeCommand()
+- dropCommand()
+- goCommand()
+- helpCommand()
 - processCommand()
 - initializeMap()
+- openingScene()
 
 <hr>
 

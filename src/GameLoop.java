@@ -21,8 +21,8 @@ public class GameLoop {
         add("northeast");
         add("southwest");
         add("southeast");
-
     }};
+
     private List<Room> rooms;
     private Player player = new Player("John");
     Room startingRoom;
@@ -35,7 +35,6 @@ public class GameLoop {
     String ANSI_BLUE = "\u001B[34m";
     int gameTurn = 1;
 
-
 // ==================================================================================================================
 
     public GameLoop() { ;
@@ -46,133 +45,164 @@ public class GameLoop {
         run();
     }
 
-// ==================================================================================================================
+
+// =========================  Run Method  ============================== //
+
 
     private void run() {
-        System.out.println("\nWelcome" + player.getName() + "! Type 'help' for available commands.");
-
-// =============  For testing purposes  ===============================
-        System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
-        System.out.println("You are now to " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
-        System.out.println(player.getCurrentRoom().getDescription());
-        System.out.println("Items found: ");
-        for (Object item : player.getCurrentRoom().getItems()) {
-            System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
-        }
-        System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
-
-        Room currentRoom = player.getCurrentRoom();
-        for (Room room : rooms) {
-            if (room.equals(currentRoom)) {
-//                System.out.println("Player.Player is currently in room: " + room.getName());
-
-                break;
-            }
-        }
-
-        while (true) {
-            System.out.print(">> ");
-            String command = scanner.nextLine();
-            processesedCmd = processCommand(command);
-
-
-            if (processesedCmd.get(0).equalsIgnoreCase("quit")) {
-                System.out.println("Exiting the game...");
-                break;
-            }
-
-            switch (processesedCmd.get(0).toLowerCase()) {
-                case "help":
-                        System.out.println("Available commands:");
-                        System.out.println("- go (north, south, west, east)");
-                        System.out.println("- take [item]");
-                        System.out.println("- look [a, around]");
-                        System.out.println("- quit");
-                        System.out.println("- help");
-                    break;
-                case "go":
-//                        System.out.println("[DEBUG]> Command GO selected");
-                    if (processesedCmd.size() == 1) {
-                        System.out.println("Command GO must have a noun.\nFor example GO EAST");
-                        break;
-                    }
-                    if (directions.contains(processesedCmd.get(1))) {
-                        System.out.println("Going " + ANSI_GREEN + processesedCmd.get(1) + ANSI_RESET);
-
-                        // Checks if the exit exists for the given direction
-                        Map<String, Room> exits = player.getCurrentRoom().getExit();
-                        if (exits.containsKey(processesedCmd.get(1))) {
-                            // If the exit exists, moving to the next room
-                            player.setCurrentRoom(exits.get(processesedCmd.get(1)));
-                            gameTurn = gameTurn + 1;
-                            System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
-                            System.out.println("You are now in " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
-                            System.out.println("Items found: ");
-                            for (Object item : player.getCurrentRoom().getItems()) {
-                                System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
-                            }
-                            System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
-                        } else {
-                            System.out.println("There is no exit in that direction.");
-                        }
-
-
-                    } else {
-                        System.out.println("this direction is not valid. You can use (north, south, east, west)");
-                    }
-                    break;
-                case "take":
-//                        System.out.println("[DEBUG]> Command TAKE selected");
-                    if (processesedCmd.size() == 1) {
-                        System.out.println("Command TAKE must have a noun.\nFor example TAKE KEY");
-                    } else {
-                        String itemName = processesedCmd.get(1);
-                        Vector<Item> items = player.getCurrentRoom().getItems();
-                        Iterator<Item> iterator = items.iterator();
-                        while (iterator.hasNext()) {
-                            Item item = iterator.next();
-                            if (itemName.equalsIgnoreCase(item.getName())) {
-                                player.addItemToInventory(item);
-                                iterator.remove();
-//                                player.getCurrentRoom().removeItem(item);
-                            } else {
-                                System.out.println("There is no " + itemName + " to take in this room.");
-                            }
-                        }
-                    }
-                    break;
-                case "look":
-
-                    // search for all available exits of player's current location (room)
-                    if (processesedCmd.size() > 1 && processesedCmd.get(1).equals("exits")) {
-                        Map<String, Room> exits = player.getCurrentRoom().getExit();
-                        if (!exits.isEmpty()) {
-                            System.out.println(ANSI_BLUE + "Available exits:" + ANSI_RESET);
-                            for (String direction : exits.keySet()) {
-                                System.out.println("- " + ANSI_CYAN + direction + ANSI_RESET + ": " + ANSI_CYAN + exits.get(direction).getName() + ANSI_RESET);
-                            }
-                        } else {
-                            System.out.println("There are no exits in this room.");
-                        }
-                    }
-                    if (processesedCmd.size() > 1 && processesedCmd.get(1).equals("inv")) {
-                        player.getInventory();
-                        System.out.println("\n\n\n");
-                        player.listInventory();
-                    }
-                break;
-                default:
-                    System.out.println("This command does not exists");
-                    break;
-            }
-            System.out.println("===========================================\n");
-
-        }
-
-        scanner.close();
+        openingScene();
+        mainLoop();
     }
 
-// ==================================================================================================================
+
+// =========================  Main Loop  ============================== //
+
+
+    private void mainLoop() {
+            while (true) {
+                System.out.print(">> ");
+                String command = scanner.nextLine();
+                processesedCmd = processCommand(command);
+                String verb = processesedCmd.get(0);
+                String noun = processesedCmd.get(1);
+                int processedCmdSize = processesedCmd.size();
+
+
+                if (verb.equalsIgnoreCase("quit")) {
+                    System.out.println("Exiting the game...");
+                    break;
+                }
+
+                switch (verb.toLowerCase()) {
+                    case "help":
+                        helpCommand();
+                        break;
+                    case "go":
+                        goCommand(noun);
+                        break;
+                    case "take":
+                        takeCommand(noun);
+                        break;
+                    case "look":
+                        if (noun == null) {
+                            System.out.println("Command LOOK must have a noun.\nFor example LOOK INV, LOOK EXITS");
+                        }
+                        else if (processedCmdSize > 1 && noun.equals("exits")) {
+                            lookForExits();
+                        }
+                        else if (processedCmdSize > 1 && noun.equals("inv")) {
+                            player.listInventory();
+                        }
+                        break;
+                    default:
+                        System.out.println("This command does not exists");
+                        break;
+                }
+                System.out.println("===========================================\n");
+            }
+            scanner.close();
+    }
+
+
+// ==============================  Look For Available Exits  ============================== //
+
+
+    private void lookForExits() {
+        // search for all available exits of player's current location (room)
+            Map<String, Room> exits = player.getCurrentRoom().getExit();
+            if (!exits.isEmpty()) {
+                System.out.println(ANSI_BLUE + "Available exits:" + ANSI_RESET);
+                for (String direction : exits.keySet()) {
+                    System.out.println("- " + ANSI_CYAN + direction + ANSI_RESET + ": " + ANSI_CYAN + exits.get(direction).getName() + ANSI_RESET);
+                }
+            } else {
+                System.out.println("There are no exits in this room.");
+            }
+    }
+
+
+// ==============================  Take Item Method  ============================== //
+
+
+    private void takeCommand(String noun) {
+        // System.out.println("[DEBUG]> Command TAKE selected");
+        if (noun == null) {
+            System.out.println("Command TAKE must have a noun.\nFor example TAKE KEY");
+        } else {
+            String itemName = noun;
+            Vector<Item> items = player.getCurrentRoom().getItems();
+            Iterator<Item> iterator = items.iterator();
+            while (iterator.hasNext()) {
+                Item item = iterator.next();
+                if (itemName.equalsIgnoreCase(item.getName())) {
+                    player.addItemToInventory(item);
+                    iterator.remove();
+                } else {
+                    System.out.println("There is no " + itemName + " to take in this room.");
+                }
+            }
+        }
+    }
+
+
+// ==============================  Drop Item Method  ============================== //
+
+
+    private void dropCommand(String noun) {
+
+    }
+
+
+// ==============================  Go Method (direction)  ============================== //
+
+
+    private void goCommand(String noun) {
+        //                        System.out.println("[DEBUG]> Command GO selected");
+        if (noun == null) {
+            System.out.println("Command GO must have a noun.\nFor example GO EAST");
+        }
+        else if (directions.contains(noun)) {
+            System.out.println("Going " + ANSI_GREEN + noun + ANSI_RESET);
+
+            // Checks if the exit exists for the given direction
+            Map<String, Room> exits = player.getCurrentRoom().getExit();
+            if (exits.containsKey(noun)) {
+                // If the exit exists, moving to the next room
+                player.setCurrentRoom(exits.get(noun));
+                gameTurn = gameTurn + 1;
+                System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
+                System.out.println("You are now in " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
+                System.out.println("Items found: ");
+                for (Object item : player.getCurrentRoom().getItems()) {
+                    System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
+                }
+                System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
+            } else {
+                System.out.println("There is no exit in that direction.");
+            }
+
+        } else {
+            System.out.println("this direction is not valid. You can use (north, south, east, west)");
+        }
+    }
+
+
+// ==============================  Help Method  ============================== //
+
+
+    private void helpCommand() {
+        System.out.println("Available commands:");
+        System.out.println("- go (north, south, west, east)");
+        System.out.println("- take [item]");
+        System.out.println("- drop [item]");
+        System.out.println("- look [inv, a]");
+        System.out.println("- quit");
+        System.out.println("- help");
+    }
+
+
+// ==============================  Process command method  ============================== //
+
 
     public List<String> processCommand(String inputCommand) {
         List<String> processedCommand = new ArrayList<>();
@@ -193,6 +223,7 @@ public class GameLoop {
                 } else {
 //                    System.out.println("[DEBUG]> The verb is: " + verb);
                     processedCommand.add(verb);
+                    processedCommand.add(null);
                 }
             } else {
                 System.out.println("The string does not contain spaces.");
@@ -204,7 +235,9 @@ public class GameLoop {
         return processedCommand;
     }
 
-// ==================================================================================================================
+
+// ==============================  InitializeMap Method  ============================== //
+
 
     private List<Room> initializeMap() {
 
@@ -318,7 +351,32 @@ public class GameLoop {
         return rooms;
     }
 
+
 // ==================================================================================================================
+
+
+    private void openingScene () {
+        System.out.println("\nWelcome" + player.getName() + "! Type 'help' for available commands.");
+
+        System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
+        System.out.println("You are now to " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
+        System.out.println(player.getCurrentRoom().getDescription());
+
+        System.out.println("Items found: ");
+        for (Object item : player.getCurrentRoom().getItems()) {
+            System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
+        }
+        System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
+
+        Room currentRoom = player.getCurrentRoom();
+        for (Room room : rooms) {
+            if (room.equals(currentRoom)) {
+//                System.out.println("Player.Player is currently in room: " + room.getName());
+
+                break;
+            }
+        }
+    }
 
 }
 
