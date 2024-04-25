@@ -128,15 +128,23 @@ public class GameLoop {
                         String itemName = processesedCmd.get(1);
                         Vector<Item> items = player.getCurrentRoom().getItems();
                         Iterator<Item> iterator = items.iterator();
+                        boolean found = false;
                         while (iterator.hasNext()) {
                             Item item = iterator.next();
                             if (itemName.equalsIgnoreCase(item.getName())) {
+                                if (item.isPickable()){
                                 player.addItemToInventory(item);
                                 iterator.remove();
+                                found = true;
 //                                player.getCurrentRoom().removeItem(item);
                             } else {
-                                System.out.println("There is no " + itemName + " to take in this room.");
+                                System.out.println("Sorry, " + itemName + " is not a pickable item.");
+                                found = true;
                             }
+                        }
+                    }
+                        if (!found) {
+                            System.out.println("There is no " + itemName + " to take in this room.");
                         }
                     }
                     break;
@@ -274,25 +282,49 @@ public class GameLoop {
 
 
         // Container initialization
-        Container testingContainer = new Container("Mystery Box", false, "");
-        startingRoom.addContainer(testingContainer);
+        Container Mystery_Box = new Container("Mystery Box", false, "");
+        startingRoom.addContainer(Mystery_Box);
+
+
+
 
 
 
         // Item initialization
-        Item item = new Item("item", "An item for testing purposes");
-        Item key = new Item ("Rusty Key", "It's just a key");
-        Item broken_watch = new Item ("Broken watch", "A vintage broken watch");
-        Item item2 = new Item("Item2", "Item2 Desc");
+          //Starting room Items
+        Item Wardrobe = new Item("Wardrobe", "Wardrobe",false);
+        Item key = new Item ("Rusty Key", "It's just a key",true);
+        Item broken_watch = new Item ("Broken watch", "A vintage broken watch",true);
+        Item Mirror = new Item("Mirror","Mirror",false);
+          //Hall_1 Items
+        Item Portraits = new Item("Portraits","Portraits",false);
+        Item Small_sofa = new Item("Small Sofa","Small sofa",false);
+          //Living room Items
+        Item Sofa = new Item("Sofa","Sofa",false);
+        Item Whiskey_glass = new Item("Whiskey glass","Whiskey glass with traces of red lips",true);
+        Item Paintings = new Item("Paintings","Paintings on the wall",false);
+          //Kitchen Items
+        Item Table = new Item("Table", "Table",false);
+        Item knife = new Item("knife","A sharp knife used for cutting.",true);
 
         // Adding items to containers
-        testingContainer.addItem(item);
+        Mystery_Box.addItem(item);
 
         // Adding items to the rooms
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);
+        startingRoom.addItem(Wardrobe);
+        startingRoom.addItem(Mirror);
 
-        kitchen.addItem(item2);
+        hall_1.addItem(Portraits);
+        hall_1.addItem(Small_sofa);
+
+        Living_Room.addItem(Sofa);
+        Living_Room.addItem(Whiskey_glass);
+        Living_Room.addItem(Paintings);
+
+        kitchen.addItem(Table);
+        kitchen.addItem(knife);
 
         List<Room> rooms = new ArrayList<>();
 
