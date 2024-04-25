@@ -292,6 +292,7 @@ public class GameLoop {
 
         // Item initialization
           //Starting room Items
+        Item Mystery_box = new Item("Mystery Box","Mystery Box",false);
         Item Wardrobe = new Item("Wardrobe", "Wardrobe",false);
         Item key = new Item ("Rusty Key", "It's just a key",true);
         Item broken_watch = new Item ("Broken watch", "A vintage broken watch",true);
@@ -308,7 +309,7 @@ public class GameLoop {
         Item knife = new Item("knife","A sharp knife used for cutting.",true);
 
         // Adding items to containers
-        Mystery_Box.addItem(item);
+        Mystery_Box.addItem(Mystery_box);
 
         // Adding items to the rooms
         startingRoom.addItem(key);
