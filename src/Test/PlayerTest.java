@@ -9,9 +9,9 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player = new Player("John");
-    Item key = new Item("Key", "A small shiny key");
-    Item teddyBear = new Item("Teddy Bear", "A fluffy bear");
-    Item brokenWatch = new Item("Broken Watch", "A vintage broken watch");
+    Item key = new Item("Key", "A small shiny key", true);
+    Item teddyBear = new Item("Teddy Bear", "A fluffy bear", false);
+    Item brokenWatch = new Item("Broken Watch", "A vintage broken watch", false);
 
     @Test
     public void testAddItemToInventory() {

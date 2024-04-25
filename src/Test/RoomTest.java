@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class RoomTest {
 
     Player player = new Player("John");
-    Item item = new Item("Key", "A small shiny key");
+    Item item = new Item("Key", "A small shiny key", true);
     Room livingRoom = new Room("Living Room", "A cozy living room");
     Room startingRoom = new Room("Starting Room", "A cozy starting room");
 

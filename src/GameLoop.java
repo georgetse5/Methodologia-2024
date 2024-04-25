@@ -80,23 +80,16 @@ public class GameLoop {
                     case "go":
                         goCommand(noun);
                         break;
-                    case "take":
-                        takeCommand(noun);
-                        break;
-                    case "look":
-                        if (noun == null) {
-                            System.out.println("Command LOOK must have a noun.\nFor example LOOK INV, LOOK EXITS");
-                        }
-                        else if (processedCmdSize > 1 && noun.equals("exits")) {
-                            lookForExits();
-                        }
-                        else if (processedCmdSize > 1 && noun.equals("inv")) {
-                            player.listInventory();
-                        }
-                    break;
                 case "take":
                     takeCommand(noun);
-                    break;
+                        break;
+                    case "drop":
+                        if (noun == null) {
+                            System.out.println("Command DROP must have a noun.\nFor example LOOK KEY, DROP BROKEN WATCH");
+                        } else {
+                            dropCommand(noun);
+                        }
+                        break;
                 case "look":
 
                     if (noun == null) {
