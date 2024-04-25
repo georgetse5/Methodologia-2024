@@ -6,7 +6,7 @@ public class Item {
     private String description;
     private boolean pickable;
 
-    public Item(String name, String description,boolean pickable) {
+    public Item(String name, String description, boolean pickable) {
         this.name = name;
         this.description = description;
         this.pickable = pickable;
