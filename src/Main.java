@@ -23,4 +23,4 @@ public class Main {
 // TODO: 21/4/2024:
 //  1) Drop item command,
 //  2) Add more items and containers,
-//  3) Player can use items to open containers and the room objectives
+//  3) Player.Player can use items to open containers and the room objectives
