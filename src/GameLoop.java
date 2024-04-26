@@ -65,7 +65,6 @@ public class GameLoop {
                 processesedCmd = processCommand(command);
                 String verb = processesedCmd.get(0);
                 String noun = processesedCmd.get(1);
-                int processedCmdSize = processesedCmd.size();
 
 
                 if (verb.equalsIgnoreCase("quit")) {
@@ -80,8 +79,8 @@ public class GameLoop {
                     case "go":
                         goCommand(noun);
                         break;
-                case "take":
-                    takeCommand(noun);
+                    case "take":
+                        takeCommand(noun);
                         break;
                     case "drop":
                         if (noun == null) {
@@ -90,17 +89,21 @@ public class GameLoop {
                             dropCommand(noun);
                         }
                         break;
-                case "look":
-
-                    if (noun == null) {
+                    case "look":
+                        if (noun == null) {
                             System.out.println("Command LOOK must have a noun.\nFor example LOOK INV, LOOK EXITS");
                         }
-                        else if (processedCmdSize > 1 && noun.equals("exits")) {
+                        else if (noun.equals("exits")) {
                             lookForExits();
                         }
-                        else if (processedCmdSize > 1 && noun.equals("inv")) {
+                        else if (noun.equals("inv")) {
                             player.listInventory();
+                        } else {
+                        System.out.println("This option for LOOK command does not exist");
                         }
+                        break;
+                    case "inspect":
+                        inspectCommand(noun);
                         break;
                     default:
                         System.out.println("This command does not exists");
@@ -137,16 +140,15 @@ public class GameLoop {
         if (noun == null) {
             System.out.println("Command TAKE must have a noun.\nFor example TAKE KEY");
         } else {
-            String itemName = noun;
             Vector<Item> items = player.getCurrentRoom().getItems();
             Iterator<Item> iterator = items.iterator();
             while (iterator.hasNext()) {
                 Item item = iterator.next();
-                if (itemName.equalsIgnoreCase(item.getName())) {
+                if (noun.equalsIgnoreCase(item.getName())) {
                     player.addItemToInventory(item);
                     iterator.remove();
                 } else {
-                    System.out.println("There is no " + itemName + " to take in this room.");
+                    System.out.println("There is no " + noun + " to take in this room.");
                 }
             }
         }
@@ -157,6 +159,14 @@ public class GameLoop {
 
 
     private void dropCommand(String noun) {
+
+    }
+
+
+// ==============================  Inspect Item Method  ============================== //
+
+
+    private void inspectCommand(String noun) {
 
     }
 
@@ -200,12 +210,13 @@ public class GameLoop {
 
     private void helpCommand() {
         System.out.println("Available commands:");
-        System.out.println("- go (north, south, west, east)");
-        System.out.println("- take [item]");
-        System.out.println("- drop [item]");
-        System.out.println("- look [inv, a]");
-        System.out.println("- quit");
-        System.out.println("- help");
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " go [north, south, west, east, upstairs, downstairs,...]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " take [item]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " drop [item]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " look [inv, exits]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " open [container]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " quit" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " help" + ANSI_RESET);
     }
 
 
@@ -389,7 +400,7 @@ public class GameLoop {
 
 
     private void openingScene () {
-        System.out.println("\nWelcome" + player.getName() + "! Type 'help' for available commands.");
+        System.out.println("\nWelcome" + player.getName() + "! Type" + ANSI_CYAN + " 'help' " + ANSI_RESET + "for available commands.");
 
         System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
         System.out.println("You are now to " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
