@@ -179,6 +179,29 @@ public class GameLoop {
         scanner.close();
     }
 
+// ===========================================  Drop Item Method  ===================================================
+    private void dropCommand(String noun) {
+        String itemName = noun;
+        List<Item> inventory = player.getInventory();
+        boolean found = false;
+
+        // Check if the item exist in player's inventory
+        for (Item item : inventory) {
+             if (itemName.equalsIgnoreCase(item.getName())) {
+                 inventory.remove(item);
+                 player.getCurrentRoom().addItem(item);
+                 found = true;
+                 System.out.println("You dropped " + itemName);
+                 break;
+           }
+        }
+
+        // If item does not exist into the inventory
+        if (!found){
+            System.out.println("There is no " + itemName + " in your inventory.\nIf you want to see your inventory you can use LOOK INV");
+        }
+    }
+
 // ==================================================================================================================
 
     public List<String> processCommand(String inputCommand) {
@@ -307,6 +330,10 @@ public class GameLoop {
           //Kitchen Items
         Item Table = new Item("Table", "Table",false);
         Item knife = new Item("knife","A sharp knife used for cutting.",true);
+        Item Fridge = new Item("Fridge","A big white fridge.",false);
+        Item Poisson = new Item("Poisson","A small bottle with Poisson.",true);
+
+
 
         // Adding items to containers
         Mystery_Box.addItem(Mystery_box);
@@ -326,6 +353,8 @@ public class GameLoop {
 
         kitchen.addItem(Table);
         kitchen.addItem(knife);
+        kitchen.addItem(Fridge);
+        kitchen.addItem(Poisson);
 
         List<Room> rooms = new ArrayList<>();
 
