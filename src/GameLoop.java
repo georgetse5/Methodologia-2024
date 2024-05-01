@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class GameLoop {
     private final Scanner scanner;
     private List<String> processesedCmd = new ArrayList<>();
-    List<String> directions = new ArrayList<>() {{
+    private List<String> directions = new ArrayList<>() {{
         add("north");
         add("south");
         add("east");
@@ -24,32 +24,29 @@ public class GameLoop {
     }};
 
     private List<Room> rooms;
-    private Player player = new Player("John");
-    Room startingRoom;
+    private Player player = new Player();
+    private Room startingRoom;
 
-    String ANSI_RESET = "\u001B[0m";
-    String ANSI_RED = "\u001B[31m";
-    String ANSI_GREEN = "\u001B[32m";
-    String ANSI_GOLD = "\u001B[33m";
-    String ANSI_CYAN = "\u001B[36m";
-    String ANSI_BLUE = "\u001B[34m";
-    int gameTurn = 1;
+    private String ANSI_RESET = "\u001B[0m";
+    private String ANSI_RED = "\u001B[31m";
+    private String ANSI_GREEN = "\u001B[32m";
+    private String ANSI_GOLD = "\u001B[33m";
+    private String ANSI_CYAN = "\u001B[36m";
+    private String ANSI_BLUE = "\u001B[34m";
+    private int gameTurn = 1;
 
 // ==================================================================================================================
 
-    public GameLoop() { ;
+    public GameLoop() {
         scanner = new Scanner(System.in);
         rooms = initializeMap();
-        startingRoom = rooms.get(0);
-        player.setCurrentRoom(startingRoom);
-        run();
     }
 
 
 // =========================  Run Method  ============================== //
 
 
-    private void run() {
+    public void startGame() {
         openingScene();
         mainLoop();
     }
@@ -73,22 +70,23 @@ public class GameLoop {
                 }
 
                 switch (verb.toLowerCase()) {
+    // Help Command
                     case "help":
                         helpCommand();
                         break;
+    // Go Command
                     case "go":
                         goCommand(noun);
                         break;
+    // Take Command
                     case "take":
                         takeCommand(noun);
                         break;
+    // Drop Command
                     case "drop":
-                        if (noun == null) {
-                            System.out.println("Command DROP must have a noun.\nFor example LOOK KEY, DROP BROKEN WATCH");
-                        } else {
-                            dropCommand(noun);
-                        }
+                        dropCommand(noun);
                         break;
+    // Look command
                     case "look":
                         if (noun == null) {
                             System.out.println("Command LOOK must have a noun.\nFor example LOOK INV, LOOK EXITS");
@@ -102,6 +100,7 @@ public class GameLoop {
                         System.out.println("This option for LOOK command does not exist");
                         }
                         break;
+    // Inspect Command
                     case "inspect":
                         inspectCommand(noun);
                         break;
@@ -122,12 +121,46 @@ public class GameLoop {
         // search for all available exits of player's current location (room)
             Map<String, Room> exits = player.getCurrentRoom().getExit();
             if (!exits.isEmpty()) {
-                System.out.println(ANSI_BLUE + "Available exits:" + ANSI_RESET);
+                System.out.println(ANSI_BLUE + "\nAvailable exits:" + ANSI_RESET);
                 for (String direction : exits.keySet()) {
-                    System.out.println("- " + ANSI_CYAN + direction + ANSI_RESET + ": " + ANSI_CYAN + exits.get(direction).getName() + ANSI_RESET);
+                    System.out.println("\t- " + ANSI_CYAN + direction + ANSI_RESET + ": " + ANSI_CYAN + exits.get(direction).getName() + ANSI_RESET);
                 }
             } else {
-                System.out.println("There are no exits in this room.");
+                System.out.println("\nThere are no exits in this room.");
+            }
+    }
+
+
+// ==============================  Look For Available Items  ============================== //
+
+
+    private void lookForRoomItems() {
+        // search for all available playersCurrentRoomItems of player's current location (room)
+        List<Item> playersCurrentRoomItems = player.getCurrentRoom().getItems();
+        if (!playersCurrentRoomItems.isEmpty()) {
+            System.out.println(ANSI_BLUE + "\nAvailable items:" + ANSI_RESET);
+            for (Item item : playersCurrentRoomItems) {
+                System.out.println(ANSI_CYAN + "\t<> " + ANSI_GOLD + item.getName() + ANSI_RESET + ": " + ANSI_GOLD + item.getDescription() + ANSI_RESET);
+            }
+        } else {
+            System.out.println("\nThere are no items in this room.");
+        }
+    }
+
+
+// ==============================  Look For Available Items  ============================== //
+
+
+    private void lookForRoomContainers() {
+            // search for all available playersCurrentRoomItems of player's current location (room)
+            List<Container> roomAvailableContainers = player.getCurrentRoom().getContainers();
+            if (!roomAvailableContainers.isEmpty()) {
+                System.out.println(ANSI_BLUE + "\nAvailable Containers:" + ANSI_RESET);
+                for (Container container : roomAvailableContainers) {
+                    System.out.println(ANSI_CYAN + "\t<> " + ANSI_GOLD + container.toString() + ANSI_RESET);
+                }
+            } else {
+                System.out.println("\nThere are no containers in this room.");
             }
     }
 
@@ -142,41 +175,51 @@ public class GameLoop {
         } else {
             Vector<Item> items = player.getCurrentRoom().getItems();
             Iterator<Item> iterator = items.iterator();
+            boolean foundItem = false;
             while (iterator.hasNext()) {
                 Item item = iterator.next();
                 if (noun.equalsIgnoreCase(item.getName())) {
-                    player.addItemToInventory(item);
-                    iterator.remove();
-                } else {
+                        foundItem = true;
+                    if (item.isPickable()) {
+                        player.addItemToInventory(item);
+                        iterator.remove();
+                    } else {
+                        System.out.println("You can't pick up " + ANSI_GOLD + noun + ANSI_RESET);
+                    }
+                }
+            }
+            if (!foundItem){
                     System.out.println("There is no " + noun + " to take in this room.");
                 }
             }
         }
-    }
 
 
 // ==============================  Drop Item Method  ============================== //
   
   
     private void dropCommand(String noun) {
-        String itemName = noun;
-        List<Item> inventory = player.getInventory();
-        boolean found = false;
+        if (noun == null) {
+            System.out.println("Command DROP must have a noun.\nFor example LOOK KEY, DROP BROKEN WATCH");
+        } else {
+            List<Item> inventory = player.getInventory();
+            boolean found = false;
 
-        // Check if the item exist in player's inventory
-        for (Item item : inventory) {
-             if (itemName.equalsIgnoreCase(item.getName())) {
-                 inventory.remove(item);
-                 player.getCurrentRoom().addItem(item);
-                 found = true;
-                 System.out.println("You dropped " + itemName);
-                 break;
-           }
-        }
+            // Check if the item exist in player's inventory
+            for (Item item : inventory) {
+                if (noun.equalsIgnoreCase(item.getName())) {
+                    inventory.remove(item);
+                    player.getCurrentRoom().addItem(item);
+                    found = true;
+                    System.out.println("You dropped " + noun);
+                    break;
+                }
+            }
 
-        // If item does not exist into the inventory
-        if (!found){
-            System.out.println("There is no " + itemName + " in your inventory.\nIf you want to see your inventory you can use LOOK INV");
+            // If item does not exist into the inventory
+            if (!found) {
+                System.out.println("There is no " + noun + " in your inventory.\nIf you want to see your inventory you can use LOOK INV");
+            }
         }
     }
 
@@ -185,7 +228,19 @@ public class GameLoop {
 
 
     private void inspectCommand(String noun) {
+        if (noun == null) {
+            System.out.println("Command INSPECT must have a noun.\nFor example INSPECT ROOM");
+        }
+        else if (noun.equals("room")) {
 
+            System.out.println("It seems you are currently in " + player.getCurrentRoom().getName());
+            lookForRoomItems();
+            lookForRoomContainers();
+            lookForExits();
+
+        } else {
+            System.out.println("This option for INSPECT command does not exist");
+        }
     }
 
 
@@ -207,12 +262,10 @@ public class GameLoop {
                 player.setCurrentRoom(exits.get(noun));
                 gameTurn = gameTurn + 1;
                 System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
-                System.out.println("You are now in " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
-                System.out.println("Items found: ");
-                for (Object item : player.getCurrentRoom().getItems()) {
-                    System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
-                }
-                System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
+                System.out.println("You entered the " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
+
+//                System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
+
             } else {
                 System.out.println("There is no exit in that direction.");
             }
@@ -423,8 +476,23 @@ public class GameLoop {
 // ==================================================================================================================
 
 
+    private void promptPlayerName() {
+        System.out.print("\nPlease enter the player's name: ");
+        String playerName = scanner.nextLine();
+        player.setName(playerName);
+    }
+
+
+// ==================================================================================================================
+
+// Opening scene is the first scene when the player is new or it does not have a previous save
     private void openingScene () {
-        System.out.println("\nWelcome" + player.getName() + "! Type" + ANSI_CYAN + " 'help' " + ANSI_RESET + "for available commands.");
+        promptPlayerName();
+
+        startingRoom = rooms.get(0);
+        player.setCurrentRoom(startingRoom);
+
+        System.out.println("\nWelcome " + player.getName() + "! Type" + ANSI_CYAN + " 'help' " + ANSI_RESET + "for available commands.");
 
         System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
         System.out.println("You are now to " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);

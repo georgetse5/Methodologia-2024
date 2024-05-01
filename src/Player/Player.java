@@ -17,9 +17,18 @@ public class Player {
     private String ANSI_CYAN = "\u001B[36m";
     private String ANSI_BLUE = "\u001B[34m";
 
+    public Player() {
+        this.name = "Player";
+        this.inventory = new ArrayList<>();
+    }
+
     public Player(String name) {
         this.name = name;
         this.inventory = new ArrayList<>();
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
