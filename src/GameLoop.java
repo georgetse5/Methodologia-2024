@@ -132,12 +132,12 @@ public class GameLoop {
         // search for all available exits of player's current location (room)
             Map<String, Room> exits = player.getCurrentRoom().getExit();
             if (!exits.isEmpty()) {
-                System.out.println(ANSI_BLUE + "Available exits:" + ANSI_RESET);
+                System.out.println(ANSI_BLUE + "\nAvailable exits:" + ANSI_RESET);
                 for (String direction : exits.keySet()) {
                     System.out.println("\t- " + ANSI_CYAN + direction + ANSI_RESET + ": " + ANSI_CYAN + exits.get(direction).getName() + ANSI_RESET);
                 }
             } else {
-                System.out.println("There are no exits in this room.");
+                System.out.println("\nThere are no exits in this room.");
             }
     }
 
@@ -149,12 +149,12 @@ public class GameLoop {
         // search for all available playersCurrentRoomItems of player's current location (room)
         List<Item> playersCurrentRoomItems = player.getCurrentRoom().getItems();
         if (!playersCurrentRoomItems.isEmpty()) {
-            System.out.println(ANSI_BLUE + "Available items:" + ANSI_RESET);
+            System.out.println(ANSI_BLUE + "\nAvailable items:" + ANSI_RESET);
             for (Item item : playersCurrentRoomItems) {
-                System.out.println("\t- " + ANSI_CYAN + item.getName() + ANSI_RESET);
+                System.out.println(ANSI_CYAN + "\t<> " + ANSI_GOLD + item.getName() + ANSI_RESET + ": " + ANSI_GOLD + item.getDescription() + ANSI_RESET);
             }
         } else {
-            System.out.println("There are no items in this room.");
+            System.out.println("\nThere are no items in this room.");
         }
     }
 
@@ -163,7 +163,16 @@ public class GameLoop {
 
 
     private void lookForRoomContainers() {
-
+            // search for all available playersCurrentRoomItems of player's current location (room)
+            List<Container> roomAvailableContainers = player.getCurrentRoom().getContainers();
+            if (!roomAvailableContainers.isEmpty()) {
+                System.out.println(ANSI_BLUE + "\nAvailable Containers:" + ANSI_RESET);
+                for (Container container : roomAvailableContainers) {
+                    System.out.println(ANSI_CYAN + "\t<> " + ANSI_GOLD + container.toString() + ANSI_RESET);
+                }
+            } else {
+                System.out.println("\nThere are no containers in this room.");
+            }
     }
 
 
@@ -177,17 +186,20 @@ public class GameLoop {
         } else {
             Vector<Item> items = player.getCurrentRoom().getItems();
             Iterator<Item> iterator = items.iterator();
+            boolean foundItem = false;
             while (iterator.hasNext()) {
                 Item item = iterator.next();
                 if (noun.equalsIgnoreCase(item.getName())) {
                     player.addItemToInventory(item);
                     iterator.remove();
-                } else {
+                    foundItem = true;
+                }
+            }
+            if (!foundItem){
                     System.out.println("There is no " + noun + " to take in this room.");
                 }
             }
         }
-    }
 
 
 // ==============================  Drop Item Method  ============================== //
@@ -222,7 +234,7 @@ public class GameLoop {
     private void inspectCommand(String noun) {
         System.out.println("It seems you are currently in " + player.getCurrentRoom().getName());
         lookForRoomItems();
-        System.out.println("Available containers: \n\t" + player.getCurrentRoom().getContainers().toString());
+        lookForRoomContainers();
         lookForExits();
 
     }
@@ -248,12 +260,8 @@ public class GameLoop {
                 System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
                 System.out.println("You entered the " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
 
-//                System.out.println("Items found: ");
-//                for (Object item : player.getCurrentRoom().getItems()) {
-//                    System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
-//                }
-
 //                System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
+
             } else {
                 System.out.println("There is no exit in that direction.");
             }
