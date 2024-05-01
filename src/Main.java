@@ -14,13 +14,11 @@ public class Main {
         System.out.println("|  You, as a detective, intrude into the manor to uncover the truth behind this mystery           |");
         System.out.println("\033[36m"+"---------------------------------------------------------------------------------------------------"+ "\033[0m");
 
-     new GameLoop();
+        GameLoop gameLoop = new GameLoop();
+        gameLoop.startGame();
     }
-
-
-    }
+}
 
 // TODO: 21/4/2024:
-//  1) Drop item command,
-//  2) Add more items and containers,
-//  3) Player.Player can use items to open containers and the room objectives
+//  1) Add more items and containers,
+//  2) Player can use items to open containers and the room objectives
