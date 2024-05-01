@@ -190,9 +190,13 @@ public class GameLoop {
             while (iterator.hasNext()) {
                 Item item = iterator.next();
                 if (noun.equalsIgnoreCase(item.getName())) {
-                    player.addItemToInventory(item);
-                    iterator.remove();
-                    foundItem = true;
+                        foundItem = true;
+                    if (item.isPickable()) {
+                        player.addItemToInventory(item);
+                        iterator.remove();
+                    } else {
+                        System.out.println("You can't pick up " + ANSI_GOLD + noun + ANSI_RESET);
+                    }
                 }
             }
             if (!foundItem){
