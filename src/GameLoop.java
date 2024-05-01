@@ -84,11 +84,7 @@ public class GameLoop {
                         break;
     // Drop Command
                     case "drop":
-                        if (noun == null) {
-                            System.out.println("Command DROP must have a noun.\nFor example LOOK KEY, DROP BROKEN WATCH");
-                        } else {
-                            dropCommand(noun);
-                        }
+                        dropCommand(noun);
                         break;
     // Look command
                     case "look":
@@ -106,14 +102,7 @@ public class GameLoop {
                         break;
     // Inspect Command
                     case "inspect":
-                        if (noun == null) {
-                            System.out.println("Command INSPECT must have a noun.\nFor example INSPECT ROOM");
-                        }
-                        else if (noun.equals("room")) {
-                            inspectCommand(noun);
-                        } else {
-                            System.out.println("This option for INSPECT command does not exist");
-                        }
+                        inspectCommand(noun);
                         break;
                     default:
                         System.out.println("This command does not exists");
@@ -210,24 +199,27 @@ public class GameLoop {
   
   
     private void dropCommand(String noun) {
-        String itemName = noun;
-        List<Item> inventory = player.getInventory();
-        boolean found = false;
+        if (noun == null) {
+            System.out.println("Command DROP must have a noun.\nFor example LOOK KEY, DROP BROKEN WATCH");
+        } else {
+            List<Item> inventory = player.getInventory();
+            boolean found = false;
 
-        // Check if the item exist in player's inventory
-        for (Item item : inventory) {
-             if (itemName.equalsIgnoreCase(item.getName())) {
-                 inventory.remove(item);
-                 player.getCurrentRoom().addItem(item);
-                 found = true;
-                 System.out.println("You dropped " + itemName);
-                 break;
-           }
-        }
+            // Check if the item exist in player's inventory
+            for (Item item : inventory) {
+                if (noun.equalsIgnoreCase(item.getName())) {
+                    inventory.remove(item);
+                    player.getCurrentRoom().addItem(item);
+                    found = true;
+                    System.out.println("You dropped " + noun);
+                    break;
+                }
+            }
 
-        // If item does not exist into the inventory
-        if (!found){
-            System.out.println("There is no " + itemName + " in your inventory.\nIf you want to see your inventory you can use LOOK INV");
+            // If item does not exist into the inventory
+            if (!found) {
+                System.out.println("There is no " + noun + " in your inventory.\nIf you want to see your inventory you can use LOOK INV");
+            }
         }
     }
 
@@ -236,11 +228,19 @@ public class GameLoop {
 
 
     private void inspectCommand(String noun) {
-        System.out.println("It seems you are currently in " + player.getCurrentRoom().getName());
-        lookForRoomItems();
-        lookForRoomContainers();
-        lookForExits();
+        if (noun == null) {
+            System.out.println("Command INSPECT must have a noun.\nFor example INSPECT ROOM");
+        }
+        else if (noun.equals("room")) {
 
+            System.out.println("It seems you are currently in " + player.getCurrentRoom().getName());
+            lookForRoomItems();
+            lookForRoomContainers();
+            lookForExits();
+
+        } else {
+            System.out.println("This option for INSPECT command does not exist");
+        }
     }
 
 
