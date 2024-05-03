@@ -87,30 +87,44 @@ Now the switch has changed to:
 
 ```
      switch (verb.toLowerCase()) {
-          case "help":
-                     helpCommand();
-                break;
-          case "go":
-                     goCommand(noun);
-                break;
-          case "take":
-                     takeCommand(noun);
-                break;
-          case "look":
-               if (noun == null) {
-                    System.out.println("Command LOOK must have a noun.\nFor example LOOK INV, LOOK EXITS");
-               }
-               else if (processedCmdSize > 1 && noun.equals("exits")) {
+    // Help Command
+                    case "help":
+                        helpCommand();
+                        break;
+    // Go Command
+                    case "go":
+                        goCommand(noun);
+                        break;
+    // Take Command
+                    case "take":
+                        takeCommand(noun);
+                        break;
+    // Drop Command
+                    case "drop":
+                        dropCommand(noun);
+                        break;
+    // Look command
+                    case "look":
+                        if (noun == null) {
+                            System.out.println("Command LOOK must have a noun.\nFor example LOOK INV, LOOK EXITS");
+                        }
+                        else if (noun.equals("exits")) {
                             lookForExits();
-               }
-               else if (processedCmdSize > 1 && noun.equals("inv")) {
+                        }
+                        else if (noun.equals("inv")) {
                             player.listInventory();
-               }
-               break;
-          default:
-               System.out.println("This command does not exists");
-               break;
-     }
+                        } else {
+                        System.out.println("This option for LOOK command does not exist");
+                        }
+                        break;
+    // Inspect Command
+                    case "inspect":
+                        inspectCommand(noun);
+                        break;
+                    default:
+                        System.out.println("This command does not exists");
+                        break;
+                }
 ```
 
 <h4>Available methods:</h4>
@@ -118,12 +132,16 @@ Now the switch has changed to:
 - run()
 - mainLoop()
 - lookForExits()
+- lookForRoomItems()
+- lookForRoomContainers()
 - takeCommand()
 - dropCommand()
+- inspectCommand()
 - goCommand()
 - helpCommand()
 - processCommand()
 - initializeMap()
+- promptPlayerName()
 - openingScene()
 
 <hr>
