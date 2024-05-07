@@ -85,6 +85,7 @@ public class GameLoop implements Serializable {
     // Go Command
                     case "go":
                         goCommand(noun);
+                        saveGame(saveFile);
                         break;
     // Take Command
                     case "take":

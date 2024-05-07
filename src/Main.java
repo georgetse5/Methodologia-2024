@@ -19,9 +19,10 @@ public class Main {
     }
 }
 
-// TODO: 3/5/2024:
+// TODO: 7/5/2024:
 //  1) Add more items and containers,
 //  2) Player can use items to OPEN containers and the room OBJECTIVES like mini quests
-//  3) Adding NPC
-//  4) User can interract with the avialable NPCs
-//  5) Save player's state and Load the save from the save file
+//  3) Create Classes for the NPCs
+//  4) Adding NPCs to the map
+//  5) User can interact with the available NPCs
+//  6) Load the save from the save file
