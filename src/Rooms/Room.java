@@ -3,9 +3,10 @@ package Rooms;
 import Item.Item;
 import Container.Container;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Room {
+public class Room implements Serializable {
     String name;
     String description;
     String direction;
