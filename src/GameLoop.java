@@ -80,7 +80,7 @@ public class GameLoop implements Serializable {
                         break;
     // Save Command
                     case "save":
-                        saveGame(saveFile, saveData(rooms, player));
+                        saveGame(saveFile);
                         break;
     // Go Command
                     case "go":
@@ -290,6 +290,7 @@ public class GameLoop implements Serializable {
     private void helpCommand() {
         System.out.println("Available commands:");
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " go [north, south, west, east, upstairs, downstairs,...]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " inspect room" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " take [item]" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " drop [item]" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " look [inv, exits]" + ANSI_RESET);
@@ -334,6 +335,23 @@ public class GameLoop implements Serializable {
     }
 
 
+// ============================== Load Game Method ============================== //
+
+
+    public void loadGame(String fileName) {
+
+    }
+
+
+// ==============================  SaveGame Method  ============================== //
+
+
+    public void saveGame(String fileName) {
+        GameData gameData = saveData(rooms, player);
+        SaveGame.save(gameData, fileName);
+    }
+
+
 // ==============================  SaveData Method  ============================== //
 
 
@@ -341,15 +359,6 @@ public class GameLoop implements Serializable {
         GameData gameData = new GameData(roomsToSave, playerData);
 
         return gameData;
-    }
-
-
-
-// ==============================  SaveGame Method  ============================== //
-
-
-    public void saveGame(String fileName, GameData gameData) {
-        SaveGame.save(gameData, fileName);
     }
 
 
