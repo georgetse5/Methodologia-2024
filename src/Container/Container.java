@@ -2,10 +2,11 @@ package Container;
 
 import Item.Item;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Container {
+public class Container implements Serializable {
     private List<Item> items;
     private String name;
     private boolean requiresKey;

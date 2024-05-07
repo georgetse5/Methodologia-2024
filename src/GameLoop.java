@@ -3,11 +3,12 @@ import Player.Player;
 import Rooms.*;
 import Item.Item;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GameLoop {
+public class GameLoop implements Serializable {
     private final Scanner scanner;
     private List<String> processesedCmd = new ArrayList<>();
     private List<String> directions = new ArrayList<>() {{
@@ -34,6 +35,9 @@ public class GameLoop {
     private String ANSI_CYAN = "\u001B[36m";
     private String ANSI_BLUE = "\u001B[34m";
     private int gameTurn = 1;
+
+    private GameData gameData;
+    private String saveFile = "game.sav";
 
 // ==================================================================================================================
 
@@ -73,6 +77,10 @@ public class GameLoop {
     // Help Command
                     case "help":
                         helpCommand();
+                        break;
+    // Save Command
+                    case "save":
+                        saveGame(saveFile, saveData(rooms, player));
                         break;
     // Go Command
                     case "go":
@@ -323,6 +331,25 @@ public class GameLoop {
             System.out.println("Array index out of bounds error: " + e.getMessage());
         }
         return processedCommand;
+    }
+
+
+// ==============================  SaveData Method  ============================== //
+
+
+    private GameData saveData(List<Room> roomsToSave, Player playerData) {
+        GameData gameData = new GameData(roomsToSave, playerData);
+
+        return gameData;
+    }
+
+
+
+// ==============================  SaveGame Method  ============================== //
+
+
+    public void saveGame(String fileName, GameData gameData) {
+        SaveGame.save(gameData, fileName);
     }
 
 
