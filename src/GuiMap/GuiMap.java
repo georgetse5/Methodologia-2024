@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import GuiMap.GuiMap;
+
 
 public class GuiMap extends JFrame {
     private static boolean instanceCreated;
+    GuiMap map;
 
     public GuiMap() {
         setTitle("Game Map");
@@ -22,9 +25,9 @@ public class GuiMap extends JFrame {
                 try {
                     URL imageUrl = new URL("https://imgtr.ee/images/2024/05/01/16f2bfcaf0d349e8500e61b6091da47b.jpeg");
 
-                    ImageIcon mapImage = new ImageIcon(imageUrl); // Φορτώστε την εικόνα
-                    Image image = mapImage.getImage(); // Πάρτε την εικόνα από το ImageIcon
-                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this); // Σχεδίαση της εικόνας στο JPanel
+                    ImageIcon mapImage = new ImageIcon(imageUrl);
+                    Image image = mapImage.getImage();
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
 
 //                System.out.println("Image loaded: " + mapImage.getImageLoadStatus());

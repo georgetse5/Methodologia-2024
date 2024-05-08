@@ -1,4 +1,5 @@
 import Container.Container;
+import GuiMap.GuiMap;
 import Player.Player;
 import Rooms.*;
 import Item.Item;
@@ -26,6 +27,7 @@ public class GameLoop {
     private List<Room> rooms;
     private Player player = new Player("John");
     Room startingRoom;
+    GuiMap map;
 
     String ANSI_RESET = "\u001B[0m";
     String ANSI_RED = "\u001B[31m";
@@ -41,6 +43,7 @@ public class GameLoop {
         scanner = new Scanner(System.in);
         rooms = initializeMap();
         startingRoom = rooms.get(0);
+        map = new GuiMap();
         player.setCurrentRoom(startingRoom);
         run();
     }
@@ -99,7 +102,7 @@ public class GameLoop {
                         else if (noun.equals("inv")) {
                             player.listInventory();
                         }
-                        else if (noun.equals("map")){
+                        else if (noun.equals("map")) {
                             lookGUIMap();
                         } else {
                         System.out.println("This option for LOOK command does not exist");
@@ -117,8 +120,9 @@ public class GameLoop {
             scanner.close();
     }
 
-// ==============================  Look The Map Method (GUI)  ============================== //
-     void lookGUIMap () {
+
+    // ==============================  Look The Map Method (GUI)  ============================== //
+    void lookGUIMap () {
          if (GuiMap.isInstanceCreated()) {
              map.dispose();
              map.showMap();
