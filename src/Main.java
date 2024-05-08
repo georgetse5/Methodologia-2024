@@ -14,13 +14,15 @@ public class Main {
         System.out.println("|  You, as a detective, intrude into the manor to uncover the truth behind this mystery           |");
         System.out.println("\033[36m"+"---------------------------------------------------------------------------------------------------"+ "\033[0m");
 
-     new GameLoop();
+        GameLoop gameLoop = new GameLoop();
+        gameLoop.startGame();
     }
+}
 
-
-    }
-
-// TODO: 21/4/2024:
-//  1) Drop item command,
-//  2) Add more items and containers,
-//  3) Player.Player can use items to open containers and the room objectives
+// TODO: 7/5/2024:
+//  1) Add more items and containers,
+//  2) Player can use items to OPEN containers and the room OBJECTIVES like mini quests
+//  3) Create Classes for the NPCs
+//  4) Adding NPCs to the map
+//  5) User can interact with the available NPCs
+//  6) Load the save from the save file

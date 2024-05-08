@@ -2,10 +2,12 @@ package Player;
 
 import Item.Item;
 import Rooms.Room;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private String name;
     private List<Item> inventory;
     private Room currentRoom;
@@ -17,9 +19,18 @@ public class Player {
     private String ANSI_CYAN = "\u001B[36m";
     private String ANSI_BLUE = "\u001B[34m";
 
+    public Player() {
+        this.name = "Player";
+        this.inventory = new ArrayList<>();
+    }
+
     public Player(String name) {
         this.name = name;
         this.inventory = new ArrayList<>();
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
