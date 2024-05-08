@@ -4,12 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import GuiMap.GuiMap;
 
 
 public class GuiMap extends JFrame {
     private static boolean instanceCreated;
-    GuiMap map;
 
     public GuiMap() {
         setTitle("Game Map");
