@@ -98,6 +98,9 @@ public class GameLoop {
                         }
                         else if (noun.equals("inv")) {
                             player.listInventory();
+                        }
+                        else if (noun.equals("map")){
+                            lookGUIMap();
                         } else {
                         System.out.println("This option for LOOK command does not exist");
                         }
@@ -114,6 +117,15 @@ public class GameLoop {
             scanner.close();
     }
 
+// ==============================  Look The Map Method (GUI)  ============================== //
+     void lookGUIMap () {
+         if (GuiMap.isInstanceCreated()) {
+             map.dispose();
+             map.showMap();
+         } else {
+             map.showMap();
+    }
+}
 
 // ==============================  Look For Available Exits  ============================== //
 
