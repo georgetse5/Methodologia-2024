@@ -1,4 +1,5 @@
 import Container.Container;
+import GuiMap.GuiMap;
 import Player.Player;
 import Rooms.*;
 import Item.Item;
@@ -26,7 +27,8 @@ public class GameLoop implements Serializable {
 
     private List<Room> rooms;
     private Player player = new Player();
-    private Room startingRoom;
+    Room startingRoom;
+    GuiMap map;
 
     private String ANSI_RESET = "\u001B[0m";
     private String ANSI_RED = "\u001B[31m";
@@ -44,6 +46,10 @@ public class GameLoop implements Serializable {
     public GameLoop() {
         scanner = new Scanner(System.in);
         rooms = initializeMap();
+        startingRoom = rooms.get(0);
+        map = new GuiMap();
+        player.setCurrentRoom(startingRoom);
+        run();
     }
 
 
@@ -105,6 +111,9 @@ public class GameLoop implements Serializable {
                         }
                         else if (noun.equals("inv")) {
                             player.listInventory();
+                        }
+                        else if (noun.equals("map")) {
+                            lookGUIMap();
                         } else {
                         System.out.println("This option for LOOK command does not exist");
                         }
@@ -122,6 +131,16 @@ public class GameLoop implements Serializable {
             scanner.close();
     }
 
+
+    // ==============================  Look The Map Method (GUI)  ============================== //
+    void lookGUIMap () {
+         if (GuiMap.isInstanceCreated()) {
+             map.dispose();
+             map.showMap();
+         } else {
+             map.showMap();
+    }
+}
 
 // ==============================  Look For Available Exits  ============================== //
 
@@ -437,6 +456,9 @@ public class GameLoop implements Serializable {
         // Container initialization
         Container Mystery_Box = new Container("Mystery Box", false, "");
         startingRoom.addContainer(Mystery_Box);
+        Container Vase = new Container("Vase",false, "");
+        Living_Room.addContainer(Vase);
+
 
 
 
@@ -453,20 +475,35 @@ public class GameLoop implements Serializable {
           //Hall_1 Items
         Item Portraits = new Item("Portraits","Portraits",false);
         Item Small_sofa = new Item("Small Sofa","Small sofa",false);
+        Item Small_table = new Item("Small Table","A small table with a black telephone on top.",false);
+        Item Black_telephone = new Item("Black telephone","A black telephone on the small table.",false);
+        Item Paper_With_Number = new Item("Paper with phone number","A piece of paper with a phone number and the name Scarlet, fallen under the small table.",true);
           //Living room Items
         Item Sofa = new Item("Sofa","Sofa",false);
         Item Whiskey_glass = new Item("Whiskey glass","Whiskey glass with traces of red lips",true);
         Item Paintings = new Item("Paintings","Paintings on the wall",false);
+        Item Porcelain_Vase = new Item ("Vase","A porcelain vase on the table.",false);
           //Kitchen Items
         Item Table = new Item("Table", "Table",false);
         Item knife = new Item("knife","A sharp knife used for cutting.",true);
         Item Fridge = new Item("Fridge","A big white fridge.",false);
         Item Poisson = new Item("Poisson","A small bottle with Poisson.",true);
+          //Dinning Room items
+        Item Big_Table = new Item("Big Table","A large table with chairs",false);
+        Item Wine_Bottle = new Item("Wine Bottle","Half a bottle of red wine",true);
+        Item Fireplace = new Item("Fireplace","A large fireplace with a half-burned letter inside.",false);
+        Item Burned_letter = new Item("Burnet letter","A half-burned letter inside the fireplace",true);
+          //Wine Cellar items
+        Item Shelves = new Item("Shelves with wines","Aged wines on shelves.",false);
+        Item Tirbuson = new Item("Tirbuson","A tirbuson on a table with two glasses of wine.",true);
+        Item Glasses_of_wine = new Item("Glasses of Wine","Two glasses of wine, one of which with a mark from red lipstick.",false);
+
 
 
 
         // Adding items to containers
         Mystery_Box.addItem(Mystery_box);
+        Vase.addItem(Porcelain_Vase);
 
         // Adding items to the rooms
         startingRoom.addItem(key);
@@ -476,6 +513,9 @@ public class GameLoop implements Serializable {
 
         hall_1.addItem(Portraits);
         hall_1.addItem(Small_sofa);
+        hall_1.addItem(Small_table);
+        hall_1.addItem(Black_telephone);
+        hall_1.addItem(Paper_With_Number);
 
         Living_Room.addItem(Sofa);
         Living_Room.addItem(Whiskey_glass);
@@ -485,6 +525,15 @@ public class GameLoop implements Serializable {
         kitchen.addItem(knife);
         kitchen.addItem(Fridge);
         kitchen.addItem(Poisson);
+
+        dinningRoom.addItem(Big_Table);
+        dinningRoom.addItem(Wine_Bottle);
+        dinningRoom.addItem(Fireplace);
+        dinningRoom.addItem(Burned_letter);
+
+        wineCellar.addItem(Shelves);
+        wineCellar.addItem(Tirbuson);
+        wineCellar.addItem(Glasses_of_wine);
 
         List<Room> rooms = new ArrayList<>();
 
