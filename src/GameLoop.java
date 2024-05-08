@@ -27,8 +27,8 @@ public class GameLoop implements Serializable {
 
     private List<Room> rooms;
     private Player player = new Player();
-    Room startingRoom;
-    GuiMap map;
+    private Room startingRoom;
+    private GuiMap map = new GuiMap();
 
     private String ANSI_RESET = "\u001B[0m";
     private String ANSI_RED = "\u001B[31m";
@@ -46,10 +46,6 @@ public class GameLoop implements Serializable {
     public GameLoop() {
         scanner = new Scanner(System.in);
         rooms = initializeMap();
-        startingRoom = rooms.get(0);
-        map = new GuiMap();
-        player.setCurrentRoom(startingRoom);
-        run();
     }
 
 
@@ -137,10 +133,9 @@ public class GameLoop implements Serializable {
          if (GuiMap.isInstanceCreated()) {
              map.dispose();
              map.showMap();
-         } else {
-             map.showMap();
+         }
+        map.showMap();
     }
-}
 
 // ==============================  Look For Available Exits  ============================== //
 
@@ -313,8 +308,9 @@ public class GameLoop implements Serializable {
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " inspect room" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " take [item]" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " drop [item]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " look [inv, exits]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " look [inv, exits, map]" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " open [container]" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " save" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " quit" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " help" + ANSI_RESET);
     }
