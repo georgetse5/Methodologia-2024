@@ -53,7 +53,7 @@ public class GameLoop implements Serializable {
 
 
     public void startGame() {
-        openingScene();
+        loadGame(saveFile);
         mainLoop();
     }
 
