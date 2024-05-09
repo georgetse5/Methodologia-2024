@@ -356,8 +356,22 @@ public class GameLoop implements Serializable {
 
     public void loadGame(String fileName) {
 
-    }
+        GameData loadedData = LoadSave.load(fileName);
+        if (loadedData != null) {
+            // Load Save successful
+            this.rooms = loadedData.getRooms();
+            this.player = loadedData.getPlayer();
+            System.out.println("Welcome back, " + player.getName() + "!");
+            System.out.println("You are currently in " + player.getCurrentRoom().getName());
+            System.out.println("Use the 'help' command if you need more info about the available commands");
+        } else {
+            // Load Save failed
+            System.out.println("Failed to load game data. Starting a new game.");
+            openingScene();
+        }
 
+
+    }
 
 // ==============================  SaveGame Method  ============================== //
 
