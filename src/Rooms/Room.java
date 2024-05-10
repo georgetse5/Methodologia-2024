@@ -2,6 +2,7 @@ package Rooms;
 
 import Item.Item;
 import Container.Container;
+import NPC.*;
 
 import java.io.Serializable;
 import java.util.*;
@@ -13,6 +14,7 @@ public class Room implements Serializable {
     Map<String, Room> exits;
     private Vector items;
     private List<Container> containers;
+    private List<NPC> npcs;
 
 
     public Room(String name, String description) {
@@ -21,6 +23,7 @@ public class Room implements Serializable {
         exits = new HashMap<>();
         items = new Vector();
         containers = new ArrayList<>();
+        this.npcs = new ArrayList<>();
     }
 
     public String getName() {
@@ -64,6 +67,18 @@ public class Room implements Serializable {
 
     public List<Container> getContainers() {
         return containers;
+    }
+
+    public void addNPC(NPC npc) {
+        npcs.add(npc);
+    }
+
+    public void removeNPC(NPC npc) {
+        npcs.remove(npc);
+    }
+
+    public List<NPC> getNPCs() {
+        return npcs;
     }
 
 }
