@@ -1,9 +1,10 @@
 package NPC;
 import Player.Player;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class NPC {
+public class NPC implements Serializable {
     private String name;
     private boolean introduced;
 
