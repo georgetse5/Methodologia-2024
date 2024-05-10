@@ -11,11 +11,11 @@ public class SomeRandomGuy extends NPC {
     @Override
     public void introductoryMessage() {
         if (!getIntro()) {
-            System.out.println("Bro, what do you want?\nYou are cringe!");
+            System.out.println("What do you want?");
             System.out.println("I am not supposed to be here but here I am. So don't waste my time.");
             setIntro(true);
         } else {
-            System.out.println("Ihh, you again!!");
+            System.out.println("Ahh, you again!!");
         }
     }
 
