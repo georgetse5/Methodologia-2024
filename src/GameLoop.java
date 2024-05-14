@@ -43,18 +43,18 @@ public class GameLoop implements Serializable {
     private List<Room> rooms;
     private Player player = new Player();
     private Room startingRoom;
-    private GuiMap map = new GuiMap();
+    private final GuiMap map = new GuiMap();
 
-    private String ANSI_RESET = "\u001B[0m";
-    private String ANSI_RED = "\u001B[31m";
-    private String ANSI_GREEN = "\u001B[32m";
-    private String ANSI_GOLD = "\u001B[33m";
-    private String ANSI_CYAN = "\u001B[36m";
-    private String ANSI_BLUE = "\u001B[34m";
+    private final String ANSI_RESET = "\u001B[0m";
+    private final String ANSI_RED = "\u001B[31m";
+    private final String ANSI_GREEN = "\u001B[32m";
+    private final String ANSI_GOLD = "\u001B[33m";
+    private final String ANSI_CYAN = "\u001B[36m";
+    private final String ANSI_BLUE = "\u001B[34m";
     private int gameTurn = 1;
 
     private GameData gameData;
-    private String saveFile = "game.sav";
+    private final String saveFile = "game.sav";
 
 
 // ==================================================================================================================
