@@ -595,7 +595,9 @@ public class GameLoop implements Serializable {
         // Container initialization
         Container mystery_box = new Container("Mystery Box", false, "");
         Container chest = new Container("Chest", false, "");
+        Container chest2 = new Container("Chest2", true, "Rusty Key");
         startingRoom.addContainer(chest);
+        startingRoom.addContainer(chest2);
         startingRoom.addContainer(mystery_box);
         Container vase = new Container("Vase",false, "");
         Living_Room.addContainer(vase);
@@ -611,6 +613,7 @@ public class GameLoop implements Serializable {
 
         // Item initialization
           //Starting room Items
+        Item goldCoin = new Item("Gold Coin","A gold coin from an old era",true);
         Item silverCoin = new Item("Silver Coin","An old silver coin",true);
         Item knife = new Item("Small knife","A small knife",true);
         Item wardrobe = new Item("Wardrobe", "Wardrobe",false);
@@ -647,6 +650,7 @@ public class GameLoop implements Serializable {
         // Adding items to containers
         mystery_box.addItem(silverCoin);
         mystery_box.addItem(smallKnife);
+        chest2.addItem(goldCoin);
         vase.addItem(Porcelain_Vase);
 
         // Adding items to the rooms
