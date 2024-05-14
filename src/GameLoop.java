@@ -347,7 +347,8 @@ public class GameLoop implements Serializable {
             for (NPC npc : roomNPC) {
                 if (noun.equalsIgnoreCase(npc.getName())) {
                     found = true;
-                    System.out.println("[DEBUG]> You found " + noun);
+//                    System.out.println("[DEBUG]> You speak with " + noun);
+                    npc.speak(player.getName());
                     break;
                 }
             }

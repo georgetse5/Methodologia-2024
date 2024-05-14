@@ -11,7 +11,7 @@ public class MrAnderson extends NPC {
     }
 
     @Override
-    public void introductoryMessage() {
+    public void introductoryMessage(String playerName) {
 
         if (!getIntro()) {
             System.out.println("Hello, my name is "
@@ -20,7 +20,7 @@ public class MrAnderson extends NPC {
                     + "\nIf you have any questions do not hesitate to ask.");
             setIntro(true);
         } else {
-            System.out.println("Hey " + player.getName() + ". How the investigation is going ?");
+            System.out.println("Hey " + playerName + ". How the investigation is going ?");
             System.out.println("If you have any questions do not hesitate to ask.");
         }
     }
