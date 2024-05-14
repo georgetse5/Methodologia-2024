@@ -44,7 +44,9 @@ public class GameLoop implements Serializable {
     private GameData gameData;
     private String saveFile = "game.sav";
 
+
 // ==================================================================================================================
+
 
     public GameLoop() {
         scanner = new Scanner(System.in);
@@ -139,6 +141,7 @@ public class GameLoop implements Serializable {
          }
         map.showMap();
     }
+
 
 // ==============================  Look For Available Exits  ============================== //
 
@@ -239,8 +242,8 @@ public class GameLoop implements Serializable {
 
 
 // ==============================  Drop Item Method  ============================== //
-  
-  
+
+
     private void dropCommand(String noun) {
         if (noun == null) {
             System.out.println("Command DROP must have a noun.\nFor example LOOK KEY, DROP BROKEN WATCH");
@@ -384,23 +387,26 @@ public class GameLoop implements Serializable {
             // Load Save successful
             this.rooms = loadedData.getRooms();
             this.player = loadedData.getPlayer();
+            this.gameTurn = loadedData.getTurns();
             System.out.println("Welcome back, " + player.getName() + "!");
             System.out.println("You are currently in " + player.getCurrentRoom().getName());
+            System.out.println("Turns lapsed: " + gameTurn);
             System.out.println("Use the 'help' command if you need more info about the available commands");
         } else {
             // Load Save failed
-            System.out.println("Failed to load game data. Starting a new game.");
+            System.out.println("Previous save not found. Starting a new game.");
             openingScene();
         }
 
 
     }
 
+
 // ==============================  SaveGame Method  ============================== //
 
 
     public void saveGame(String fileName) {
-        GameData gameData = saveData(rooms, player);
+        GameData gameData = saveData(rooms, player, gameTurn);
         SaveGame.save(gameData, fileName);
     }
 
@@ -408,8 +414,8 @@ public class GameLoop implements Serializable {
 // ==============================  SaveData Method  ============================== //
 
 
-    private GameData saveData(List<Room> roomsToSave, Player playerData) {
-        GameData gameData = new GameData(roomsToSave, playerData);
+    private GameData saveData(List<Room> roomsToSave, Player playerData, int turns) {
+        GameData gameData = new GameData(roomsToSave, playerData, turns);
 
         return gameData;
     }
@@ -533,8 +539,6 @@ public class GameLoop implements Serializable {
         Item Shelves = new Item("Shelves with wines","Aged wines on shelves.",false);
         Item Tirbuson = new Item("Tirbuson","A tirbuson on a table with two glasses of wine.",true);
         Item Glasses_of_wine = new Item("Glasses of Wine","Two glasses of wine, one of which with a mark from red lipstick.",false);
-
-
 
 
         // Adding items to containers
