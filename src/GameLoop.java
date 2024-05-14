@@ -76,6 +76,7 @@ public class GameLoop implements Serializable {
 
 
                 if (verb.equalsIgnoreCase("quit")) {
+                    saveGame(saveFile);
                     System.out.println("Exiting the game...");
                     break;
                 }
@@ -287,6 +288,7 @@ public class GameLoop implements Serializable {
 
             System.out.println("It seems you are currently in " + player.getCurrentRoom().getName());
             lookForRoomItems();
+            displayNPC();
             lookForRoomContainers();
             lookForExits();
 
@@ -335,7 +337,26 @@ public class GameLoop implements Serializable {
 
     // When this method called the player can interact with the NPCs
     private void speakCommand(String noun) {
+        if (noun == null) {
+            System.out.println("Command SPEAK must have a noun.\nFor example SPEAK ANDERSON");
+        } else {
+            List<NPC> roomNPC = player.getCurrentRoom().getNPCs();
+            boolean found = false;
 
+            // Check if the npc exist in player's current room
+            for (NPC npc : roomNPC) {
+                if (noun.equalsIgnoreCase(npc.getName())) {
+                    found = true;
+                    System.out.println("[DEBUG]> You found " + noun);
+                    break;
+                }
+            }
+
+            // If item does not exist into the inventory
+            if (!found) {
+                System.out.println("There is no such person in this room.\nIf you want to take look around you can use INSPECT ROOM");
+            }
+        }
     }
 
 
