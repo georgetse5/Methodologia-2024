@@ -44,7 +44,9 @@ public class GameLoop implements Serializable {
     private GameData gameData;
     private String saveFile = "game.sav";
 
+
 // ==================================================================================================================
+
 
     public GameLoop() {
         scanner = new Scanner(System.in);
@@ -74,6 +76,7 @@ public class GameLoop implements Serializable {
 
 
                 if (verb.equalsIgnoreCase("quit")) {
+                    saveGame(saveFile);
                     System.out.println("Exiting the game...");
                     break;
                 }
@@ -121,6 +124,10 @@ public class GameLoop implements Serializable {
                     case "inspect":
                         inspectCommand(noun);
                         break;
+    // Talk Command
+                    case "talk":
+                        talkCommand(noun);
+                        break;
                     default:
                         System.out.println("This command does not exists");
                         break;
@@ -132,6 +139,8 @@ public class GameLoop implements Serializable {
 
 
     // ==============================  Look The Map Method (GUI)  ============================== //
+
+
     void lookGUIMap () {
          if (GuiMap.isInstanceCreated()) {
              map.dispose();
@@ -139,6 +148,7 @@ public class GameLoop implements Serializable {
          }
         map.showMap();
     }
+
 
 // ==============================  Look For Available Exits  ============================== //
 
@@ -239,8 +249,8 @@ public class GameLoop implements Serializable {
 
 
 // ==============================  Drop Item Method  ============================== //
-  
-  
+
+
     private void dropCommand(String noun) {
         if (noun == null) {
             System.out.println("Command DROP must have a noun.\nFor example LOOK KEY, DROP BROKEN WATCH");
@@ -278,6 +288,7 @@ public class GameLoop implements Serializable {
 
             System.out.println("It seems you are currently in " + player.getCurrentRoom().getName());
             lookForRoomItems();
+            displayNPC();
             lookForRoomContainers();
             lookForExits();
 
@@ -317,6 +328,35 @@ public class GameLoop implements Serializable {
 
         } else {
             System.out.println("this direction is not valid. You can use (north, south, east, west)");
+        }
+    }
+
+
+// ==============================  Speak Method  ============================== //
+
+
+    // When this method called the player can interact with the NPCs
+    private void talkCommand(String noun) {
+        if (noun == null) {
+            System.out.println("Command SPEAK must have a noun.\nFor example SPEAK ANDERSON");
+        } else {
+            List<NPC> roomNPC = player.getCurrentRoom().getNPCs();
+            boolean found = false;
+
+            // Check if the npc exist in player's current room
+            for (NPC npc : roomNPC) {
+                if (noun.equalsIgnoreCase(npc.getName())) {
+                    found = true;
+//                    System.out.println("[DEBUG]> You speak with " + noun);
+                    npc.talk(player.getName());
+                    break;
+                }
+            }
+
+            // If item does not exist into the inventory
+            if (!found) {
+                System.out.println("There is no such person in this room.\nIf you want to take look around you can use INSPECT ROOM");
+            }
         }
     }
 
@@ -384,23 +424,26 @@ public class GameLoop implements Serializable {
             // Load Save successful
             this.rooms = loadedData.getRooms();
             this.player = loadedData.getPlayer();
+            this.gameTurn = loadedData.getTurns();
             System.out.println("Welcome back, " + player.getName() + "!");
             System.out.println("You are currently in " + player.getCurrentRoom().getName());
+            System.out.println("Turns lapsed: " + gameTurn);
             System.out.println("Use the 'help' command if you need more info about the available commands");
         } else {
             // Load Save failed
-            System.out.println("Failed to load game data. Starting a new game.");
+            System.out.println("Previous save not found. Starting a new game.");
             openingScene();
         }
 
 
     }
 
+
 // ==============================  SaveGame Method  ============================== //
 
 
     public void saveGame(String fileName) {
-        GameData gameData = saveData(rooms, player);
+        GameData gameData = saveData(rooms, player, gameTurn);
         SaveGame.save(gameData, fileName);
     }
 
@@ -408,8 +451,8 @@ public class GameLoop implements Serializable {
 // ==============================  SaveData Method  ============================== //
 
 
-    private GameData saveData(List<Room> roomsToSave, Player playerData) {
-        GameData gameData = new GameData(roomsToSave, playerData);
+    private GameData saveData(List<Room> roomsToSave, Player playerData, int turns) {
+        GameData gameData = new GameData(roomsToSave, playerData, turns);
 
         return gameData;
     }
@@ -533,8 +576,6 @@ public class GameLoop implements Serializable {
         Item Shelves = new Item("Shelves with wines","Aged wines on shelves.",false);
         Item Tirbuson = new Item("Tirbuson","A tirbuson on a table with two glasses of wine.",true);
         Item Glasses_of_wine = new Item("Glasses of Wine","Two glasses of wine, one of which with a mark from red lipstick.",false);
-
-
 
 
         // Adding items to containers

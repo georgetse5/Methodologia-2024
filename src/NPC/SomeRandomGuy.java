@@ -9,7 +9,7 @@ public class SomeRandomGuy extends NPC {
 // Just for testing purposes
 
     @Override
-    public void introductoryMessage() {
+    public void introductoryMessage(String playerName) {
         if (!getIntro()) {
             System.out.println("What do you want?");
             System.out.println("I am not supposed to be here but here I am. So don't waste my time.");

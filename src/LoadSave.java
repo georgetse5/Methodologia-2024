@@ -11,7 +11,7 @@ public class LoadSave {
             objectIn.close();
             return gameData;
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error loading game data: " + e.getMessage());
+//            System.out.println("Error loading game data: " + e.getMessage());
             return null;
         }
     }

@@ -9,10 +9,12 @@ public class GameData implements Serializable {
 
     private List<Room> rooms;
     private Player player;
+    private int turns;
 
-    public GameData(List<Room> rooms, Player player) {
+    public GameData(List<Room> rooms, Player player, int turns) {
         this.rooms = rooms;
         this.player = player;
+        this.turns = turns;
     }
 
     public List<Room> getRooms() {
@@ -21,6 +23,10 @@ public class GameData implements Serializable {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public int getTurns() {
+        return turns;
     }
 
 }
