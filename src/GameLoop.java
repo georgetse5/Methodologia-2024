@@ -123,6 +123,10 @@ public class GameLoop implements Serializable {
                     case "inspect":
                         inspectCommand(noun);
                         break;
+    // Speak Command
+                    case "speak":
+                        speakCommand(noun);
+                        break;
                     default:
                         System.out.println("This command does not exists");
                         break;
@@ -134,6 +138,8 @@ public class GameLoop implements Serializable {
 
 
     // ==============================  Look The Map Method (GUI)  ============================== //
+
+
     void lookGUIMap () {
          if (GuiMap.isInstanceCreated()) {
              map.dispose();
@@ -321,6 +327,15 @@ public class GameLoop implements Serializable {
         } else {
             System.out.println("this direction is not valid. You can use (north, south, east, west)");
         }
+    }
+
+
+// ==============================  Speak Method  ============================== //
+
+
+    // When this method called the player can interact with the NPCs
+    private void speakCommand(String noun) {
+
     }
 
 

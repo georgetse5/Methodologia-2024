@@ -32,6 +32,10 @@ public class NPC implements Serializable {
         return name;
     }
 
+    public void speak() {
+        introductoryMessage();
+    }
+
     public void introductoryMessage() {
         scanner = new Scanner(System.in);
 
