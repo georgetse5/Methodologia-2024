@@ -11,11 +11,10 @@ public class GuiMap extends JFrame {
 
     public GuiMap() {
         setTitle("Game Map");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Χρησιμοποιήστε DISPOSE_ON_CLOSE αντί για EXIT_ON_CLOSE
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(900, 800);
         setLocationRelativeTo(null);
 
-        // Δημιουργία του JPanel
         JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {

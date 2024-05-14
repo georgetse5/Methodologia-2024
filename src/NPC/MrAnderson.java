@@ -1,10 +1,6 @@
 package NPC;
 
-import Player.Player;
-
 public class MrAnderson extends NPC {
-
-    Player player;
 
     public MrAnderson(String name, boolean intro) {
         super(name, intro);

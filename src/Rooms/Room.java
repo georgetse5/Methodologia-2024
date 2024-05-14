@@ -10,7 +10,6 @@ import java.util.*;
 public class Room implements Serializable {
     String name;
     String description;
-    String direction;
     Map<String, Room> exits;
     private Vector items;
     private List<Container> containers;

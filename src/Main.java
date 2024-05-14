@@ -19,7 +19,7 @@ public class Main {
     }
 }
 
-// TODO: 11/5/2024:
+// TODO: 14/5/2024:
 //  1) Add more items and containers,
-//  2) Player can use items to OPEN containers and the room OBJECTIVES like mini quests
-//  3) User can interact with the available NPCs
+//  2) Player can OPEN containers and retrieve items from them
+//  3) Player can enable the room OBJECTIVES and TASKS like mini quests
