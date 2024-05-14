@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Container implements Serializable {
-    private List<Item> items;
+    private ArrayList<Item> items;
     private String name;
     private boolean requiresKey;
     private String key;
@@ -31,7 +31,7 @@ public class Container implements Serializable {
         return key;
     }
 
-    public List<Item> getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 

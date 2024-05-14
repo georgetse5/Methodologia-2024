@@ -158,7 +158,53 @@ public class GameLoop implements Serializable {
 
 
     private void openCommand(String noun) {
+        if (noun == null) {
+            System.out.println("Command OPEN must have a noun.\nFor example OPEN CHEST");
+            return;
+        }
 
+        List<Container> containers = player.getCurrentRoom().getContainers();
+        boolean foundContainer = false;
+
+        for (Container container : containers) {
+            if (container.toString().equalsIgnoreCase(noun)) {
+                foundContainer = true;
+                if (container.requiresKey()) {
+                    boolean hasKey = false;
+                    for (Item item : player.getInventory()) {
+                        if (item.getName().equalsIgnoreCase(container.getKey())) {
+                            hasKey = true;
+                            break;
+                        }
+                    }
+                    if (!hasKey) {
+                        System.out.println("You need a key to open the " + noun + ".");
+                        return;
+                    }
+                    container.setAsUnlocked();
+                }
+
+                System.out.println("Opening " + noun + "...");
+                ArrayList<Item> items = container.getItems();
+                if (items.isEmpty()) {
+                    System.out.println("The " + noun + " is empty.");
+                } else {
+                    System.out.println("The " + noun + " contains:");
+
+                    for (Item item : items) {
+                        System.out.println("\t- " + ANSI_GOLD + item.getName() + ANSI_RESET + ": " + item.getDescription());
+
+                        player.addItemToInventory(item);
+                    }
+                    items.clear();
+                }
+                return;
+            }
+        }
+
+        if (!foundContainer) {
+            System.out.println("There is no " + noun + " in this room.");
+        }
     }
 
 
@@ -547,10 +593,12 @@ public class GameLoop implements Serializable {
 
 
         // Container initialization
-        Container Mystery_Box = new Container("Mystery Box", false, "");
-        startingRoom.addContainer(Mystery_Box);
-        Container Vase = new Container("Vase",false, "");
-        Living_Room.addContainer(Vase);
+        Container mystery_box = new Container("Mystery Box", false, "");
+        Container chest = new Container("Chest", false, "");
+        startingRoom.addContainer(chest);
+        startingRoom.addContainer(mystery_box);
+        Container vase = new Container("Vase",false, "");
+        Living_Room.addContainer(vase);
 
 
         // NPC Initialization
@@ -563,8 +611,9 @@ public class GameLoop implements Serializable {
 
         // Item initialization
           //Starting room Items
-        Item Mystery_box = new Item("Mystery Box","Mystery Box",false);
-        Item Wardrobe = new Item("Wardrobe", "Wardrobe",false);
+        Item silverCoin = new Item("Silver Coin","An old silver coin",true);
+        Item knife = new Item("Small knife","A small knife",true);
+        Item wardrobe = new Item("Wardrobe", "Wardrobe",false);
         Item key = new Item ("Rusty Key", "It's just a key",true);
         Item broken_watch = new Item ("Broken watch", "A vintage broken watch",true);
         Item Mirror = new Item("Mirror","Mirror",false);
@@ -581,7 +630,7 @@ public class GameLoop implements Serializable {
         Item Porcelain_Vase = new Item ("Vase","A porcelain vase on the table.",false);
           //Kitchen Items
         Item Table = new Item("Table", "Table",false);
-        Item knife = new Item("knife","A sharp knife used for cutting.",true);
+        Item smallKnife = new Item("knife","A sharp knife used for cutting.",true);
         Item Fridge = new Item("Fridge","A big white fridge.",false);
         Item Poisson = new Item("Poisson","A small bottle with Poisson.",true);
           //Dinning Room items
@@ -596,13 +645,14 @@ public class GameLoop implements Serializable {
 
 
         // Adding items to containers
-        Mystery_Box.addItem(Mystery_box);
-        Vase.addItem(Porcelain_Vase);
+        mystery_box.addItem(silverCoin);
+        mystery_box.addItem(smallKnife);
+        vase.addItem(Porcelain_Vase);
 
         // Adding items to the rooms
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);
-        startingRoom.addItem(Wardrobe);
+        startingRoom.addItem(wardrobe);
         startingRoom.addItem(Mirror);
 
         hall_1.addItem(Portraits);
