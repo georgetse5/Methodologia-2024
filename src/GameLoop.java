@@ -124,9 +124,9 @@ public class GameLoop implements Serializable {
                     case "inspect":
                         inspectCommand(noun);
                         break;
-    // Speak Command
-                    case "speak":
-                        speakCommand(noun);
+    // Talk Command
+                    case "talk":
+                        talkCommand(noun);
                         break;
                     default:
                         System.out.println("This command does not exists");
@@ -336,7 +336,7 @@ public class GameLoop implements Serializable {
 
 
     // When this method called the player can interact with the NPCs
-    private void speakCommand(String noun) {
+    private void talkCommand(String noun) {
         if (noun == null) {
             System.out.println("Command SPEAK must have a noun.\nFor example SPEAK ANDERSON");
         } else {
@@ -348,7 +348,7 @@ public class GameLoop implements Serializable {
                 if (noun.equalsIgnoreCase(npc.getName())) {
                     found = true;
 //                    System.out.println("[DEBUG]> You speak with " + noun);
-                    npc.speak(player.getName());
+                    npc.talk(player.getName());
                     break;
                 }
             }

@@ -16,7 +16,7 @@ public class NPC implements Serializable {
 //  ======================================================  //
 
 
-    public void speak(String playerName) {
+    public void talk(String playerName) {
         Scanner scanner = new Scanner(System.in);
         pName = playerName;
 
