@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class GameLoop implements Serializable {
     private final Scanner scanner;
     private List<String> processesedCmd = new ArrayList<>();
-    private List<String> directions = new ArrayList<>() {{
+    private final List<String> directions = new ArrayList<>() {{
         add("north");
         add("south");
         add("east");
@@ -26,6 +26,18 @@ public class GameLoop implements Serializable {
         add("northeast");
         add("southwest");
         add("southeast");
+    }};
+    private final List<String> helpCmdList = new ArrayList<>() {{
+        add("go [north, south, west, east, upstairs, downstairs,...]");
+        add("inspect room");
+        add("take [item]");
+        add("drop [item]");
+        add("look [inv, exits, map]");
+        add("open [container]");
+        add("talk [NPCs name]");
+        add("save");
+        add("quit");
+        add("help");
     }};
 
     private List<Room> rooms;
@@ -128,6 +140,10 @@ public class GameLoop implements Serializable {
                     case "talk":
                         talkCommand(noun);
                         break;
+    // Open Command
+                    case "open":
+                        openCommand(noun);
+                        break;
                     default:
                         System.out.println("This command does not exists");
                         break;
@@ -138,10 +154,18 @@ public class GameLoop implements Serializable {
     }
 
 
+    // ==============================  Open Command  ============================== //
+
+
+    private void openCommand(String noun) {
+
+    }
+
+
     // ==============================  Look The Map Method (GUI)  ============================== //
 
 
-    void lookGUIMap () {
+    private void lookGUIMap() {
          if (GuiMap.isInstanceCreated()) {
              map.dispose();
              map.showMap();
@@ -366,16 +390,9 @@ public class GameLoop implements Serializable {
 
     private void helpCommand() {
         System.out.println("Available commands:");
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " go [north, south, west, east, upstairs, downstairs,...]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " inspect room" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " take [item]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " drop [item]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " look [inv, exits, map]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " open [container]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " speak [NPCs name]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " save" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " quit" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " help" + ANSI_RESET);
+        for (String commandHelp : helpCmdList) {
+            System.out.println(ANSI_CYAN + "<> " + ANSI_GOLD + commandHelp + ANSI_RESET);
+        }
     }
 
 

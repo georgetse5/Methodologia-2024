@@ -1,5 +1,8 @@
 # Adventure text based Zork like game (A brief description)
 
+<hr>
+<b><u>The ReadMe file is currently outdated</u></b>
+
 - (Note) Every Room/scene need to have a different class 
 
 ## Architecture
