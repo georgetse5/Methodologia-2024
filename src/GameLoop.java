@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class GameLoop implements Serializable {
     private final Scanner scanner;
     private List<String> processesedCmd = new ArrayList<>();
-    private List<String> directions = new ArrayList<>() {{
+    private final List<String> directions = new ArrayList<>() {{
         add("north");
         add("south");
         add("east");
@@ -28,17 +28,30 @@ public class GameLoop implements Serializable {
         add("southwest");
         add("southeast");
     }};
+    private final List<String> helpCmdList = new ArrayList<>() {{
+        add("go [north, south, west, east, upstairs, downstairs,...]");
+        add("inspect room");
+        add("take [item]");
+        add("drop [item]");
+        add("look [inv, exits, map]");
+        add("open [container]");
+        add("talk [NPCs name]");
+        add("save");
+        add("quit");
+        add("help");
+    }};
 
     private List<Room> rooms;
     private Player player = new Player();
     private Room startingRoom;
-    private GuiMap map = new GuiMap();
 
+    private final GuiMap map = new GuiMap();
     Colors color = new Colors();
+
     private int gameTurn = 1;
 
     private GameData gameData;
-    private String saveFile = "game.sav";
+    private final String saveFile = "game.sav";
 
 
 // ==================================================================================================================
@@ -124,6 +137,10 @@ public class GameLoop implements Serializable {
                     case "talk":
                         talkCommand(noun);
                         break;
+    // Open Command
+                    case "open":
+                        openCommand(noun);
+                        break;
                     default:
                         System.out.println("This command does not exists");
                         break;
@@ -134,10 +151,64 @@ public class GameLoop implements Serializable {
     }
 
 
+    // ==============================  Open Command  ============================== //
+
+
+    private void openCommand(String noun) {
+        if (noun == null) {
+            System.out.println("Command OPEN must have a noun.\nFor example OPEN CHEST");
+            return;
+        }
+
+        List<Container> containers = player.getCurrentRoom().getContainers();
+        boolean foundContainer = false;
+
+        for (Container container : containers) {
+            if (container.toString().equalsIgnoreCase(noun)) {
+                foundContainer = true;
+                if (container.requiresKey()) {
+                    boolean hasKey = false;
+                    for (Item item : player.getInventory()) {
+                        if (item.getName().equalsIgnoreCase(container.getKey())) {
+                            hasKey = true;
+                            break;
+                        }
+                    }
+                    if (!hasKey) {
+                        System.out.println("You need a key to open the " + noun + ".");
+                        return;
+                    }
+                    container.setAsUnlocked();
+                }
+
+                System.out.println("Opening " + noun + "...");
+                ArrayList<Item> items = container.getItems();
+                if (items.isEmpty()) {
+                    System.out.println("The " + noun + " is empty.");
+                } else {
+                    System.out.println("The " + noun + " contains:");
+
+                    for (Item item : items) {
+                        System.out.println("\t- " + ANSI_GOLD + item.getName() + ANSI_RESET + ": " + item.getDescription());
+
+                        player.addItemToInventory(item);
+                    }
+                    items.clear();
+                }
+                return;
+            }
+        }
+
+        if (!foundContainer) {
+            System.out.println("There is no " + noun + " in this room.");
+        }
+    }
+
+
     // ==============================  Look The Map Method (GUI)  ============================== //
 
 
-    void lookGUIMap () {
+    private void lookGUIMap() {
          if (GuiMap.isInstanceCreated()) {
              map.dispose();
              map.showMap();
@@ -362,16 +433,9 @@ public class GameLoop implements Serializable {
 
     private void helpCommand() {
         System.out.println("Available commands:");
-        System.out.println(color.cyan() + "<>" + color.gold() + " go [north, south, west, east, upstairs, downstairs,...]" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " inspect room" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " take [item]" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " drop [item]" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " look [inv, exits, map]" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " open [container]" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " speak [NPCs name]" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " save" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " quit" + color.gold());
-        System.out.println(color.cyan() + "<>" + color.gold() + " help" + color.gold());
+        for (String commandHelp : helpCmdList) {
+            System.out.println(ANSI_CYAN + "<> " + ANSI_GOLD + commandHelp + ANSI_RESET);
+        }
     }
 
 
@@ -526,10 +590,14 @@ public class GameLoop implements Serializable {
 
 
         // Container initialization
-        Container Mystery_Box = new Container("Mystery Box", false, "");
-        startingRoom.addContainer(Mystery_Box);
-        Container Vase = new Container("Vase",false, "");
-        Living_Room.addContainer(Vase);
+        Container mystery_box = new Container("Mystery Box", false, "");
+        Container chest = new Container("Chest", false, "");
+        Container chest2 = new Container("Chest2", true, "Rusty Key");
+        startingRoom.addContainer(chest);
+        startingRoom.addContainer(chest2);
+        startingRoom.addContainer(mystery_box);
+        Container vase = new Container("Vase",false, "");
+        Living_Room.addContainer(vase);
 
 
         // NPC Initialization
@@ -545,6 +613,10 @@ public class GameLoop implements Serializable {
         Item letter = new Item("Letter", "A letter to my beloved Mr Smith", true);
         Item Mystery_box = new Item("Mystery Box","Mystery Box",false);
         Item Wardrobe = new Item("Wardrobe", "Wardrobe",false);
+        Item goldCoin = new Item("Gold Coin","A gold coin from an old era",true);
+        Item silverCoin = new Item("Silver Coin","An old silver coin",true);
+        Item knife = new Item("Small knife","A small knife",true);
+        Item wardrobe = new Item("Wardrobe", "Wardrobe",false);
         Item key = new Item ("Rusty Key", "It's just a key",true);
         Item broken_watch = new Item ("Broken watch", "A vintage broken watch",true);
         Item Mirror = new Item("Mirror","Mirror",false);
@@ -561,7 +633,7 @@ public class GameLoop implements Serializable {
         Item Porcelain_Vase = new Item ("Vase","A porcelain vase on the table.",false);
           //Kitchen Items
         Item Table = new Item("Table", "Table",false);
-        Item knife = new Item("knife","A sharp knife used for cutting.",true);
+        Item smallKnife = new Item("knife","A sharp knife used for cutting.",true);
         Item Fridge = new Item("Fridge","A big white fridge.",false);
         Item Poisson = new Item("Poisson","A small bottle with Poisson.",true);
           //Dinning Room items
@@ -576,14 +648,16 @@ public class GameLoop implements Serializable {
 
 
         // Adding items to containers
-        Mystery_Box.addItem(Mystery_box);
-        Vase.addItem(Porcelain_Vase);
+        mystery_box.addItem(silverCoin);
+        mystery_box.addItem(smallKnife);
+        chest2.addItem(goldCoin);
+        vase.addItem(Porcelain_Vase);
 
         // Adding items to the rooms
         startingRoom.addItem(letter);
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);
-        startingRoom.addItem(Wardrobe);
+        startingRoom.addItem(wardrobe);
         startingRoom.addItem(Mirror);
 
         hall_1.addItem(Portraits);
