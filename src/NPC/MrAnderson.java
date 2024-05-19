@@ -2,18 +2,20 @@ package NPC;
 
 import Colors.Colors;
 import Player.Player;
-import Quests.ExamineQuestSmith;
+import Quests.*;
 
 import java.util.Scanner;
 
 public class MrAnderson extends NPC {
 
     private ExamineQuestSmith examineQuestSmith;
+    private ExamineQuestSmith_2 examineQuestSmith_2;
     Colors color = new Colors();
 
     public MrAnderson(String name, boolean intro, Player player) {
         super(name, intro, player);
-        this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Letter");
+        this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Suspicious Note");
+        this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter");
     }
 
     @Override
@@ -34,10 +36,18 @@ public class MrAnderson extends NPC {
                 System.out.println("What can you tell me about the Smith Family?");
                 break;
             case 2:
-                if (examineQuestSmith.isQuestAccepted()) {
-                    checkQuestProgress();
+                if (!examineQuestSmith.isCompleted()) {
+                    if (examineQuestSmith.isQuestAccepted()) {
+                        checkQuestProgress();
+                    } else {
+                        startQuest();
+                    }
                 } else {
-                    startQuest();
+                    if (examineQuestSmith_2.isQuestAccepted()) {
+                        checkSecondQuestProgress();
+                    } else {
+                        startSecondQuest();
+                    }
                 }
                 break;
             case 3:
@@ -87,11 +97,32 @@ public class MrAnderson extends NPC {
         examineQuestSmith.startQuest();
     }
 
+
     public void checkQuestProgress() {
         if (examineQuestSmith != null) {
             examineQuestSmith.checkItems(player);
             if (examineQuestSmith.isItemFound()) {
                 examineQuestSmith.completeQuest(player);
+            } else {
+                System.out.println("You need to find the required item to complete the quest.");
+            }
+        } else {
+            System.out.println("There are no active quests.");
+        }
+    }
+
+
+    public void startSecondQuest() {
+        examineQuestSmith_2.setQuestAccepted();
+        examineQuestSmith_2.startQuest();
+    }
+
+
+    public void checkSecondQuestProgress() {
+        if (examineQuestSmith_2 != null) {
+            examineQuestSmith_2.checkItems(player);
+            if (examineQuestSmith_2.isItemFound()) {
+                examineQuestSmith_2.completeQuest(player);
             } else {
                 System.out.println("You need to find the required item to complete the quest.");
             }

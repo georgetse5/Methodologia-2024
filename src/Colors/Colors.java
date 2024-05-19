@@ -1,6 +1,8 @@
 package Colors;
 
-public class Colors {
+import java.io.Serializable;
+
+public class Colors implements Serializable {
 
     private final String ANSI_RESET;
     private final String ANSI_RED;

@@ -6,25 +6,23 @@ import Player.Player;
 
 import java.util.ArrayList;
 
-public class ExamineQuestSmith extends Quest {
+public class ExamineQuestSmith_2 extends Quest {
 
     String requiredItem;
     private boolean itemFound;
 
     Colors color = new Colors();
 
-    public ExamineQuestSmith(String name, String description, String requiredItem) {
+    public ExamineQuestSmith_2(String name, String description, String requiredItem) {
         super(name, description);
         this.requiredItem = requiredItem;
         this.itemFound = false;
-
     }
 
     @Override
     public void startQuest() {
-        System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "Examine Mr Smith's past" + color.reset());
-        System.out.println("Find information and search the rumors about Mr Smiths hidden past\n");
-        System.out.println(color.gold() + "Mr Anderson: " + color.reset() + "You may start from Mr Smith's office and the library\n");
+        System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "The suspicious Note" + color.reset());
+        System.out.println("Find more information about the sender of that Note\n");
     }
 
     public void checkItems(Player player) {
@@ -35,7 +33,6 @@ public class ExamineQuestSmith extends Quest {
                 itemFound = true;
                 this.complete();
                 System.out.println("Required item found: " + requiredItem);
-
             } else {
                 System.out.println("You have not find the correct information");
             }
@@ -44,7 +41,7 @@ public class ExamineQuestSmith extends Quest {
 
     public void completeQuest(Player player) {
         if (itemFound) {
-            System.out.println("Quest Completed: Examine Mr Smith's past");
+            System.out.println("Quest Completed: The suspicious Note");
             super.complete();
         } else {
             System.out.println("You haven't found the required information yet. Keep looking!");

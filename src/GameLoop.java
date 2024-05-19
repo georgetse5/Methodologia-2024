@@ -27,6 +27,7 @@ public class GameLoop implements Serializable {
         add("northeast");
         add("southwest");
         add("southeast");
+        add("back");
     }};
     private final List<String> helpCmdList = new ArrayList<>() {{
         add("go [north, south, west, east, upstairs, downstairs,...]");
@@ -226,7 +227,7 @@ public class GameLoop implements Serializable {
             if (!exits.isEmpty()) {
                 System.out.println(color.blue() + "\nAvailable exits:" + color.reset());
                 for (String direction : exits.keySet()) {
-                    System.out.println("\t- " + color.cyan() + direction + color.cyan() + ": " + color + exits.get(direction).getName() + color.cyan());
+                    System.out.println("\t- " + color.gold() + "" + direction + ": " + color.cyan() + exits.get(direction).getName() + color.reset());
                 }
             } else {
                 System.out.println("\nThere are no exits in this room.");
@@ -593,6 +594,8 @@ public class GameLoop implements Serializable {
         Container mystery_box = new Container("Mystery Box", false, "");
         Container chest = new Container("Chest", false, "");
         Container chest2 = new Container("Chest2", true, "Rusty Key");
+        Container drawer = new Container("Drawer", true, "Key1");
+        bedroom_guest.addContainer(drawer);
         startingRoom.addContainer(chest);
         startingRoom.addContainer(chest2);
         startingRoom.addContainer(mystery_box);
@@ -610,13 +613,13 @@ public class GameLoop implements Serializable {
 
         // Item initialization
           //Starting room Items
-        Item letter = new Item("Letter", "A letter to my beloved Mr Smith", true);
-        Item Mystery_box = new Item("Mystery Box","Mystery Box",false);
-        Item Wardrobe = new Item("Wardrobe", "Wardrobe",false);
+        Item key1 = new Item("Key1", "A small key. Maybe can be used to a bedroom drawer", true);
+        Item suspicious_note = new Item("Suspicious Note", "I know what you are hiding ~JR", true);
+        Item letter = new Item("Letter", "A letter for my beloved", true);
+        Item wardrobe = new Item("Wardrobe", "Wardrobe",false);
         Item goldCoin = new Item("Gold Coin","A gold coin from an old era",true);
         Item silverCoin = new Item("Silver Coin","An old silver coin",true);
         Item knife = new Item("Small knife","A small knife",true);
-        Item wardrobe = new Item("Wardrobe", "Wardrobe",false);
         Item key = new Item ("Rusty Key", "It's just a key",true);
         Item broken_watch = new Item ("Broken watch", "A vintage broken watch",true);
         Item Mirror = new Item("Mirror","Mirror",false);
@@ -652,9 +655,10 @@ public class GameLoop implements Serializable {
         mystery_box.addItem(smallKnife);
         chest2.addItem(goldCoin);
         vase.addItem(Porcelain_Vase);
+        drawer.addItem(letter);
 
         // Adding items to the rooms
-        startingRoom.addItem(letter);
+        startingRoom.addItem(suspicious_note);
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);
         startingRoom.addItem(wardrobe);
@@ -675,6 +679,8 @@ public class GameLoop implements Serializable {
         kitchen.addItem(Fridge);
         kitchen.addItem(Poisson);
 
+        office.addItem(key1);
+
         dinningRoom.addItem(Big_Table);
         dinningRoom.addItem(Wine_Bottle);
         dinningRoom.addItem(Fireplace);
@@ -682,7 +688,7 @@ public class GameLoop implements Serializable {
 
         wineCellar.addItem(Shelves);
         wineCellar.addItem(Tirbuson);
-        wineCellar.addItem(Glasses_of_wine);
+        wineCellar.addItem(Glasses_of_wine);;
 
         List<Room> rooms = new ArrayList<>();
 

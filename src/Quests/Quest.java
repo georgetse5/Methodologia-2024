@@ -1,6 +1,8 @@
 package Quests;
 
-public abstract class Quest {
+import java.io.Serializable;
+
+public abstract class Quest implements Serializable {
     private String name;
     private String description;
     private boolean completed;
