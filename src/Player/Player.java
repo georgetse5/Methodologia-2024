@@ -5,11 +5,10 @@ import Rooms.Room;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Player implements Serializable {
     private String name;
-    private List<Item> inventory;
+    private ArrayList<Item> inventory;
     private Room currentRoom;
 
     private String ANSI_RESET = "\u001B[0m";
@@ -37,7 +36,7 @@ public class Player implements Serializable {
         return name;
     }
 
-    public List<Item> getInventory() {
+    public ArrayList<Item> getInventory() {
         return inventory;
     }
 

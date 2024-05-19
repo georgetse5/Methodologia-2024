@@ -1,8 +1,10 @@
 package NPC;
 
+import Player.Player;
+
 public class SomeRandomGuy extends NPC {
-    public SomeRandomGuy(String name, boolean intro) {
-        super(name, intro);
+    public SomeRandomGuy(String name, boolean intro, Player player) {
+        super(name, intro, player);
     }
 
 // It's a dummy NPC which will never be used into the real scenario

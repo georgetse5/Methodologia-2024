@@ -1,15 +1,19 @@
 package NPC;
 
+import Player.Player;
+
 import java.io.Serializable;
 import java.util.Scanner;
 
 public class NPC implements Serializable {
     private String name, pName;
     private boolean introduced;
+    Player player;
 
-    public NPC(String name, boolean introduced) {
+    public NPC(String name, boolean introduced, Player player) {
         this.name = name;
         this.introduced = introduced;
+        this.player = player;
     }
 
 
@@ -23,6 +27,7 @@ public class NPC implements Serializable {
         introductoryMessage(playerName);
         selectOption();
 
+        System.out.print("$> ");
         int playerChoice = scanner.nextInt();
         if (playerChoice == 1) {
             System.out.println("I have not any questions yet");
@@ -42,9 +47,11 @@ public class NPC implements Serializable {
         return introduced;
     }
 
+
     public void setIntro(boolean intro) {
         introduced = intro;
     }
+
 
     public String getName() {
         return name;
@@ -61,7 +68,7 @@ public class NPC implements Serializable {
 
 
     public void farewell() {
-        System.out.println("Farewell " + pName + "." + "\nMay see you again later.");
+        System.out.println("Farewell " + player.getName() + "." + "\nMay see you again later.");
     }
 
 
@@ -78,7 +85,8 @@ public class NPC implements Serializable {
     }
 
 
-    private void selectOption() {
+    void selectOption() {
         System.out.println("\t1. I have a question.\n\t2. I am leaving for now.\n");
     }
+
 }
