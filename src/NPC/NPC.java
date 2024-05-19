@@ -1,15 +1,19 @@
 package NPC;
 
+import Player.Player;
+
 import java.io.Serializable;
 import java.util.Scanner;
 
 public class NPC implements Serializable {
     private String name, pName;
     private boolean introduced;
+    Player player;
 
-    public NPC(String name, boolean introduced) {
+    public NPC(String name, boolean introduced, Player player) {
         this.name = name;
         this.introduced = introduced;
+        this.player = player;
     }
 
 
@@ -78,7 +82,8 @@ public class NPC implements Serializable {
     }
 
 
-    private void selectOption() {
+    void selectOption() {
         System.out.println("\t1. I have a question.\n\t2. I am leaving for now.\n");
     }
+
 }
