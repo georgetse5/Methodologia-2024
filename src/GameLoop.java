@@ -189,7 +189,7 @@ public class GameLoop implements Serializable {
                     System.out.println("The " + noun + " contains:");
 
                     for (Item item : items) {
-                        System.out.println("\t- " + ANSI_GOLD + item.getName() + ANSI_RESET + ": " + item.getDescription());
+                        System.out.println("\t- " + color.gold() + item.getName() + color.reset() + ": " + item.getDescription());
 
                         player.addItemToInventory(item);
                     }
@@ -434,7 +434,7 @@ public class GameLoop implements Serializable {
     private void helpCommand() {
         System.out.println("Available commands:");
         for (String commandHelp : helpCmdList) {
-            System.out.println(ANSI_CYAN + "<> " + ANSI_GOLD + commandHelp + ANSI_RESET);
+            System.out.println(color.cyan() + "<> " + color.gold() + commandHelp + color.reset());
         }
     }
 
