@@ -1,3 +1,4 @@
+import Colors.Colors;
 import Container.Container;
 import GuiMap.GuiMap;
 import NPC.MrAnderson;
@@ -33,12 +34,7 @@ public class GameLoop implements Serializable {
     private Room startingRoom;
     private GuiMap map = new GuiMap();
 
-    private String ANSI_RESET = "\u001B[0m";
-    private String ANSI_RED = "\u001B[31m";
-    private String ANSI_GREEN = "\u001B[32m";
-    private String ANSI_GOLD = "\u001B[33m";
-    private String ANSI_CYAN = "\u001B[36m";
-    private String ANSI_BLUE = "\u001B[34m";
+    Colors color = new Colors();
     private int gameTurn = 1;
 
     private GameData gameData;
@@ -157,9 +153,9 @@ public class GameLoop implements Serializable {
         // search for all available exits of player's current location (room)
             Map<String, Room> exits = player.getCurrentRoom().getExit();
             if (!exits.isEmpty()) {
-                System.out.println(ANSI_BLUE + "\nAvailable exits:" + ANSI_RESET);
+                System.out.println(color.blue() + "\nAvailable exits:" + color.reset());
                 for (String direction : exits.keySet()) {
-                    System.out.println("\t- " + ANSI_CYAN + direction + ANSI_RESET + ": " + ANSI_CYAN + exits.get(direction).getName() + ANSI_RESET);
+                    System.out.println("\t- " + color.cyan() + direction + color.cyan() + ": " + color + exits.get(direction).getName() + color.cyan());
                 }
             } else {
                 System.out.println("\nThere are no exits in this room.");
@@ -174,9 +170,9 @@ public class GameLoop implements Serializable {
         // search for all available playersCurrentRoomItems of player's current location (room)
         List<Item> playersCurrentRoomItems = player.getCurrentRoom().getItems();
         if (!playersCurrentRoomItems.isEmpty()) {
-            System.out.println(ANSI_BLUE + "\nAvailable items:" + ANSI_RESET);
+            System.out.println(color.blue() + "\nAvailable items:" + color.reset());
             for (Item item : playersCurrentRoomItems) {
-                System.out.println(ANSI_CYAN + "\t<> " + ANSI_GOLD + item.getName() + ANSI_RESET + ": " + ANSI_GOLD + item.getDescription() + ANSI_RESET);
+                System.out.println(color.cyan() + "\t<> " + color.gold() + item.getName() + color.reset() + ": " + color.gold() + item.getDescription() + color.reset());
             }
         } else {
             System.out.println("\nThere are no items in this room.");
@@ -191,9 +187,9 @@ public class GameLoop implements Serializable {
             // search for all available playersCurrentRoomItems of player's current location (room)
             List<Container> roomAvailableContainers = player.getCurrentRoom().getContainers();
             if (!roomAvailableContainers.isEmpty()) {
-                System.out.println(ANSI_BLUE + "\nAvailable Containers:" + ANSI_RESET);
+                System.out.println(color.blue() + "\nAvailable Containers:" + color.reset());
                 for (Container container : roomAvailableContainers) {
-                    System.out.println(ANSI_CYAN + "\t<> " + ANSI_GOLD + container.toString() + ANSI_RESET);
+                    System.out.println(color.cyan() + "\t<> " + color.gold() + container.toString() + color.reset());
                 }
             } else {
                 System.out.println("\nThere are no containers in this room.");
@@ -208,9 +204,9 @@ public class GameLoop implements Serializable {
         // search for all available NPCs in player's current location (room)
         List<NPC> availableNPC = player.getCurrentRoom().getNPCs();
         if (!availableNPC.isEmpty()) {
-            System.out.println(ANSI_BLUE + "\nI can see people in this room\nLet's get closer to talk to them:" + ANSI_RESET);
+            System.out.println(color.blue() + "\nI can see people in this room\nLet's get closer to talk to them:" + color.reset());
             for (NPC npc : availableNPC) {
-                System.out.println(ANSI_CYAN + "\t<> " + ANSI_GOLD + npc.getName() + ANSI_RESET);
+                System.out.println(color.cyan() + "\t<> " + color.gold() + npc.getName() + color.reset());
             }
         } else {
             System.out.println("\nThere is none in this room.");
@@ -237,7 +233,7 @@ public class GameLoop implements Serializable {
                         player.addItemToInventory(item);
                         iterator.remove();
                     } else {
-                        System.out.println("You can't pick up " + ANSI_GOLD + noun + ANSI_RESET);
+                        System.out.println("You can't pick up " + color.gold() + noun + color.reset());
                     }
                 }
             }
@@ -307,7 +303,7 @@ public class GameLoop implements Serializable {
             System.out.println("Command GO must have a noun.\nFor example GO EAST");
         }
         else if (directions.contains(noun)) {
-            System.out.println("Going " + ANSI_GREEN + noun + ANSI_RESET);
+            System.out.println("Going " + color.green() + noun + color.reset());
 
             // Checks if the exit exists for the given direction
             Map<String, Room> exits = player.getCurrentRoom().getExit();
@@ -315,8 +311,8 @@ public class GameLoop implements Serializable {
                 // If the exit exists, moving to the next room
                 player.setCurrentRoom(exits.get(noun));
                 gameTurn = gameTurn + 1;
-                System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
-                System.out.println("You entered the " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
+                System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+                System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName() + color.reset());
 
                 displayNPC();
 
@@ -366,16 +362,16 @@ public class GameLoop implements Serializable {
 
     private void helpCommand() {
         System.out.println("Available commands:");
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " go [north, south, west, east, upstairs, downstairs,...]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " inspect room" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " take [item]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " drop [item]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " look [inv, exits, map]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " open [container]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " speak [NPCs name]" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " save" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " quit" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "<>" + ANSI_GOLD + " help" + ANSI_RESET);
+        System.out.println(color.cyan() + "<>" + color.gold() + " go [north, south, west, east, upstairs, downstairs,...]" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " inspect room" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " take [item]" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " drop [item]" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " look [inv, exits, map]" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " open [container]" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " speak [NPCs name]" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " save" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " quit" + color.gold());
+        System.out.println(color.cyan() + "<>" + color.gold() + " help" + color.gold());
     }
 
 
@@ -546,6 +542,7 @@ public class GameLoop implements Serializable {
 
         // Item initialization
           //Starting room Items
+        Item letter = new Item("Letter", "A letter to my beloved Mr Smith", true);
         Item Mystery_box = new Item("Mystery Box","Mystery Box",false);
         Item Wardrobe = new Item("Wardrobe", "Wardrobe",false);
         Item key = new Item ("Rusty Key", "It's just a key",true);
@@ -583,6 +580,7 @@ public class GameLoop implements Serializable {
         Vase.addItem(Porcelain_Vase);
 
         // Adding items to the rooms
+        startingRoom.addItem(letter);
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);
         startingRoom.addItem(Wardrobe);
@@ -655,15 +653,15 @@ public class GameLoop implements Serializable {
         startingRoom = rooms.get(0);
         player.setCurrentRoom(startingRoom);
 
-        System.out.println("\nWelcome " + player.getName() + "! Type" + ANSI_CYAN + " 'help' " + ANSI_RESET + "for available commands.");
+        System.out.println("\nWelcome " + player.getName() + "! Type" + color.cyan() + " 'help' " + color.reset() + "for available commands.");
 
-        System.out.println("You are in turn: " + ANSI_CYAN + gameTurn + ANSI_RESET);
-        System.out.println("You are now to " + ANSI_RED + player.getCurrentRoom().getName() + ANSI_RESET);
+        System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+        System.out.println("You are now to " + color.red() + player.getCurrentRoom().getName() + color.reset());
         System.out.println(player.getCurrentRoom().getDescription());
 
         System.out.println("Items found: ");
         for (Object item : player.getCurrentRoom().getItems()) {
-            System.out.println(ANSI_GOLD + "\t\t" + "<> " + item.toString() + ANSI_RESET);
+            System.out.println(color.gold() + "\t\t" + "<> " + item.toString() + color.reset());
         }
         System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
 

@@ -1,5 +1,6 @@
 package NPC;
 
+import Colors.Colors;
 import Player.Player;
 import Quests.ExamineQuestSmith;
 
@@ -8,10 +9,11 @@ import java.util.Scanner;
 public class MrAnderson extends NPC {
 
     private ExamineQuestSmith examineQuestSmith;
+    Colors color = new Colors();
 
     public MrAnderson(String name, boolean intro, Player player) {
         super(name, intro, player);
-        this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Dusty Letter");
+        this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Letter");
     }
 
     @Override
@@ -25,6 +27,7 @@ public class MrAnderson extends NPC {
         while (keepLoop) {
         selectOption();
 
+        System.out.print(color.gold() + "$> " + color.reset());
         int playerChoice = scanner.nextInt();
         switch (playerChoice) {
             case 1:
@@ -76,10 +79,10 @@ public class MrAnderson extends NPC {
     }
 
     public void startQuest() {
-        System.out.println("MrAnderson: Yes there are rumors about MrSmith's secret life\n" +
-                           "A secret affair I heard, but I do not know if it's true" +
-                           "If you can investigate about it maybe you can find useful info");
-        System.out.println(player.getName() + ": Alright. I will investigate it");
+        System.out.println(color.gold() + "MrAnderson: " + color.reset() + "Yes there are rumors about MrSmith's secret life\n" +
+                           "A secret affair I heard, but I do not know if it's true\n" +
+                           "If you can investigate about it maybe you can find useful info\n");
+        System.out.println(color.gold() + player.getName() + ": " + color.reset() + "Alright. I will investigate it\n");
         examineQuestSmith.setQuestAccepted();
         examineQuestSmith.startQuest();
     }

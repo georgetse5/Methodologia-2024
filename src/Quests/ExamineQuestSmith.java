@@ -1,5 +1,6 @@
 package Quests;
 
+import Colors.Colors;
 import Item.Item;
 import Player.Player;
 
@@ -10,6 +11,8 @@ public class ExamineQuestSmith extends Quest {
     String requiredItem;
     private boolean itemFound;
 
+    Colors color = new Colors();
+
     public ExamineQuestSmith(String name, String description, String requiredItem) {
         super(name, description);
         this.requiredItem = requiredItem;
@@ -19,18 +22,22 @@ public class ExamineQuestSmith extends Quest {
 
     @Override
     public void startQuest() {
-        System.out.println("Quest Accepted: Examine Mr Smith's past");
-        System.out.println("Find information and search the rumors about Mr Smiths hidden past");
-        System.out.println("Mr Anderson: You may start from Mr Smith's office and the library");
+        System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "Examine Mr Smith's past" + color.reset());
+        System.out.println("Find information and search the rumors about Mr Smiths hidden past\n");
+        System.out.println(color.gold() + "Mr Anderson: " + color.reset() + "You may start from Mr Smith's office and the library\n");
     }
 
     public void checkItems(Player player) {
+        System.out.println(requiredItem);
         ArrayList<Item> inventory = player.getInventory();
-        if (inventory.contains(requiredItem)) {
-            itemFound = true;
-            System.out.println("Required item found: " + requiredItem);
-        } else {
-            System.out.println("You have not find the correct information");
+        for (Item item : inventory) {
+            if (item.getName().equalsIgnoreCase(requiredItem)) {
+                itemFound = true;
+                this.complete();
+                System.out.println("Required item found: " + requiredItem);
+            } else {
+                System.out.println("You have not find the correct information");
+            }
         }
     }
 

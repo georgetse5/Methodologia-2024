@@ -27,6 +27,7 @@ public class NPC implements Serializable {
         introductoryMessage(playerName);
         selectOption();
 
+        System.out.print("$> ");
         int playerChoice = scanner.nextInt();
         if (playerChoice == 1) {
             System.out.println("I have not any questions yet");
@@ -46,9 +47,11 @@ public class NPC implements Serializable {
         return introduced;
     }
 
+
     public void setIntro(boolean intro) {
         introduced = intro;
     }
+
 
     public String getName() {
         return name;
@@ -65,7 +68,7 @@ public class NPC implements Serializable {
 
 
     public void farewell() {
-        System.out.println("Farewell " + pName + "." + "\nMay see you again later.");
+        System.out.println("Farewell " + player.getName() + "." + "\nMay see you again later.");
     }
 
 
