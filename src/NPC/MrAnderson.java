@@ -2,18 +2,20 @@ package NPC;
 
 import Colors.Colors;
 import Player.Player;
-import Quests.ExamineQuestSmith;
+import Quests.*;
 
 import java.util.Scanner;
 
 public class MrAnderson extends NPC {
 
     private ExamineQuestSmith examineQuestSmith;
+    private ExamineQuestSmith_2 examineQuestSmith_2;
     Colors color = new Colors();
 
     public MrAnderson(String name, boolean intro, Player player) {
         super(name, intro, player);
-        this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Letter");
+        this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Suspicious Note");
+        this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter");
     }
 
     @Override
@@ -31,13 +33,23 @@ public class MrAnderson extends NPC {
         int playerChoice = scanner.nextInt();
         switch (playerChoice) {
             case 1:
-                System.out.println("What can you tell me about the Smith Family?");
+                familySmithInfo();
                 break;
             case 2:
-                if (examineQuestSmith.isQuestAccepted()) {
-                    checkQuestProgress();
-                } else {
-                    startQuest();
+                if (!examineQuestSmith.isCompleted()) {
+                    if (examineQuestSmith.isQuestAccepted()) {
+                        checkQuestProgress();
+                    } else {
+                        startQuest();
+                    }
+                } else if (!examineQuestSmith_2.isCompleted()) {
+                    if (examineQuestSmith_2.isQuestAccepted()) {
+                        checkSecondQuestProgress();
+                    } else {
+                        startSecondQuest();
+                    }
+                } else if (examineQuestSmith.isCompleted() && examineQuestSmith_2.isCompleted()) {
+                    System.out.println();
                 }
                 break;
             case 3:
@@ -53,9 +65,15 @@ public class MrAnderson extends NPC {
 
     @Override
     void selectOption() {
-        System.out.println("\t1. What can you tell me about the Smith Family ?\n" +
-                           "\t2. There is something I need to know about Mr Smith ?\n" +
-                           "\t3. Farewell");
+        System.out.println("\t1. What can you tell me about the Smith Family ?");
+        if (!examineQuestSmith.isCompleted()) {
+            System.out.println("\t2. There is something I need to know about Mr Smith ?");
+        } else if (!examineQuestSmith_2.isCompleted()){
+            System.out.println("\t2. Find the unknown sender of the mysterious note");
+        } else {
+            System.out.println("\t2. ...");
+        }
+        System.out.println("\t3. Farewell");
     }
 
 
@@ -87,16 +105,42 @@ public class MrAnderson extends NPC {
         examineQuestSmith.startQuest();
     }
 
+
     public void checkQuestProgress() {
         if (examineQuestSmith != null) {
             examineQuestSmith.checkItems(player);
             if (examineQuestSmith.isItemFound()) {
                 examineQuestSmith.completeQuest(player);
             } else {
-                System.out.println("You need to find the required item to complete the quest.");
+                System.out.println(color.red() + "You need to find the required item to complete the quest." + color.reset());
             }
         } else {
             System.out.println("There are no active quests.");
         }
+    }
+
+
+    public void startSecondQuest() {
+        examineQuestSmith_2.setQuestAccepted();
+        examineQuestSmith_2.startQuest();
+    }
+
+
+    public void checkSecondQuestProgress() {
+        if (examineQuestSmith_2 != null) {
+            examineQuestSmith_2.checkItems(player);
+            if (examineQuestSmith_2.isItemFound()) {
+                examineQuestSmith_2.completeQuest(player);
+            } else {
+                System.out.println(color.gold() + "You need to find the required item to complete the quest." + color.reset());
+            }
+        } else {
+            System.out.println("There are no active quests.");
+        }
+    }
+
+
+    private void familySmithInfo() {
+        System.out.println(color.blue() + "Anderson: " + color.gold() + "Here we write something about Family Smith" + color.reset());
     }
 }
