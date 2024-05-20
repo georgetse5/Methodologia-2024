@@ -658,6 +658,7 @@ public class GameLoop implements Serializable {
         drawer.addItem(letter);
 
         // Adding items to the rooms
+        startingRoom.addItem(letter);
         startingRoom.addItem(suspicious_note);
         startingRoom.addItem(key);
         startingRoom.addItem(broken_watch);

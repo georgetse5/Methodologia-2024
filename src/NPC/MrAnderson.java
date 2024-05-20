@@ -42,12 +42,14 @@ public class MrAnderson extends NPC {
                     } else {
                         startQuest();
                     }
-                } else {
+                } else if (!examineQuestSmith_2.isCompleted()) {
                     if (examineQuestSmith_2.isQuestAccepted()) {
                         checkSecondQuestProgress();
                     } else {
                         startSecondQuest();
                     }
+                } else if (examineQuestSmith.isCompleted() && examineQuestSmith_2.isCompleted()) {
+                    System.out.println();
                 }
                 break;
             case 3:
@@ -63,9 +65,15 @@ public class MrAnderson extends NPC {
 
     @Override
     void selectOption() {
-        System.out.println("\t1. What can you tell me about the Smith Family ?\n" +
-                           "\t2. There is something I need to know about Mr Smith ?\n" +
-                           "\t3. Farewell");
+        System.out.println("\t1. What can you tell me about the Smith Family ?");
+        if (!examineQuestSmith.isCompleted()) {
+            System.out.println("\t2. There is something I need to know about Mr Smith ?");
+        } else if (!examineQuestSmith_2.isCompleted()){
+            System.out.println("\t2. Find the unknown sender of the mysterious note");
+        } else {
+            System.out.println("\t2. ...");
+        }
+        System.out.println("\t3. Farewell");
     }
 
 
