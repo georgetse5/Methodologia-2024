@@ -20,7 +20,10 @@ public class Item implements Serializable {
     public String getDescription() {
         return description;
     }
-    public boolean isPickable(){return pickable; }
+
+    public boolean isPickable() {
+        return pickable;
+    }
 
     @Override
     public String toString() {

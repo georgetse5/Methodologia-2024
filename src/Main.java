@@ -19,7 +19,6 @@ public class Main {
     }
 }
 
-// TODO: 14/5/2024:
-//  1) Add more items and containers,
-//  2) Player can OPEN containers and retrieve items from them
-//  3) Player can enable the room OBJECTIVES and TASKS like mini quests
+// TODO: 20/5/2024:
+//  1) Add more items and containers
+//  2) Make more quests which the player can make a progress and eventually he wins or loses the game.
