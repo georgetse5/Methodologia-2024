@@ -33,7 +33,7 @@ public class MrAnderson extends NPC {
         int playerChoice = scanner.nextInt();
         switch (playerChoice) {
             case 1:
-                System.out.println("What can you tell me about the Smith Family?");
+                familySmithInfo();
                 break;
             case 2:
                 if (!examineQuestSmith.isCompleted()) {
@@ -112,7 +112,7 @@ public class MrAnderson extends NPC {
             if (examineQuestSmith.isItemFound()) {
                 examineQuestSmith.completeQuest(player);
             } else {
-                System.out.println("You need to find the required item to complete the quest.");
+                System.out.println(color.red() + "You need to find the required item to complete the quest." + color.reset());
             }
         } else {
             System.out.println("There are no active quests.");
@@ -132,10 +132,15 @@ public class MrAnderson extends NPC {
             if (examineQuestSmith_2.isItemFound()) {
                 examineQuestSmith_2.completeQuest(player);
             } else {
-                System.out.println("You need to find the required item to complete the quest.");
+                System.out.println(color.gold() + "You need to find the required item to complete the quest." + color.reset());
             }
         } else {
             System.out.println("There are no active quests.");
         }
+    }
+
+
+    private void familySmithInfo() {
+        System.out.println(color.blue() + "Anderson: " + color.gold() + "Here we write something about Family Smith" + color.reset());
     }
 }

@@ -22,7 +22,7 @@ public class ExamineQuestSmith_2 extends Quest {
     @Override
     public void startQuest() {
         System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "The suspicious Note" + color.reset());
-        System.out.println("Find more information about the sender of that Note\n");
+        System.out.println(color.gold() + "Find more information about the sender of that Note\n" + color.reset());
     }
 
     public void checkItems(Player player) {
@@ -32,19 +32,19 @@ public class ExamineQuestSmith_2 extends Quest {
             if (item.getName().equalsIgnoreCase(requiredItem)) {
                 itemFound = true;
                 this.complete();
-                System.out.println("Required item found: " + requiredItem);
+//                System.out.println("Required item found: " + requiredItem);
             } else {
-                System.out.println("You have not find the correct information");
+                System.out.println(color.gold() + "You have not find the correct information\n" + color.reset());
             }
         }
     }
 
     public void completeQuest(Player player) {
         if (itemFound) {
-            System.out.println("Quest Completed: The suspicious Note");
+            System.out.println(color.blue() + "Quest Completed: " + color.gold() + "The suspicious Note" + color.reset());
             super.complete();
         } else {
-            System.out.println("You haven't found the required information yet. Keep looking!");
+            System.out.println(color.gold() + "You haven't found the required information yet. Keep looking!\n" + color.reset());
         }
     }
 
