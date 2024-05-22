@@ -10,6 +10,7 @@ public class Player implements Serializable {
     private String name;
     private ArrayList<Item> inventory;
     private Room currentRoom;
+    private int progressPoints;
 
     private String ANSI_RESET = "\u001B[0m";
     private String ANSI_RED = "\u001B[31m";
@@ -21,11 +22,13 @@ public class Player implements Serializable {
     public Player() {
         this.name = "Player";
         this.inventory = new ArrayList<>();
+        this.progressPoints = 0;
     }
 
     public Player(String name) {
         this.name = name;
         this.inventory = new ArrayList<>();
+        this.progressPoints = 0;
     }
 
     public void setName(String name) {
@@ -46,6 +49,14 @@ public class Player implements Serializable {
 
     public Room getCurrentRoom() {
         return currentRoom;
+    }
+
+    public void addProgressPoints(int points) {
+        this.progressPoints = progressPoints + points;
+    }
+
+    public int getProgressPoints() {
+        return progressPoints;
     }
 
     public void addItemToInventory(Item item) {

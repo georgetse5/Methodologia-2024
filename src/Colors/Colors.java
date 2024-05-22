@@ -13,7 +13,7 @@ public class Colors implements Serializable {
 
     public Colors() {
         this.ANSI_RESET = "\u001B[0m";
-        this.ANSI_RED = "\u001B[0m";
+        this.ANSI_RED = "\u001B[31m";
         this.ANSI_GREEN = "\u001B[32m";
         this.ANSI_GOLD = "\u001B[33m";
         this.ANSI_CYAN = "\u001B[36m";

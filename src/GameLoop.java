@@ -50,6 +50,7 @@ public class GameLoop implements Serializable {
     Colors color = new Colors();
 
     private int gameTurn = 1;
+    private boolean won = false;
 
     private GameData gameData;
     private final String saveFile = "game.sav";
@@ -77,7 +78,11 @@ public class GameLoop implements Serializable {
 
 
     private void mainLoop() {
-            while (true) {
+            while (!checksEndgameProgress()) {
+                if (player.getProgressPoints() == 100) {
+                    break;
+                }
+
                 System.out.print(">> ");
                 String command = scanner.nextLine();
                 processesedCmd = processCommand(command);
@@ -261,7 +266,11 @@ public class GameLoop implements Serializable {
             if (!roomAvailableContainers.isEmpty()) {
                 System.out.println(color.blue() + "\nAvailable Containers:" + color.reset());
                 for (Container container : roomAvailableContainers) {
-                    System.out.println(color.cyan() + "\t<> " + color.gold() + container.toString() + color.reset());
+                    if (!container.requiresKey()) {
+                        System.out.println(color.cyan() + "\t<> " + color.green() + container.toString() + color.reset());
+                    } else {
+                        System.out.println(color.cyan() + "\t<> " + color.red() + container.toString() + color.reset());
+                    }
                 }
             } else {
                 System.out.println("\nThere are no containers in this room.");
@@ -375,15 +384,16 @@ public class GameLoop implements Serializable {
             System.out.println("Command GO must have a noun.\nFor example GO EAST");
         }
         else if (directions.contains(noun)) {
-            System.out.println("Going " + color.green() + noun + color.reset());
 
             // Checks if the exit exists for the given direction
             Map<String, Room> exits = player.getCurrentRoom().getExit();
             if (exits.containsKey(noun)) {
+                System.out.println("Going " + color.green() + noun + color.reset());
                 // If the exit exists, moving to the next room
                 player.setCurrentRoom(exits.get(noun));
                 gameTurn = gameTurn + 1;
                 System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+                System.out.println("Game progress: " + player.getProgressPoints() + "/100");
                 System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName() + color.reset());
 
                 displayNPC();
@@ -516,6 +526,20 @@ public class GameLoop implements Serializable {
         GameData gameData = new GameData(roomsToSave, playerData, turns);
 
         return gameData;
+    }
+
+
+// =========================  Checks Player's Progress Method  ========================= //
+
+
+    private boolean checksEndgameProgress() {
+        int playersProgress = player.getProgressPoints();
+        if (playersProgress == 100) {
+            System.out.println("Congratulations " + player.getName() + " you have won");
+            won = true;
+        }
+
+        return won;
     }
 
 
@@ -721,7 +745,11 @@ public class GameLoop implements Serializable {
     private void promptPlayerName() {
         System.out.print("\nPlease enter the player's name: ");
         String playerName = scanner.nextLine();
-        player.setName(playerName);
+        if (playerName.equals("")) {
+            player.setName("Player");
+        } else {
+            player.setName(playerName);
+        }
     }
 
 
@@ -734,18 +762,15 @@ public class GameLoop implements Serializable {
         startingRoom = rooms.get(0);
         player.setCurrentRoom(startingRoom);
 
-        System.out.println("\nWelcome " + player.getName() + "! Type" + color.cyan() + " 'help' " + color.reset() + "for available commands.");
+        System.out.println("\nWelcome " + color.green() + player.getName() + color.reset() + "! Type" + color.cyan() + " 'help' " + color.reset() + "for available commands.");
 
         System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+        System.out.println("Game progress: " + color.cyan() + player.getProgressPoints() + "/100" + color.reset());
         System.out.println("You are now to " + color.red() + player.getCurrentRoom().getName() + color.reset());
         System.out.println(player.getCurrentRoom().getDescription());
 
-        System.out.println("Items found: ");
-        for (Object item : player.getCurrentRoom().getItems()) {
-            System.out.println(color.gold() + "\t\t" + "<> " + item.toString() + color.reset());
-        }
-        System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
-
+        lookForRoomItems();
+        lookForRoomContainers();
         displayNPC();
 
         Room currentRoom = player.getCurrentRoom();
