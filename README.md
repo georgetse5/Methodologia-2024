@@ -326,6 +326,7 @@ startingRoom.addContainer(testingContainer);
       can also give the ability for easy code maintainability and to read.
       
     - <h4>Available NPCs Classes</h4>
+      
       - NPC
         - talk()
         - getIntro()
@@ -352,6 +353,7 @@ startingRoom.addContainer(testingContainer);
 - <h3> Quests Package </h3>
 
 - <h4>Available Quest Classes</h4>
+  
   - Quest
   - ExamineQuestSmith
   - ExamineQuestSmith_2
