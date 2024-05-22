@@ -32,6 +32,7 @@ public class ExamineQuestSmith_2 extends Quest {
             if (item.getName().equalsIgnoreCase(requiredItem)) {
                 itemFound = true;
                 this.complete();
+                player.addProgressPoints(20);
 //                System.out.println("Required item found: " + requiredItem);
             } else {
                 System.out.println(color.gold() + "You have not find the correct information\n" + color.reset());

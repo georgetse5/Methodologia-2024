@@ -375,15 +375,16 @@ public class GameLoop implements Serializable {
             System.out.println("Command GO must have a noun.\nFor example GO EAST");
         }
         else if (directions.contains(noun)) {
-            System.out.println("Going " + color.green() + noun + color.reset());
 
             // Checks if the exit exists for the given direction
             Map<String, Room> exits = player.getCurrentRoom().getExit();
             if (exits.containsKey(noun)) {
+                System.out.println("Going " + color.green() + noun + color.reset());
                 // If the exit exists, moving to the next room
                 player.setCurrentRoom(exits.get(noun));
                 gameTurn = gameTurn + 1;
                 System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+                System.out.println("Game progress: " + player.getProgressPoints() + "/100");
                 System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName() + color.reset());
 
                 displayNPC();
@@ -737,6 +738,7 @@ public class GameLoop implements Serializable {
         System.out.println("\nWelcome " + player.getName() + "! Type" + color.cyan() + " 'help' " + color.reset() + "for available commands.");
 
         System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+        System.out.println("Game progress: " + player.getProgressPoints() + "/100");
         System.out.println("You are now to " + color.red() + player.getCurrentRoom().getName() + color.reset());
         System.out.println(player.getCurrentRoom().getDescription());
 

@@ -46,6 +46,7 @@ public class ExamineQuestSmith extends Quest {
         if (itemFound) {
             System.out.println(color.blue() + "Quest Completed: " + color.gold() + "Examine Mr Smith's past" + color.reset());
             super.complete();
+            player.addProgressPoints(20);
         } else {
             System.out.println(color.red() + "You haven't found the required information yet. Keep looking!" + color.reset());
         }
