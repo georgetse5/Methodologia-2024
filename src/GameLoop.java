@@ -50,6 +50,7 @@ public class GameLoop implements Serializable {
     Colors color = new Colors();
 
     private int gameTurn = 1;
+    private boolean won = false;
 
     private GameData gameData;
     private final String saveFile = "game.sav";
@@ -77,7 +78,11 @@ public class GameLoop implements Serializable {
 
 
     private void mainLoop() {
-            while (true) {
+            while (!checksEndgameProgress()) {
+                if (player.getProgressPoints() == 100) {
+                    break;
+                }
+
                 System.out.print(">> ");
                 String command = scanner.nextLine();
                 processesedCmd = processCommand(command);
@@ -521,6 +526,20 @@ public class GameLoop implements Serializable {
         GameData gameData = new GameData(roomsToSave, playerData, turns);
 
         return gameData;
+    }
+
+
+// =========================  Checks Player's Progress Method  ========================= //
+
+
+    private boolean checksEndgameProgress() {
+        int playersProgress = player.getProgressPoints();
+        if (playersProgress == 100) {
+            System.out.println("Congratulations " + player.getName() + " you have won");
+            won = true;
+        }
+
+        return won;
     }
 
 
