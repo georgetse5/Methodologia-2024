@@ -743,10 +743,10 @@ public class GameLoop implements Serializable {
         startingRoom = rooms.get(0);
         player.setCurrentRoom(startingRoom);
 
-        System.out.println("\nWelcome " + player.getName() + "! Type" + color.cyan() + " 'help' " + color.reset() + "for available commands.");
+        System.out.println("\nWelcome " + color.green() + player.getName() + color.reset() + "! Type" + color.cyan() + " 'help' " + color.reset() + "for available commands.");
 
         System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
-        System.out.println("Game progress: " + player.getProgressPoints() + "/100");
+        System.out.println("Game progress: " + color.cyan() + player.getProgressPoints() + "/100" + color.reset());
         System.out.println("You are now to " + color.red() + player.getCurrentRoom().getName() + color.reset());
         System.out.println(player.getCurrentRoom().getDescription());
 
