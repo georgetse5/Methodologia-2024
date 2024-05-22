@@ -261,7 +261,11 @@ public class GameLoop implements Serializable {
             if (!roomAvailableContainers.isEmpty()) {
                 System.out.println(color.blue() + "\nAvailable Containers:" + color.reset());
                 for (Container container : roomAvailableContainers) {
-                    System.out.println(color.cyan() + "\t<> " + color.gold() + container.toString() + color.reset());
+                    if (!container.requiresKey()) {
+                        System.out.println(color.cyan() + "\t<> " + color.green() + container.toString() + color.reset());
+                    } else {
+                        System.out.println(color.cyan() + "\t<> " + color.red() + container.toString() + color.reset());
+                    }
                 }
             } else {
                 System.out.println("\nThere are no containers in this room.");
