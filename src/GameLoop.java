@@ -722,7 +722,11 @@ public class GameLoop implements Serializable {
     private void promptPlayerName() {
         System.out.print("\nPlease enter the player's name: ");
         String playerName = scanner.nextLine();
-        player.setName(playerName);
+        if (playerName.equals("")) {
+            player.setName("Player");
+        } else {
+            player.setName(playerName);
+        }
     }
 
 
@@ -742,12 +746,8 @@ public class GameLoop implements Serializable {
         System.out.println("You are now to " + color.red() + player.getCurrentRoom().getName() + color.reset());
         System.out.println(player.getCurrentRoom().getDescription());
 
-        System.out.println("Items found: ");
-        for (Object item : player.getCurrentRoom().getItems()) {
-            System.out.println(color.gold() + "\t\t" + "<> " + item.toString() + color.reset());
-        }
-        System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
-
+        lookForRoomItems();
+        lookForRoomContainers();
         displayNPC();
 
         Room currentRoom = player.getCurrentRoom();
