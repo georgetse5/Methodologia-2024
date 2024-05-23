@@ -625,6 +625,8 @@ public class GameLoop implements Serializable {
         startingRoom.addContainer(mystery_box);
         Container vase = new Container("Vase",false, "");
         Living_Room.addContainer(vase);
+        Container Jewelry_box = new Container("Jewelry box",true,"");
+        bedroom_1.addContainer(Jewelry_box);
 
 
         // NPC Initialization
@@ -672,6 +674,19 @@ public class GameLoop implements Serializable {
         Item Shelves = new Item("Shelves with wines","Aged wines on shelves.",false);
         Item Tirbuson = new Item("Tirbuson","A tirbuson on a table with two glasses of wine.",true);
         Item Glasses_of_wine = new Item("Glasses of Wine","Two glasses of wine, one of which with a mark from red lipstick.",false);
+         //Library items
+        Item Bookcase = new Item("Bookcase","A big old bookcase with many books",false);
+         //Office items
+        Item Desc = new Item("Wooden Desc","A big wooden deck",false);
+        Item Employee_List = new Item("Employee List","A list with names of staff",true);
+        Item Telephone_list = new Item("Telephone List","A notebook with tell numbers",true);
+         //Bedroom1 Items
+        Item Bed = new Item("Bed","A double bed ",false);
+        Item jewlery = new Item("jelery","Mrs. Smith's jewelry",true);
+
+
+
+
 
 
         // Adding items to containers
@@ -680,6 +695,7 @@ public class GameLoop implements Serializable {
         chest2.addItem(goldCoin);
         vase.addItem(Porcelain_Vase);
         drawer.addItem(letter);
+        Jewelry_box.addItem(jewlery);
 
         // Adding items to the rooms
         startingRoom.addItem(letter);
@@ -713,7 +729,15 @@ public class GameLoop implements Serializable {
 
         wineCellar.addItem(Shelves);
         wineCellar.addItem(Tirbuson);
-        wineCellar.addItem(Glasses_of_wine);;
+        wineCellar.addItem(Glasses_of_wine);
+
+        library.addItem(Bookcase);
+
+        office.addItem(Desc);
+        office.addItem(Employee_List);
+        office.addItem(Telephone_list);
+
+        bedroom_1.addItem(Bed);
 
         List<Room> rooms = new ArrayList<>();
 
