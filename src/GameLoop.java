@@ -2,6 +2,7 @@ import Colors.Colors;
 import Container.Container;
 import GuiMap.GuiMap;
 import NPC.MrAnderson;
+import NPC.MrLouis;
 import NPC.NPC;
 import NPC.SomeRandomGuy;
 import Player.Player;
@@ -632,9 +633,11 @@ public class GameLoop implements Serializable {
         // NPC Initialization
         MrAnderson anderson = new MrAnderson("Anderson", false, player);
         SomeRandomGuy randomGuy = new SomeRandomGuy("RandomGuy", false, player);
+        MrLouis louis = new MrLouis("Louis",false, player);
 
         startingRoom.addNPC(anderson);
         startingRoom.addNPC(randomGuy);
+        kitchen.addNPC(louis);
 
 
         // Item initialization
