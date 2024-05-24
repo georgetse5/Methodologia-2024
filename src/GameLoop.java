@@ -42,9 +42,12 @@ public class GameLoop implements Serializable {
         add("help");
     }};
 
+    private boolean debug = false;
+    private boolean allowDebug = false;
+
+
     private List<Room> rooms;
     private Player player = new Player();
-    private Room startingRoom;
 
     private final GuiMap map = new GuiMap();
     Colors color = new Colors();
@@ -101,6 +104,18 @@ public class GameLoop implements Serializable {
                     case "help":
                         helpCommand();
                         break;
+    // Add Progress Command
+                    case "add.progress":
+                        progressAddCommand(noun);
+                        break;
+    // Add Item Command
+                    case "add.item":
+                        addItemCommand(noun);
+                        break;
+    // Debug on/off Command
+                    case "debug":
+                        toggleDebugCommand(noun);
+                        break;
     // Save Command
                     case "save":
                         saveGame(saveFile);
@@ -154,6 +169,56 @@ public class GameLoop implements Serializable {
                 System.out.println("===========================================\n");
             }
             scanner.close();
+    }
+
+
+    // ==============================  Progress Add Command  ============================== //
+
+
+    private void progressAddCommand(String noun) {
+        int temp = Integer.parseInt(noun);
+        if (debug) {
+            player.addProgressPoints(temp);
+            System.out.println("Your new progress is " + player.getProgressPoints() + "/100");
+        }
+    }
+
+
+    // ==============================  Add Item Command  ============================== //
+
+
+    private void addItemCommand(String noun) {
+        Item item = new Item(noun, "This item is added with the debugging command", true);
+
+        if (debug) {
+            player.addItemToInventory(item);
+            System.out.println(noun + " is added to your inventory");
+        }
+    }
+
+
+    // ==============================  Toggle Debug Command  ============================== //
+
+
+    private void toggleDebugCommand(String noun) {
+        if (noun == null) {
+            if (debug) {
+                System.out.println("Debug mode is ON");
+            } else {
+                System.out.println("Debug mode is OFF");
+            }
+            System.out.println("debug on/off\tFor example debug on");
+        } else if (allowDebug) {
+            if (noun.equals("on")) {
+                debug = true;
+                System.out.println("Debug mode is now ON");
+            } else if (noun.equals("off")) {
+                debug = false;
+                System.out.println("Debug mode is now OFF");
+            }
+        } else {
+            System.out.println("You can not use this command");
+        }
     }
 
 
@@ -446,6 +511,11 @@ public class GameLoop implements Serializable {
         System.out.println("Available commands:");
         for (String commandHelp : helpCmdList) {
             System.out.println(color.cyan() + "<> " + color.gold() + commandHelp + color.reset());
+        }
+        if (debug) {
+            System.out.println();
+            System.out.println(color.cyan() + "<> " + color.gold() + "add.progress <amount>\tFor example: add.progress 30"+ color.reset());
+            System.out.println(color.cyan() + "<> " + color.gold() + "add.item <name>\t\t\tFor example: add.item Rusty Key"+ color.reset());
         }
     }
 
@@ -781,6 +851,7 @@ public class GameLoop implements Serializable {
 
 // Opening scene is the first scene when the player is new or it does not have a previous save
     private void openingScene () {
+        Room startingRoom;
         promptPlayerName();
 
         startingRoom = rooms.get(0);
