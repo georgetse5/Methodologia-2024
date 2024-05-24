@@ -43,12 +43,11 @@ public class GameLoop implements Serializable {
     }};
 
     private boolean debug = false;
-    private boolean toggleDebug = false;
+    private boolean allowDebug = false;
 
 
     private List<Room> rooms;
     private Player player = new Player();
-    private Room startingRoom;
 
     private final GuiMap map = new GuiMap();
     Colors color = new Colors();
@@ -209,7 +208,7 @@ public class GameLoop implements Serializable {
                 System.out.println("Debug mode is OFF");
             }
             System.out.println("debug on/off\tFor example debug on");
-        } else if (toggleDebug) {
+        } else if (allowDebug) {
             if (noun.equals("on")) {
                 debug = true;
                 System.out.println("Debug mode is now ON");
@@ -852,6 +851,7 @@ public class GameLoop implements Serializable {
 
 // Opening scene is the first scene when the player is new or it does not have a previous save
     private void openingScene () {
+        Room startingRoom;
         promptPlayerName();
 
         startingRoom = rooms.get(0);
