@@ -43,6 +43,7 @@ public class GameLoop implements Serializable {
     }};
 
     private boolean debug = false;
+    private boolean toggleDebug = false;
 
 
     private List<Room> rooms;
@@ -208,12 +209,16 @@ public class GameLoop implements Serializable {
                 System.out.println("Debug mode is OFF");
             }
             System.out.println("debug on/off\tFor example debug on");
-        } else if (noun.equals("on")) {
-            debug = true;
-            System.out.println("Debug mode is now ON");
-        } else if (noun.equals("off")) {
-            debug = false;
-            System.out.println("Debug mode is now OFF");
+        } else if (toggleDebug) {
+            if (noun.equals("on")) {
+                debug = true;
+                System.out.println("Debug mode is now ON");
+            } else if (noun.equals("off")) {
+                debug = false;
+                System.out.println("Debug mode is now OFF");
+            }
+        } else {
+            System.out.println("You can not use this command");
         }
     }
 
