@@ -457,7 +457,8 @@ public class GameLoop implements Serializable {
                 // If the exit exists, moving to the next room
                 player.setCurrentRoom(exits.get(noun));
                 gameTurn = gameTurn + 1;
-                System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+                player.setPlayerTurn(gameTurn);
+                System.out.println("You are in turn: " + color.cyan() + player.getPlayerTurn() + color.reset());
                 System.out.println("Game progress: " + player.getProgressPoints() + "/100");
                 System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName() + color.reset());
 

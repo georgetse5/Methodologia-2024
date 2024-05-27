@@ -38,6 +38,10 @@ public abstract class Quest implements Serializable {
         questAccepted = true;
     }
 
+    public void loseQuest() {
+        questAccepted = false;
+    }
+
     public boolean isQuestAccepted() {
         return questAccepted;
     }
