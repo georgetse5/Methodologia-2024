@@ -1,6 +1,5 @@
 import Colors.Colors;
 import Container.Container;
-import GuiMap.GuiMap;
 import NPC.MrAnderson;
 import NPC.NPC;
 import NPC.SomeRandomGuy;
@@ -8,9 +7,14 @@ import Player.Player;
 import Rooms.*;
 import Item.Item;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameLoop implements Serializable {
@@ -49,7 +53,7 @@ public class GameLoop implements Serializable {
     private List<Room> rooms;
     private Player player = new Player();
 
-    private final GuiMap map = new GuiMap();
+    private final GuiMap map;
     Colors color = new Colors();
 
     private int gameTurn = 1;
@@ -65,6 +69,7 @@ public class GameLoop implements Serializable {
     public GameLoop() {
         scanner = new Scanner(System.in);
         rooms = initializeMap();
+        map = new GuiMap();
     }
 
 
@@ -613,29 +618,88 @@ public class GameLoop implements Serializable {
     }
 
 
+    //==================================InteractMAP===================================================//
+    public class GuiMap extends JFrame {
+        private static boolean instanceCreated;
+
+
+        public GuiMap() {
+            setTitle("Game Map");
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setSize(1239, 755);
+            setLocationRelativeTo(null);
+            JPanel panel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    try {
+
+                        URL imageUrl = new URL("https://imgtr.ee/images/2024/05/01/16f2bfcaf0d349e8500e61b6091da47b.jpeg");
+
+                        ImageIcon mapImage = new ImageIcon(imageUrl);
+                        Image image = mapImage.getImage();
+                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+
+                        // Load custom marker icon
+                        URL markerUrl = new URL("https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png");
+                        ImageIcon markerIcon = new ImageIcon(markerUrl);
+                        Image markerImage = markerIcon.getImage();
+
+
+
+                        // Load Map Marker Icon (x, y)
+                        int markerWidth = 25;
+                        int markerHeight = 40;
+                        int x = player.getCurrentRoom().getXCoordinate();// Example x coordinate
+                        int y = player.getCurrentRoom().getYCoordinate(); // Example y coordinate
+                        System.out.println("Test " + player.getCurrentRoom());
+                        System.out.println("X " + player.getCurrentRoom().getXCoordinate());
+                        System.out.println("Y " + player.getCurrentRoom().getYCoordinate());
+                        g.drawImage(markerImage, x - markerWidth / 2, y - markerHeight, markerWidth, markerHeight, this);
+
+                        //System.out.println("Image loaded: " + mapImage.getImageLoadStatus());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            };
+
+
+            add(panel);
+        }
+
+        public void showMap() {
+            setVisible(true);
+        }
+
+        public static boolean isInstanceCreated() {
+            return instanceCreated;
+        }
+    }
 // ==============================  InitializeMap Method  ============================== //
 
 
     private List<Room> initializeMap() {
 
         // Room initialization
-        Room Living_Room = new Living_Room("Living Room", "Living Room");
-        Room hall_1 = new Hall_1("Hall", "First Room");
-        Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
-        Room kitchen = new KitchenRoom("Kitchen", "A Great Place for a great cook");
-        Room dinningRoom = new Dinning_Room("Dinning Room", "A fancy table with fancy tableware");
-        Room wineCellar = new Wine_Cellar("Wine Cellar", "You can smell the wood of the barrels used to age the fine wine in this room");
-        Room hall_2 = new Hall_2("First floor hall", "Another long hallway");
-        Room library = new Library("Library" , "A well persevered book collection");
-        Room office = new Office("Office", "Seems like an ordinary office, you feel a draft behind the east bookcase");
-        Room secretRoom = new Secret_Room("Secret Room", "This is a very weird room");
+        Room Living_Room = new Living_Room("Living Room", "Living Room",350,323);
+        Room hall_1 = new Hall_1("Hall", "First Room",214,241);
+        Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.",50,230);
+        Room kitchen = new KitchenRoom("Kitchen", "A Great Place for a great cook",410,125);
+        Room dinningRoom = new Dinning_Room("Dinning Room", "A fancy table with fancy tableware",214,93);
+        Room wineCellar = new Wine_Cellar("Wine Cellar", "You can smell the wood of the barrels used to age the fine wine in this room",611,176);
+        Room hall_2 = new Hall_2("First floor hall", "Another long hallway",1009,212);
+        Room library = new Library("Library" , "A well persevered book collection",1239,755);
+        Room office = new Office("Office", "Seems like an ordinary office, you feel a draft behind the east bookcase",818,265);
+        Room secretRoom = new Secret_Room("Secret Room", "This is a very weird room",1154,260);
         // edw vazw text otan mpeni mesa you see 4 doors. kai epilegi me (go door1 h door 2 ) h (go southwest h go southeast)
-        Room hall_3 = new Hall_3 ("Second floor hall", "A room with 4 doors");
-        Room bedroom_1 = new Bedroom_1("First Bedroom", "A room with a huge bed");
-        Room bedroom_2 = new Bedroom_2("Second Bedroom", "A room with a weird swing");
-        Room bedroom_3 = new Bedroom_3("Third Bedroom", "A room with a huge bed");
-        Room bedroom_guest = new Bedroom_Guest("Guest Bedroom", "A room for the guests");
-        Room attic = new Attic("Attic","A room with a lot of dusty stuff and some spider colonies");
+        Room hall_3 = new Hall_3 ("Second floor hall", "A room with 4 doors",1023,577);
+        Room bedroom_1 = new Bedroom_1("First Bedroom", "A room with a huge bed",852,430);
+        Room bedroom_2 = new Bedroom_2("Second Bedroom", "A room with a weird swing",1043,440);
+        Room bedroom_3 = new Bedroom_3("Third Bedroom", "A room with a huge bed",836,622);
+        Room bedroom_guest = new Bedroom_Guest("Guest Bedroom", "A room for the guests",1074,616);
+        Room attic = new Attic("Attic","A room with a lot of dusty stuff and some spider colonies",630,510);
 
         // Add exits to the rooms
         //Room1
