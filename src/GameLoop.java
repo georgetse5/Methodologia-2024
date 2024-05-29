@@ -296,16 +296,6 @@ public class GameLoop implements Serializable {
     }
 
 
-    // ==============================  Look The Map Method (GUI)  ============================== //
-
-
-    private void lookGUIMap() {
-         if (GuiMap.isInstanceCreated()) {
-             map.dispose();
-             map.showMap();
-         }
-        map.showMap();
-    }
 
 
 // ==============================  Look For Available Exits  ============================== //
@@ -460,6 +450,8 @@ public class GameLoop implements Serializable {
     }
 
 
+
+
 // ==============================  Go Method (direction)  ============================== //
 
 
@@ -481,7 +473,7 @@ public class GameLoop implements Serializable {
                 System.out.println("You are in turn: " + color.cyan() + player.getPlayerTurn() + color.reset());
                 System.out.println("Game progress: " + player.getProgressPoints() + "/100");
                 System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName()  + color.reset());
-
+                lookGUIMap();
                 displayNPC();
 
 //                System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
@@ -630,8 +622,25 @@ public class GameLoop implements Serializable {
             System.out.println("Congratulations " + player.getName() + " you have won");
             won = true;
         }
-
         return won;
+    }
+
+
+
+    // ==============================  Look The Map Method (GUI)  ============================== //
+
+    private void lookGUIMap() {
+        if (!GuiMap.isInstanceCreated()) {
+            // Create and show the map for the first time if it hasn't been created yet
+            map.showMap();
+        } else {
+            // If the map is already created, just bring it to the front
+            if (!map.isVisible()) {
+                map.setVisible(true);
+            }
+            map.toFront();
+            map.repaint(); // Ensure the map is updated with the latest player position
+        }
     }
 
 
@@ -644,7 +653,13 @@ public class GameLoop implements Serializable {
             setTitle("Game Map");
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setSize(1239, 755);
-            setLocationRelativeTo(null);
+
+            // Position the window at the right side of the screen
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int x = screenSize.width - getWidth();
+            int y = 0; // Adjust y position as needed
+            setLocation(x, y);
+
             JPanel panel = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
@@ -682,11 +697,16 @@ public class GameLoop implements Serializable {
 
 
             add(panel);
+            instanceCreated = true;
+
         }
+
+
 
         public void showMap() {
             setVisible(true);
         }
+
 
         public static boolean isInstanceCreated() {
             return instanceCreated;
@@ -698,7 +718,7 @@ public class GameLoop implements Serializable {
     private List<Room> initializeMap() {
 
         // Room initialization
-        Room Living_Room = new Living_Room("Living Room", "Living Room",350,323);
+        Room living_Room = new Living_Room("Living Room", "Living Room",350,323);
         Room hall_1 = new Hall_1("Hall", "First Room",214,241);
         Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.",50,230);
         Room kitchen = new KitchenRoom("Kitchen", "A Great Place for a great cook",410,125);
@@ -722,8 +742,9 @@ public class GameLoop implements Serializable {
         //Main Hallway
         hall_1.addExit("west", startingRoom);
         hall_1.addExit("north", dinningRoom);
-        hall_1.addExit("south",Living_Room);
+        hall_1.addExit("south",living_Room);
         hall_1.addExit("upstairs" , hall_2);
+        living_Room.addExit("north", hall_1);
         //Dinning Room
         dinningRoom.addExit("south", hall_1);
         dinningRoom.addExit("east", kitchen);
@@ -773,7 +794,7 @@ public class GameLoop implements Serializable {
         startingRoom.addContainer(chest2);
         startingRoom.addContainer(mystery_box);
         Container vase = new Container("Vase",false, "");
-        Living_Room.addContainer(vase);
+        living_Room.addContainer(vase);
         Container Jewelry_box = new Container("Jewelry box",true,"");
         bedroom_1.addContainer(Jewelry_box);
 
@@ -860,9 +881,9 @@ public class GameLoop implements Serializable {
         hall_1.addItem(Black_telephone);
         hall_1.addItem(Paper_With_Number);
 
-        Living_Room.addItem(Sofa);
-        Living_Room.addItem(Whiskey_glass);
-        Living_Room.addItem(Paintings);
+        living_Room.addItem(Sofa);
+        living_Room.addItem(Whiskey_glass);
+        living_Room.addItem(Paintings);
 
         kitchen.addItem(Table);
         kitchen.addItem(knife);
@@ -903,7 +924,7 @@ public class GameLoop implements Serializable {
         rooms.add(hall_3);
         rooms.add(kitchen);
         rooms.add(library);
-        rooms.add(Living_Room);
+        rooms.add(living_Room);
         rooms.add(office);
         rooms.add(secretRoom);
         rooms.add(wineCellar);
@@ -941,6 +962,7 @@ public class GameLoop implements Serializable {
         System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
         System.out.println("Game progress: " + color.cyan() + player.getProgressPoints() + "/100" + color.reset());
         System.out.println("You are now to " + color.red() + player.getCurrentRoom().getName() + color.reset());
+
         System.out.println(player.getCurrentRoom().getDescription());
 
         lookForRoomItems();
