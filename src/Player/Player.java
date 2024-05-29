@@ -64,7 +64,7 @@ public class Player implements Serializable {
     public void addProgressPoints(int points) {
         this.progressPoints = progressPoints + points;
     }
-
+    public void removeProgressPoints(int points){ this.progressPoints = progressPoints - points; }
     public int getProgressPoints() {
         return progressPoints;
     }
@@ -83,6 +83,7 @@ public class Player implements Serializable {
             System.out.println("Item not found in inventory");
         }
     }
+
 
     public void listInventory() {
         if (inventory.isEmpty()) {

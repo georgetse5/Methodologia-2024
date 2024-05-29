@@ -17,6 +17,7 @@ public class Main {
         GameLoop gameLoop = new GameLoop();
         gameLoop.startGame();
     }
+
 }
 
 // TODO: 20/5/2024:
