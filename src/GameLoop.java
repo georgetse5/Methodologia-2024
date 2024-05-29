@@ -464,7 +464,7 @@ public class GameLoop implements Serializable {
                 gameTurn = gameTurn + 1;
                 System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
                 System.out.println("Game progress: " + player.getProgressPoints() + "/100");
-                System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName() + color.reset());
+                System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName()  + color.reset());
 
                 displayNPC();
 
@@ -647,14 +647,12 @@ public class GameLoop implements Serializable {
 
 
 
+
                         // Load Map Marker Icon (x, y)
                         int markerWidth = 25;
                         int markerHeight = 40;
                         int x = player.getCurrentRoom().getXCoordinate();// Example x coordinate
-                        int y = player.getCurrentRoom().getYCoordinate(); // Example y coordinate
-                        System.out.println("Test " + player.getCurrentRoom());
-                        System.out.println("X " + player.getCurrentRoom().getXCoordinate());
-                        System.out.println("Y " + player.getCurrentRoom().getYCoordinate());
+                        int y = player.getCurrentRoom().getYCoordinate();
                         g.drawImage(markerImage, x - markerWidth / 2, y - markerHeight, markerWidth, markerHeight, this);
 
                         //System.out.println("Image loaded: " + mapImage.getImageLoadStatus());
