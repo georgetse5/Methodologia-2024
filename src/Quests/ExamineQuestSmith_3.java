@@ -23,7 +23,7 @@ public class ExamineQuestSmith_3 extends Quest {
     @Override
     public void startQuest() {
         System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "Examine Mr Smith's past" + color.reset());
-        System.out.println(color.gold() + "Find information and search the rumors about Mr Smiths hidden past\n" + color.reset());
+        System.out.println(color.gold() + "Find the employee list\n" + color.reset());
         System.out.println(color.gold() + "MrLouis: " + color.reset() + "You may start from Mr Smith's office \n");
     }
 
@@ -34,7 +34,7 @@ public class ExamineQuestSmith_3 extends Quest {
             if (item.getName().equalsIgnoreCase(requiredItem)) {
                 itemFound = true;
                 this.complete();
-                System.out.println("Required item found: " + requiredItem);
+//                System.out.println("Required item found: " + requiredItem);
 
             } else {
                 System.out.println(color.red() + "You have not find the correct information" + color.reset());
