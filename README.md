@@ -3,8 +3,6 @@
 <hr>
 <b><u>The ReadMe file is currently outdated</u></b>
 
-- (Note) Every Room/scene need to have a different class 
-
 ## Architecture
 The program consists from different classes such as GameLoop, Main, Items, Containers, Exits and the classes of the
 rooms with the class Room as superclass for the common attributes of all classes.

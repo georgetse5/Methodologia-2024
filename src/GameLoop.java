@@ -117,6 +117,10 @@ public class GameLoop implements Serializable {
                     case "add.item":
                         addItemCommand(noun);
                         break;
+    // Add Item Command
+                    case "add.turn":
+                        addTurnsCommand(noun);
+                        break;
     // Debug on/off Command
                     case "debug":
                         toggleDebugCommand(noun);
@@ -174,6 +178,17 @@ public class GameLoop implements Serializable {
                 System.out.println("===========================================\n");
             }
             scanner.close();
+    }
+
+
+
+    private void addTurnsCommand(String noun) {
+        int temp = Integer.parseInt(noun);
+        if (debug) {
+            player.setPlayerTurn(temp);
+            gameTurn = temp;
+            System.out.println("You are now in turn " + player.getPlayerTurn());
+        }
     }
 
 
@@ -462,7 +477,8 @@ public class GameLoop implements Serializable {
                 // If the exit exists, moving to the next room
                 player.setCurrentRoom(exits.get(noun));
                 gameTurn = gameTurn + 1;
-                System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+                player.setPlayerTurn(gameTurn);
+                System.out.println("You are in turn: " + color.cyan() + player.getPlayerTurn() + color.reset());
                 System.out.println("Game progress: " + player.getProgressPoints() + "/100");
                 System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName()  + color.reset());
 
@@ -521,6 +537,7 @@ public class GameLoop implements Serializable {
             System.out.println();
             System.out.println(color.cyan() + "<> " + color.gold() + "add.progress <amount>\tFor example: add.progress 30"+ color.reset());
             System.out.println(color.cyan() + "<> " + color.gold() + "add.item <name>\t\t\tFor example: add.item Rusty Key"+ color.reset());
+            System.out.println(color.cyan() + "<> " + color.gold() + "add.turn <number of turn>\t\t\tFor example: add.turn 12"+ color.reset());
         }
     }
 
