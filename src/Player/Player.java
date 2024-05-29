@@ -56,6 +56,7 @@ public class Player implements Serializable {
         this.currentRoom = room;
     }
 
+
     public Room getCurrentRoom() {
         return currentRoom;
     }

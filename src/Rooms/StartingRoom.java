@@ -3,8 +3,8 @@ package Rooms;
 public class StartingRoom extends Room {
 
 
-    public StartingRoom(String name, String description) {
-        super(name, description);
+    public StartingRoom(String name, String description, int xCoordinate, int yCoordinate) {
+        super(name, description,xCoordinate, yCoordinate);
     }
 
     public void startingRoomMessage() {
