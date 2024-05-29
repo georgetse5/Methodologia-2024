@@ -374,7 +374,6 @@ public class GameLoop implements Serializable {
 
 
     private void takeCommand(String noun) {
-        // System.out.println("[DEBUG]> Command TAKE selected");
         if (noun == null) {
             System.out.println("Command TAKE must have a noun.\nFor example TAKE KEY");
         } else {
@@ -476,8 +475,6 @@ public class GameLoop implements Serializable {
                 lookGUIMap();
                 displayNPC();
 
-//                System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
-
             } else {
                 System.out.println("There is no exit in that direction.");
             }
@@ -503,7 +500,6 @@ public class GameLoop implements Serializable {
             for (NPC npc : roomNPC) {
                 if (noun.equalsIgnoreCase(npc.getName())) {
                     found = true;
-//                    System.out.println("[DEBUG]> You speak with " + noun);
                     npc.talk(player.getName());
                     break;
                 }
@@ -547,14 +543,9 @@ public class GameLoop implements Serializable {
                 String verb = parts[0];
                 if (parts.length >= 2) {
                     String noun = parts[1];
-
-//                    System.out.println("[DEBUG]> The verb is: " + verb);
-//                    System.out.println("[DEBUG]> The noun is: " + noun);
-
                     processedCommand.add(verb);
                     processedCommand.add(noun);
                 } else {
-//                    System.out.println("[DEBUG]> The verb is: " + verb);
                     processedCommand.add(verb);
                     processedCommand.add(null);
                 }
