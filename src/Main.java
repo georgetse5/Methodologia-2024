@@ -17,4 +17,9 @@ public class Main {
         GameLoop gameLoop = new GameLoop();
         gameLoop.startGame();
     }
+
 }
+
+// TODO: 20/5/2024:
+//  1) Add more items and containers
+//  2) Make more quests which the player can make or lose progress and eventually he wins or loses the game.

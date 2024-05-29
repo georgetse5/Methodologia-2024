@@ -1,6 +1,5 @@
 import Colors.Colors;
 import Container.Container;
-import GuiMap.GuiMap;
 import NPC.MrAnderson;
 import NPC.MrLouis;
 import NPC.MrsNataliSmith;
@@ -10,9 +9,14 @@ import Player.Player;
 import Rooms.*;
 import Item.Item;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameLoop implements Serializable {
@@ -44,11 +48,14 @@ public class GameLoop implements Serializable {
         add("help");
     }};
 
+    private boolean debug = false;
+    private boolean allowDebug = false;
+
+
     private List<Room> rooms;
     private Player player = new Player();
-    private Room startingRoom;
 
-    private final GuiMap map = new GuiMap();
+    private final GuiMap map;
     Colors color = new Colors();
 
     private int gameTurn = 1;
@@ -64,6 +71,7 @@ public class GameLoop implements Serializable {
     public GameLoop() {
         scanner = new Scanner(System.in);
         rooms = initializeMap();
+        map = new GuiMap();
     }
 
 
@@ -102,6 +110,22 @@ public class GameLoop implements Serializable {
     // Help Command
                     case "help":
                         helpCommand();
+                        break;
+    // Add Progress Command
+                    case "add.progress":
+                        progressAddCommand(noun);
+                        break;
+    // Add Item Command
+                    case "add.item":
+                        addItemCommand(noun);
+                        break;
+    // Add Item Command
+                    case "add.turn":
+                        addTurnsCommand(noun);
+                        break;
+    // Debug on/off Command
+                    case "debug":
+                        toggleDebugCommand(noun);
                         break;
     // Save Command
                     case "save":
@@ -159,6 +183,67 @@ public class GameLoop implements Serializable {
     }
 
 
+
+    private void addTurnsCommand(String noun) {
+        int temp = Integer.parseInt(noun);
+        if (debug) {
+            player.setPlayerTurn(temp);
+            gameTurn = temp;
+            System.out.println("You are now in turn " + player.getPlayerTurn());
+        }
+    }
+
+
+    // ==============================  Progress Add Command  ============================== //
+
+
+    private void progressAddCommand(String noun) {
+        int temp = Integer.parseInt(noun);
+        if (debug) {
+            player.addProgressPoints(temp);
+            System.out.println("Your new progress is " + player.getProgressPoints() + "/100");
+        }
+    }
+
+
+    // ==============================  Add Item Command  ============================== //
+
+
+    private void addItemCommand(String noun) {
+        Item item = new Item(noun, "This item is added with the debugging command", true);
+
+        if (debug) {
+            player.addItemToInventory(item);
+            System.out.println(noun + " is added to your inventory");
+        }
+    }
+
+
+    // ==============================  Toggle Debug Command  ============================== //
+
+
+    private void toggleDebugCommand(String noun) {
+        if (noun == null) {
+            if (debug) {
+                System.out.println("Debug mode is ON");
+            } else {
+                System.out.println("Debug mode is OFF");
+            }
+            System.out.println("debug on/off\tFor example debug on");
+        } else if (allowDebug) {
+            if (noun.equals("on")) {
+                debug = true;
+                System.out.println("Debug mode is now ON");
+            } else if (noun.equals("off")) {
+                debug = false;
+                System.out.println("Debug mode is now OFF");
+            }
+        } else {
+            System.out.println("You can not use this command");
+        }
+    }
+
+
     // ==============================  Open Command  ============================== //
 
 
@@ -213,16 +298,6 @@ public class GameLoop implements Serializable {
     }
 
 
-    // ==============================  Look The Map Method (GUI)  ============================== //
-
-
-    private void lookGUIMap() {
-         if (GuiMap.isInstanceCreated()) {
-             map.dispose();
-             map.showMap();
-         }
-        map.showMap();
-    }
 
 
 // ==============================  Look For Available Exits  ============================== //
@@ -301,7 +376,6 @@ public class GameLoop implements Serializable {
 
 
     private void takeCommand(String noun) {
-        // System.out.println("[DEBUG]> Command TAKE selected");
         if (noun == null) {
             System.out.println("Command TAKE must have a noun.\nFor example TAKE KEY");
         } else {
@@ -377,6 +451,8 @@ public class GameLoop implements Serializable {
     }
 
 
+
+
 // ==============================  Go Method (direction)  ============================== //
 
 
@@ -394,13 +470,12 @@ public class GameLoop implements Serializable {
                 // If the exit exists, moving to the next room
                 player.setCurrentRoom(exits.get(noun));
                 gameTurn = gameTurn + 1;
-                System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
+                player.setPlayerTurn(gameTurn);
+                System.out.println("You are in turn: " + color.cyan() + player.getPlayerTurn() + color.reset());
                 System.out.println("Game progress: " + player.getProgressPoints() + "/100");
-                System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName() + color.reset());
-
+                System.out.println("You entered the " + color.red() + player.getCurrentRoom().getName()  + color.reset());
+                lookGUIMap();
                 displayNPC();
-
-//                System.out.println("Containers: " + player.getCurrentRoom().getContainers().toString());
 
             } else {
                 System.out.println("There is no exit in that direction.");
@@ -427,7 +502,6 @@ public class GameLoop implements Serializable {
             for (NPC npc : roomNPC) {
                 if (noun.equalsIgnoreCase(npc.getName())) {
                     found = true;
-//                    System.out.println("[DEBUG]> You speak with " + noun);
                     npc.talk(player.getName());
                     break;
                 }
@@ -449,6 +523,12 @@ public class GameLoop implements Serializable {
         for (String commandHelp : helpCmdList) {
             System.out.println(color.cyan() + "<> " + color.gold() + commandHelp + color.reset());
         }
+        if (debug) {
+            System.out.println();
+            System.out.println(color.cyan() + "<> " + color.gold() + "add.progress <amount>\tFor example: add.progress 30"+ color.reset());
+            System.out.println(color.cyan() + "<> " + color.gold() + "add.item <name>\t\t\tFor example: add.item Rusty Key"+ color.reset());
+            System.out.println(color.cyan() + "<> " + color.gold() + "add.turn <number of turn>\t\t\tFor example: add.turn 12"+ color.reset());
+        }
     }
 
 
@@ -465,14 +545,9 @@ public class GameLoop implements Serializable {
                 String verb = parts[0];
                 if (parts.length >= 2) {
                     String noun = parts[1];
-
-//                    System.out.println("[DEBUG]> The verb is: " + verb);
-//                    System.out.println("[DEBUG]> The noun is: " + noun);
-
                     processedCommand.add(verb);
                     processedCommand.add(noun);
                 } else {
-//                    System.out.println("[DEBUG]> The verb is: " + verb);
                     processedCommand.add(verb);
                     processedCommand.add(null);
                 }
@@ -540,34 +615,119 @@ public class GameLoop implements Serializable {
             System.out.println("Congratulations " + player.getName() + " you have won");
             won = true;
         }
-
         return won;
     }
 
 
+
+    // ==============================  Look The Map Method (GUI)  ============================== //
+
+    private void lookGUIMap() {
+        if (!GuiMap.isInstanceCreated()) {
+            // Create and show the map for the first time if it hasn't been created yet
+            map.showMap();
+        } else {
+            // If the map is already created, just bring it to the front
+            if (!map.isVisible()) {
+                map.setVisible(true);
+            }
+            map.toFront();
+            map.repaint(); // Ensure the map is updated with the latest player position
+        }
+    }
+
+
+    //==================================InteractMAP===================================================//
+    public class GuiMap extends JFrame {
+        private static boolean instanceCreated;
+
+
+        public GuiMap() {
+            setTitle("Game Map");
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setSize(1239, 755);
+
+            // Position the window at the right side of the screen
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int x = screenSize.width - getWidth();
+            int y = 0; // Adjust y position as needed
+            setLocation(x, y);
+
+            JPanel panel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    try {
+
+                        URL imageUrl = new URL("https://imgtr.ee/images/2024/05/01/16f2bfcaf0d349e8500e61b6091da47b.jpeg");
+
+                        ImageIcon mapImage = new ImageIcon(imageUrl);
+                        Image image = mapImage.getImage();
+                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+
+                        // Load custom marker icon
+                        URL markerUrl = new URL("https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png");
+                        ImageIcon markerIcon = new ImageIcon(markerUrl);
+                        Image markerImage = markerIcon.getImage();
+
+
+
+
+                        // Load Map Marker Icon (x, y)
+                        int markerWidth = 25;
+                        int markerHeight = 40;
+                        int x = player.getCurrentRoom().getXCoordinate();// Example x coordinate
+                        int y = player.getCurrentRoom().getYCoordinate();
+                        g.drawImage(markerImage, x - markerWidth / 2, y - markerHeight, markerWidth, markerHeight, this);
+
+                        //System.out.println("Image loaded: " + mapImage.getImageLoadStatus());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            };
+
+
+            add(panel);
+            instanceCreated = true;
+
+        }
+
+
+
+        public void showMap() {
+            setVisible(true);
+        }
+
+
+        public static boolean isInstanceCreated() {
+            return instanceCreated;
+        }
+    }
 // ==============================  InitializeMap Method  ============================== //
 
 
     private List<Room> initializeMap() {
 
         // Room initialization
-        Room Living_Room = new Living_Room("Living Room", "Living Room");
-        Room hall_1 = new Hall_1("Hall", "First Room");
-        Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.");
-        Room kitchen = new KitchenRoom("Kitchen", "A Great Place for a great cook");
-        Room dinningRoom = new Dinning_Room("Dinning Room", "A fancy table with fancy tableware");
-        Room wineCellar = new Wine_Cellar("Wine Cellar", "You can smell the wood of the barrels used to age the fine wine in this room");
-        Room hall_2 = new Hall_2("First floor hall", "Another long hallway");
-        Room library = new Library("Library" , "A well persevered book collection");
-        Room office = new Office("Office", "Seems like an ordinary office, you feel a draft behind the east bookcase");
-        Room secretRoom = new Secret_Room("Secret Room", "This is a very weird room");
+        Room living_Room = new Living_Room("Living Room", "Living Room",350,323);
+        Room hall_1 = new Hall_1("Hall", "First Room",214,241);
+        Room startingRoom = new StartingRoom("Starting Room", "This is where your adventure begins.",50,230);
+        Room kitchen = new KitchenRoom("Kitchen", "A Great Place for a great cook",410,125);
+        Room dinningRoom = new Dinning_Room("Dinning Room", "A fancy table with fancy tableware",214,93);
+        Room wineCellar = new Wine_Cellar("Wine Cellar", "You can smell the wood of the barrels used to age the fine wine in this room",611,176);
+        Room hall_2 = new Hall_2("First floor hall", "Another long hallway",1009,212);
+        Room library = new Library("Library" , "A well persevered book collection",1239,755);
+        Room office = new Office("Office", "Seems like an ordinary office, you feel a draft behind the east bookcase",818,265);
+        Room secretRoom = new Secret_Room("Secret Room", "This is a very weird room",1154,260);
         // edw vazw text otan mpeni mesa you see 4 doors. kai epilegi me (go door1 h door 2 ) h (go southwest h go southeast)
-        Room hall_3 = new Hall_3 ("Second floor hall", "A room with 4 doors");
-        Room bedroom_1 = new Bedroom_1("First Bedroom", "A room with a huge bed");
-        Room bedroom_2 = new Bedroom_2("Second Bedroom", "A room with a weird swing");
-        Room bedroom_3 = new Bedroom_3("Third Bedroom", "A room with a huge bed");
-        Room bedroom_guest = new Bedroom_Guest("Guest Bedroom", "A room for the guests");
-        Room attic = new Attic("Attic","A room with a lot of dusty stuff and some spider colonies");
+        Room hall_3 = new Hall_3 ("Second floor hall", "A room with 4 doors",1023,577);
+        Room bedroom_1 = new Bedroom_1("First Bedroom", "A room with a huge bed",852,430);
+        Room bedroom_2 = new Bedroom_2("Second Bedroom", "A room with a weird swing",1043,440);
+        Room bedroom_3 = new Bedroom_3("Third Bedroom", "A room with a huge bed",836,622);
+        Room bedroom_guest = new Bedroom_Guest("Guest Bedroom", "A room for the guests",1074,616);
+        Room attic = new Attic("Attic","A room with a lot of dusty stuff and some spider colonies",630,510);
 
         // Add exits to the rooms
         //Room1
@@ -575,8 +735,9 @@ public class GameLoop implements Serializable {
         //Main Hallway
         hall_1.addExit("west", startingRoom);
         hall_1.addExit("north", dinningRoom);
-        hall_1.addExit("south",Living_Room);
+        hall_1.addExit("south",living_Room);
         hall_1.addExit("upstairs" , hall_2);
+        living_Room.addExit("north", hall_1);
         //Dinning Room
         dinningRoom.addExit("south", hall_1);
         dinningRoom.addExit("east", kitchen);
@@ -626,7 +787,7 @@ public class GameLoop implements Serializable {
         startingRoom.addContainer(chest2);
         startingRoom.addContainer(mystery_box);
         Container vase = new Container("Vase",false, "");
-        Living_Room.addContainer(vase);
+        living_Room.addContainer(vase);
         Container Jewelry_box = new Container("Jewelry box",true,"");
         bedroom_1.addContainer(Jewelry_box);
 
@@ -717,9 +878,9 @@ public class GameLoop implements Serializable {
         hall_1.addItem(Black_telephone);
         hall_1.addItem(Paper_With_Number);
 
-        Living_Room.addItem(Sofa);
-        Living_Room.addItem(Whiskey_glass);
-        Living_Room.addItem(Paintings);
+        living_Room.addItem(Sofa);
+        living_Room.addItem(Whiskey_glass);
+        living_Room.addItem(Paintings);
 
         kitchen.addItem(Table);
         kitchen.addItem(knife);
@@ -760,7 +921,7 @@ public class GameLoop implements Serializable {
         rooms.add(hall_3);
         rooms.add(kitchen);
         rooms.add(library);
-        rooms.add(Living_Room);
+        rooms.add(living_Room);
         rooms.add(office);
         rooms.add(secretRoom);
         rooms.add(wineCellar);
@@ -787,6 +948,7 @@ public class GameLoop implements Serializable {
 
 // Opening scene is the first scene when the player is new or it does not have a previous save
     private void openingScene () {
+        Room startingRoom;
         promptPlayerName();
 
         startingRoom = rooms.get(0);
@@ -797,6 +959,7 @@ public class GameLoop implements Serializable {
         System.out.println("You are in turn: " + color.cyan() + gameTurn + color.reset());
         System.out.println("Game progress: " + color.cyan() + player.getProgressPoints() + "/100" + color.reset());
         System.out.println("You are now to " + color.red() + player.getCurrentRoom().getName() + color.reset());
+
         System.out.println(player.getCurrentRoom().getDescription());
 
         lookForRoomItems();

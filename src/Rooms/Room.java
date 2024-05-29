@@ -10,15 +10,19 @@ import java.util.*;
 public class Room implements Serializable {
     String name;
     String description;
+    int xCoordinate;
+    int yCoordinate;
     Map<String, Room> exits;
     private Vector items;
     private List<Container> containers;
     private List<NPC> npcs;
 
 
-    public Room(String name, String description) {
+    public Room(String name, String description, int xCoordinate, int yCoordinate) {
         this.name = name;
         this.description = description;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
         exits = new HashMap<>();
         items = new Vector();
         containers = new ArrayList<>();
@@ -31,6 +35,14 @@ public class Room implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getXCoordinate() {
+        return xCoordinate;
+    }
+
+    public int getYCoordinate() {
+        return yCoordinate;
     }
 
     public void addExit(String direction, Room destination) {
