@@ -797,13 +797,15 @@ public class GameLoop implements Serializable {
         // NPC Initialization
         MrAnderson anderson = new MrAnderson("Anderson", false, player);
         SomeRandomGuy randomGuy = new SomeRandomGuy("RandomGuy", false, player);
-        MrJohn louis = new MrJohn("John",false, player);
-//        MrsNataliSmith nataliSmith = new MrsNataliSmith("Natali Smith",false,player );
+        MrJohn mrJohn = new MrJohn("John",false, player);
+        MrLouis louis = new MrLouis("Louis",false, player);
+        MrsNataliSmith nataliSmith = new MrsNataliSmith("Natali Smith",false,player );
 
         startingRoom.addNPC(anderson);
         startingRoom.addNPC(randomGuy);
+        kitchen.addNPC(mrJohn);
         kitchen.addNPC(louis);
-//        dinningRoom.addNPC(nataliSmith);
+        dinningRoom.addNPC(nataliSmith);
 
 
         // Item initialization
