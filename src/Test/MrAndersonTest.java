@@ -52,9 +52,13 @@ public class MrAndersonTest {
 
     @Test
     public void testCheckQuestProgress_ItemFound() {
+        System.out.println("Your current progress is " + testPlayer.getProgressPoints() + "/100\n");
+
         testPlayer.addItemToInventory(new Item("Suspicious Note", "A suspicious note", true));
         mrAnderson.checkQuestProgress();
         assertTrue(testExamineQuestSmith.isCompleted());
+
+        System.out.println("\nYour new progress is " + testPlayer.getProgressPoints() + "/100");
     }
 
     @Test
@@ -66,9 +70,13 @@ public class MrAndersonTest {
 
     @Test
     public void testCheckSecondQuestProgress_ItemFound() {
+        System.out.println("Your current progress is " + testPlayer.getProgressPoints() + "/100\n");
+
         testPlayer.addItemToInventory(new Item("Letter", "A letter", true));
         mrAnderson.checkSecondQuestProgress();
         assertTrue(testExamineQuestSmith_2.isCompleted());
+
+        System.out.println("\nYour new progress is " + testPlayer.getProgressPoints() + "/100");
     }
 
     @Test
@@ -100,6 +108,8 @@ public class MrAndersonTest {
         System.out.println("Your progress points now is: " + testPlayer.getProgressPoints() + "/100");
         mrAnderson.startSecondQuest();
         assertTrue(testExamineQuestSmith_2.isQuestAccepted());
+
+        System.out.println("\nThe test starting...\nTurns counting...\n");
 
         int tempTurn;
         for (int i = 0; i < 16; i++) {
