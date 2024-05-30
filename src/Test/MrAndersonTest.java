@@ -26,9 +26,9 @@ public class MrAndersonTest {
         testSmithMiniGame = new SmithMiniGame("Find the box", "There is a strange box on the cellar", "Puzzle Box");
 
         mrAnderson = new MrAnderson("Mr. Anderson", false, testPlayer);
-        //mrAnderson.setExamineQuestSmith(testExamineQuestSmith);
-       // mrAnderson.setExamineQuestSmith_2(testExamineQuestSmith_2);
-        //mrAnderson.setSmithMiniGame(testSmithMiniGame);
+        mrAnderson.setExamineQuestSmith(testExamineQuestSmith);
+        mrAnderson.setExamineQuestSmith_2(testExamineQuestSmith_2);
+        mrAnderson.setSmithMiniGame(testSmithMiniGame);
     }
 
     @Test
