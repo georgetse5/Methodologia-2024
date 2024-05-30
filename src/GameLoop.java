@@ -753,9 +753,9 @@ public class GameLoop implements Serializable {
         library.addExit("south" , hall_2);
         //Office
         office.addExit("north", hall_2);
-        office.addExit("bookcase", secretRoom);
+        office.addExit("east", secretRoom);
         //Secret Room
-        secretRoom.addExit("west", secretRoom);
+        secretRoom.addExit("west", office);
         //Floor 2 Hallway
         hall_3.addExit("downstairs", hall_2);
         hall_3.addExit("northwest", bedroom_1);
@@ -788,6 +788,10 @@ public class GameLoop implements Serializable {
         living_Room.addContainer(vase);
         Container Jewelry_box = new Container("Jewelry box",true,"");
         bedroom_1.addContainer(Jewelry_box);
+        Container locked_drawer = new Container("Locked Drawer",true,"Key2");
+        office.addContainer(locked_drawer);
+        Container photos_box = new Container("Photos Box",false,"");
+        secretRoom.addContainer(photos_box);
 
 
         // NPC Initialization
@@ -846,6 +850,8 @@ public class GameLoop implements Serializable {
         Item Desc = new Item("Wooden Desc","A big wooden deck",false);
         Item Employee_List = new Item("Employee List","A list with names of staff",true);
         Item Telephone_list = new Item("Telephone List","A notebook with tell numbers",true);
+         //Secret Room
+        Item Photos = new Item("Photos","Πhotos of Mr Smith with his mistress",true);
          //Bedroom1 Items
         Item Bed = new Item("Bed","A double bed ",false);
         Item jewlery = new Item("jelery","Mrs. Smith's jewelry",true);
@@ -865,6 +871,8 @@ public class GameLoop implements Serializable {
         vase.addItem(Porcelain_Vase);
         drawer.addItem(letter);
         Jewelry_box.addItem(jewlery);
+        locked_drawer.addItem(Employee_List);
+        photos_box.addItem(Photos);
 
         // Adding items to the rooms
         startingRoom.addItem(letter);
@@ -906,6 +914,8 @@ public class GameLoop implements Serializable {
         office.addItem(Desc);
         office.addItem(Employee_List);
         office.addItem(Telephone_list);
+
+        secretRoom.addItem(Photos);
 
         bedroom_1.addItem(Bed);
 

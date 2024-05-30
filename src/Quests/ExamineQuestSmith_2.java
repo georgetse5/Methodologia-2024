@@ -51,11 +51,10 @@ public class ExamineQuestSmith_2 extends Quest {
                     this.complete();
                     player.addProgressPoints(20);
                     correctItemFound = true;
-                    break; // Διακοπή του βρόχου αν βρεθεί το σωστό αντικείμενο
+                    break;
                 }
             }
 
-            // Προσθήκη των αντικειμένων μετά την ολοκλήρωση του βρόχου
             for (Item item : itemsToAdd) {
                 player.addItemToInventory(item);
             }
@@ -68,7 +67,8 @@ public class ExamineQuestSmith_2 extends Quest {
             System.out.println("It seems you are late with the quest and the info we need may will be lost\nYou may take that quest again, later.");
             this.loseQuest();
             turnsLeft = 15;
-            // Edw 8a klh8ei h me8odos gia thn meiwsh twn pontwn
+            player.removeProgressPoints(10);
+            System.out.println("Progress points " + player.getProgressPoints() + "/100");
         }
     }
 
