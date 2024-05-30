@@ -797,7 +797,7 @@ public class GameLoop implements Serializable {
         // NPC Initialization
         MrAnderson anderson = new MrAnderson("Anderson", false, player);
         SomeRandomGuy randomGuy = new SomeRandomGuy("RandomGuy", false, player);
-        MrLouis louis = new MrLouis("Louis",false, player);
+        MrJohn louis = new MrJohn("John",false, player);
 //        MrsNataliSmith nataliSmith = new MrsNataliSmith("Natali Smith",false,player );
 
         startingRoom.addNPC(anderson);
@@ -855,6 +855,9 @@ public class GameLoop implements Serializable {
          //Bedroom1 Items
         Item Bed = new Item("Bed","A double bed ",false);
         Item jewlery = new Item("jelery","Mrs. Smith's jewelry",true);
+        // Attic Items
+        Item Old_Photo = new Item ("Old photo", "An old photo of Mr Smith with some woman",true);
+
 
 
 
@@ -915,6 +918,8 @@ public class GameLoop implements Serializable {
         secretRoom.addItem(Photos);
 
         bedroom_1.addItem(Bed);
+
+        attic.addItem(Old_Photo);
 
         List<Room> rooms = new ArrayList<>();
 

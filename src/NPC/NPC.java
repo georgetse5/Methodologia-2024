@@ -30,7 +30,7 @@ public class NPC implements Serializable {
         System.out.print("$> ");
         int playerChoice = scanner.nextInt();
         if (playerChoice == 1) {
-            System.out.println("I have not any questions yet");
+            System.out.println("I do not have any questions yet");
         } else if (playerChoice == 2) {
             farewell();
         } else {

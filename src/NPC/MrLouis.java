@@ -15,6 +15,8 @@ public class MrLouis extends NPC {
 
     public MrLouis(String name, boolean intro, Player player) {
         super(name, intro, player);
+        this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Suspicious Note");
+        this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter", player);
         this.examineQuestSmith_3 = new ExamineQuestSmith_3("The Employee List", "Find the List ", "Employee List");
     }
 
@@ -36,12 +38,26 @@ public class MrLouis extends NPC {
                     familySmithInfo();
                     break;
                 case 2:
-                    if (!examineQuestSmith_3.isCompleted()) {
+                    if (!examineQuestSmith.isCompleted()) {
+                        if (examineQuestSmith.isQuestAccepted()) {
+                            checkQuestProgress();
+                        } else {
+                            startQuest();
+                        }
+                    } else if (!examineQuestSmith_2.isCompleted()) {
+                        if (examineQuestSmith_2.isQuestAccepted()) {
+                            checkSecondQuestProgress();
+                        } else {
+                            startSecondQuest();
+                        }
+                    } else if (!examineQuestSmith_3.isCompleted()) {
                         if (examineQuestSmith_3.isQuestAccepted()) {
                             checkThirdQuestProgress();
                         } else {
                             startThirdQuest();
                         }
+                    } else if (examineQuestSmith.isCompleted() && examineQuestSmith_2.isCompleted() && examineQuestSmith_3.isCompleted() ) {
+                        System.out.println();
                     }
                     break;
                 case 3:
@@ -58,7 +74,7 @@ public class MrLouis extends NPC {
     @Override
     void selectOption() {
         System.out.println("\t1. What can you tell me about the Smith Family ?");
-        if (!examineQuestSmith_3.isCompleted()) {
+        if (!examineQuestSmith.isCompleted()) {
             System.out.println("\t2. There is something I need to know about Mr Smith ?");
         } else if (!examineQuestSmith_3.isCompleted()){
             System.out.println("\t2. Find the employees list");
@@ -93,7 +109,7 @@ public class MrLouis extends NPC {
                 "A secret affair I heard, but I do not know if it's true\n" +
                 "If you can investigate about it maybe you can find useful info\n");
         System.out.println(color.gold() + player.getName() + ": " + color.reset() + "Alright. I will investigate it\n");
-        examineQuestSmith_3.setQuestAccepted();
+        examineQuestSmith.setQuestAccepted();
         examineQuestSmith_3.startQuest();
     }
 
@@ -112,11 +128,28 @@ public class MrLouis extends NPC {
     }
 
 
+    public void startSecondQuest() {
+        examineQuestSmith_2.setQuestAccepted();
+        examineQuestSmith_2.startQuest();
+    }
+
     public void startThirdQuest() {
         examineQuestSmith_3.setQuestAccepted();
         examineQuestSmith_3.startQuest();
     }
 
+    public void checkSecondQuestProgress() {
+        if (examineQuestSmith_2 != null) {
+            examineQuestSmith_2.checkItems(player);
+            if (examineQuestSmith_2.isItemFound()) {
+                examineQuestSmith_2.completeQuest(player);
+            } else {
+                System.out.println(color.gold() + "You need to find the required item to complete the quest." + color.reset());
+            }
+        } else {
+            System.out.println("There are no active quests.");
+        }
+    }
 
 
     public void checkThirdQuestProgress() {
