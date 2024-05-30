@@ -199,8 +199,21 @@ public class MrAnderson extends NPC {
     }
 
 
-
     private void familySmithInfo() {
         System.out.println(color.blue() + "Anderson: " + color.gold() + "Here we write something about Family Smith" + color.reset());
+    }
+
+
+    // Setters gia ta Tests
+    public void setExamineQuestSmith(ExamineQuestSmith examineQuestSmith) {
+        this.examineQuestSmith = examineQuestSmith;
+    }
+
+    public void setExamineQuestSmith_2(ExamineQuestSmith_2 examineQuestSmith_2) {
+        this.examineQuestSmith_2 = examineQuestSmith_2;
+    }
+
+    public void setSmithMiniGame(SmithMiniGame smithMiniGame) {
+        this.smithMiniGame = smithMiniGame;
     }
 }
