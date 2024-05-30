@@ -132,7 +132,7 @@ public class SmithMiniGame extends Quest {
             if (allLightsOff) {
                 JOptionPane.showMessageDialog(this, "You win! All lights are off.");
                 dispose();
-                System.out.println("Quest completed: " + getName());
+                System.out.println("Quest completed: " + "Examine the box");
             }
         }
 
