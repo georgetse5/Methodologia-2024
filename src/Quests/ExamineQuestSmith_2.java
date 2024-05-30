@@ -41,16 +41,28 @@ public class ExamineQuestSmith_2 extends Quest {
         if (turnsLeft > 0) {
             System.out.println(requiredItem);
             ArrayList<Item> inventory = player.getInventory();
+            ArrayList<Item> itemsToAdd = new ArrayList<>();
+            boolean correctItemFound = false;
             for (Item item : inventory) {
                 if (item.getName().equalsIgnoreCase(requiredItem)) {
+                    Item tempKey = new Item("Key2", "A drawer key", true);
+                    itemsToAdd.add(tempKey); // Προσθήκη του αντικειμένου στη προσωρινή λίστα
                     itemFound = true;
                     this.complete();
                     player.addProgressPoints(20);
-//                System.out.println("Required item found: " + requiredItem);
-                } else {
-                    System.out.println(color.gold() + "You have not find the correct information\n" + color.reset());
-                    System.out.println("You have left " + turnsLeft);
+                    correctItemFound = true;
+                    break; // Διακοπή του βρόχου αν βρεθεί το σωστό αντικείμενο
                 }
+            }
+
+            // Προσθήκη των αντικειμένων μετά την ολοκλήρωση του βρόχου
+            for (Item item : itemsToAdd) {
+                player.addItemToInventory(item);
+            }
+
+            if (!correctItemFound) {
+                System.out.println(color.gold() + "You have not found the correct information\n" + color.reset());
+                System.out.println("You have left " + turnsLeft);
             }
         } else {
             System.out.println("It seems you are late with the quest and the info we need may will be lost\nYou may take that quest again, later.");

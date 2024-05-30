@@ -27,40 +27,46 @@ public class MrAnderson extends NPC {
         boolean keepLoop = true;
 
         while (keepLoop) {
-        selectOption();
+            selectOption();
 
-        System.out.print(color.gold() + "$> " + color.reset());
-        int playerChoice = scanner.nextInt();
-        switch (playerChoice) {
-            case 1:
-                familySmithInfo();
-                break;
-            case 2:
-                if (!examineQuestSmith.isCompleted()) {
-                    if (examineQuestSmith.isQuestAccepted()) {
-                        checkQuestProgress();
-                    } else {
-                        startQuest();
-                    }
-                } else if (!examineQuestSmith_2.isCompleted()) {
-                    if (examineQuestSmith_2.isQuestAccepted()) {
-                        checkSecondQuestProgress();
-                    } else {
-                        startSecondQuest();
-                    }
-                } else if (examineQuestSmith.isCompleted() && examineQuestSmith_2.isCompleted()) {
-                    System.out.println();
+            System.out.print(color.gold() + "$> " + color.reset());
+
+            if (scanner.hasNextInt()) {
+                int playerChoice = scanner.nextInt();
+                switch (playerChoice) {
+                    case 1:
+                        familySmithInfo();
+                        break;
+                    case 2:
+                        if (!examineQuestSmith.isCompleted()) {
+                            if (examineQuestSmith.isQuestAccepted()) {
+                                checkQuestProgress();
+                            } else {
+                                startQuest();
+                            }
+                        } else if (!examineQuestSmith_2.isCompleted()) {
+                            if (examineQuestSmith_2.isQuestAccepted()) {
+                                checkSecondQuestProgress();
+                            } else {
+                                startSecondQuest();
+                            }
+                        } else if (examineQuestSmith.isCompleted() && examineQuestSmith_2.isCompleted()) {
+                            System.out.println();
+                        }
+                        break;
+                    case 3:
+                        farewell();
+                        keepLoop = false;
+                        break;
+                    default:
+                        System.out.println("(-_-)");
+                        break;
                 }
-                break;
-            case 3:
-                farewell();
-                keepLoop = false;
-                break;
-            default:
-                System.out.println("(-_-)");
-                break;
+            } else {
+                System.out.println("Invalid input. Must be 1, 2, 3.");
+                scanner.next();
+            }
         }
-    }
     }
 
     @Override
