@@ -12,13 +12,13 @@ public class MrAnderson extends NPC {
     private ExamineQuestSmith_2 examineQuestSmith_2;
     private SmithMiniGame smithMiniGame;
     Colors color = new Colors();
-    private ExamineQuestLouis_2 examineQuestLouis_2;
+    private ExamineQuestJohn_2 examineQuestJohn_2;
 
     public MrAnderson(String name, boolean intro, Player player) {
         super(name, intro, player);
         this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Suspicious Note");
         this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter", player);
-        this.examineQuestLouis_2 = new ExamineQuestLouis_2("The Suspicious Photo", "Find more information about the woman in the photo", "Old Photo");
+        this.examineQuestJohn_2 = new ExamineQuestJohn_2("The Suspicious Photo", "Find more information about the woman in the photo", "Old Photo");
         this.smithMiniGame = new SmithMiniGame("Find the box", "There is a strange box on the cellar","Puzzle Box");
     }
 
@@ -72,12 +72,12 @@ public class MrAnderson extends NPC {
                 keepLoop = false;
                 break;
             case 5:
-                if (examineQuestLouis_2.isItemFound()) {
-                    if (!examineQuestLouis_2.isCompleted()) {
+                if (examineQuestJohn_2.isItemFound()) {
+                    if (!examineQuestJohn_2.isCompleted()) {
                         System.out.println(color.gold() + "MrAnderson: " + color.reset() + "Ah yes i think this is the chillhood friend of Mr Smith\n" +
                                 "Now that you mention it she has been visiting quite a lot lately\n" +
                                 "Maybe the secret afair is with her?\n");
-                        examineQuestLouis_2.completeQuest(player);
+                        examineQuestJohn_2.completeQuest(player);
                     } else {
                         System.out.println(color.gold() + "MrAnderson: " + color.reset() + "Ah yes i think this is the chillhood friend of Mr Smith\n" +
                                 "Now that you mention it she has been visiting quite a lot lately\n" +
@@ -107,10 +107,10 @@ public class MrAnderson extends NPC {
         System.out.println("\t3. Is there any hidden puzzle to warm up");
         System.out.println("\t4. Farewell");
 
-        examineQuestLouis_2.checkItems(player);
+        examineQuestJohn_2.checkItems(player);
 
-        if (examineQuestLouis_2.isItemFound()) {
-            if (!examineQuestLouis_2.isCompleted()) {
+        if (examineQuestJohn_2.isItemFound()) {
+            if (!examineQuestJohn_2.isCompleted()) {
                     System.out.println("\t5. Do you know who the woman is in this picture");
                 }
             }

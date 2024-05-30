@@ -6,14 +6,14 @@ import Player.Player;
 
 import java.util.ArrayList;
 
-public class ExamineQuestLouis extends Quest {
+public class ExamineQuestJohn_3 extends Quest {
 
     String requiredItem;
     private boolean itemFound;
 
     Colors color = new Colors();
 
-    public ExamineQuestLouis(String name, String description, String requiredItem) {
+    public ExamineQuestJohn_3(String name, String description, String requiredItem) {
         super(name, description);
         this.requiredItem = requiredItem;
         this.itemFound = false;
@@ -23,8 +23,8 @@ public class ExamineQuestLouis extends Quest {
     @Override
     public void startQuest() {
         System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "Check for old keepsakes in the attic" + color.reset());
-        System.out.println(color.gold() + "Find a keepsake in the attic that will give you an insight into Mr Smiths hidden past\n" + color.reset());
-        System.out.println(color.gold() + "Mr Louis: " + color.reset() + "You may start from the attic\n");
+        System.out.println(color.gold() + "Find information and search the rumors about Mr Smiths hidden past\n" + color.reset());
+        System.out.println(color.gold() + "Mr Anderson: " + color.reset() + "You may start from Mr Smith's office and the library\n");
     }
 
     public void checkItems(Player player) {
@@ -44,9 +44,9 @@ public class ExamineQuestLouis extends Quest {
 
     public void completeQuest(Player player) {
         if (itemFound) {
-            System.out.println(color.blue() + "Quest Completed: " + color.gold() + "Check for old keepsakes in the attic" + color.reset());
+            System.out.println(color.blue() + "Quest Completed: " + color.gold() + "Examine Mr Smith's past" + color.reset());
             super.complete();
-            player.addProgressPoints(5);
+            player.addProgressPoints(20);
         } else {
             System.out.println(color.red() + "You haven't found the required information yet. Keep looking!" + color.reset());
         }
