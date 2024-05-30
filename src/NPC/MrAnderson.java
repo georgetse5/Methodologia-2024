@@ -10,12 +10,14 @@ public class MrAnderson extends NPC {
 
     private ExamineQuestSmith examineQuestSmith;
     private ExamineQuestSmith_2 examineQuestSmith_2;
+    private SmithMiniGame smithMiniGame;
     Colors color = new Colors();
 
     public MrAnderson(String name, boolean intro, Player player) {
         super(name, intro, player);
         this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Suspicious Note");
         this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter", player);
+        this.smithMiniGame = new SmithMiniGame("Find the box", "There is a strange box on the cellar","Puzzle Box");
     }
 
     @Override
@@ -53,6 +55,17 @@ public class MrAnderson extends NPC {
                 }
                 break;
             case 3:
+                if (!smithMiniGame.isCompleted()) {
+                    if (smithMiniGame.isQuestAccepted()) {
+                        checkMiniGameProgress();
+                    } else {
+                        smithMiniGame.startQuest();
+                        smithMiniGame.setQuestAccepted();
+                    }
+                } else {
+                    System.out.println("You have already completed the Smith Puzzle.");
+                }
+            case 4:
                 farewell();
                 keepLoop = false;
                 break;
@@ -73,7 +86,8 @@ public class MrAnderson extends NPC {
         } else {
             System.out.println("\t2. ...");
         }
-        System.out.println("\t3. Farewell");
+        System.out.println("\t3. Is there any hidden puzzle to warm up");
+        System.out.println("\t4. Farewell");
     }
 
 
@@ -138,6 +152,21 @@ public class MrAnderson extends NPC {
             System.out.println("There are no active quests.");
         }
     }
+
+    public void checkMiniGameProgress() {
+        if (smithMiniGame != null) {
+            smithMiniGame.checkItems(player);
+            if (smithMiniGame.isItemFound()) {
+                smithMiniGame.completeQuest(player);
+            } else {
+                System.out.println(color.gold() + "You need to find the required item to complete the quest." + color.reset());
+            }
+        } else {
+            System.out.println("There are no active quests.");
+        }
+    }
+
+
 
 
     private void familySmithInfo() {
