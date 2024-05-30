@@ -12,11 +12,13 @@ public class MrAnderson extends NPC {
     private ExamineQuestSmith_2 examineQuestSmith_2;
     private SmithMiniGame smithMiniGame;
     Colors color = new Colors();
+    private ExamineQuestLouis_2 examineQuestLouis_2;
 
     public MrAnderson(String name, boolean intro, Player player) {
         super(name, intro, player);
         this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Suspicious Note");
         this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter", player);
+        this.examineQuestLouis_2 = new ExamineQuestLouis_2("The Suspicious Photo", "Find more information about the woman in the photo", "Old Photo");
         this.smithMiniGame = new SmithMiniGame("Find the box", "There is a strange box on the cellar","Puzzle Box");
     }
 
@@ -69,6 +71,22 @@ public class MrAnderson extends NPC {
                 farewell();
                 keepLoop = false;
                 break;
+            case 5:
+                if (examineQuestLouis_2.isItemFound()) {
+                    if (!examineQuestLouis_2.isCompleted()) {
+                        System.out.println(color.gold() + "MrAnderson: " + color.reset() + "Ah yes i think this is the chillhood friend of Mr Smith\n" +
+                                "Now that you mention it she has been visiting quite a lot lately\n" +
+                                "Maybe the secret afair is with her?\n");
+                        examineQuestLouis_2.completeQuest(player);
+                    } else {
+                        System.out.println(color.gold() + "MrAnderson: " + color.reset() + "Ah yes i think this is the chillhood friend of Mr Smith\n" +
+                                "Now that you mention it she has been visiting quite a lot lately\n" +
+                                "Maybe the secret afair is with her?\n");
+                    }
+                }
+                keepLoop = false;
+                        break;
+
             default:
                 System.out.println("(-_-)");
                 break;
@@ -81,14 +99,27 @@ public class MrAnderson extends NPC {
         System.out.println("\t1. What can you tell me about the Smith Family ?");
         if (!examineQuestSmith.isCompleted()) {
             System.out.println("\t2. There is something I need to know about Mr Smith ?");
-        } else if (!examineQuestSmith_2.isCompleted()){
+        } else if (!examineQuestSmith_2.isCompleted()) {
             System.out.println("\t2. Find the unknown sender of the mysterious note");
         } else {
             System.out.println("\t2. ...");
         }
         System.out.println("\t3. Is there any hidden puzzle to warm up");
         System.out.println("\t4. Farewell");
+
+        examineQuestLouis_2.checkItems(player);
+
+        if (examineQuestLouis_2.isItemFound()) {
+            if (!examineQuestLouis_2.isCompleted()) {
+                    System.out.println("\t5. Do you know who the woman is in this picture");
+                }
+            }
+
     }
+
+
+
+
 
 
     @Override
@@ -140,6 +171,7 @@ public class MrAnderson extends NPC {
     }
 
 
+
     public void checkSecondQuestProgress() {
         if (examineQuestSmith_2 != null) {
             examineQuestSmith_2.checkItems(player);
@@ -165,7 +197,6 @@ public class MrAnderson extends NPC {
             System.out.println("There are no active quests.");
         }
     }
-
 
 
 

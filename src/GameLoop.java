@@ -849,6 +849,9 @@ public class GameLoop implements Serializable {
          //Bedroom1 Items
         Item Bed = new Item("Bed","A double bed ",false);
         Item jewlery = new Item("jelery","Mrs. Smith's jewelry",true);
+        // Attic Items
+        Item Old_Photo = new Item ("Old photo", "An old photo of Mr Smith with some woman",true);
+
 
 
 
@@ -905,6 +908,8 @@ public class GameLoop implements Serializable {
         office.addItem(Telephone_list);
 
         bedroom_1.addItem(Bed);
+
+        attic.addItem(Old_Photo);
 
         List<Room> rooms = new ArrayList<>();
 
