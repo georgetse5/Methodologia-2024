@@ -68,6 +68,7 @@ public class ExamineQuestSmith_2 extends Quest {
             this.loseQuest();
             turnsLeft = 15;
             player.removeProgressPoints(10);
+            System.out.println("Progress points " + player.getProgressPoints() + "/100");
         }
     }
 
