@@ -1,10 +1,6 @@
 import Colors.Colors;
 import Container.Container;
-import NPC.MrAnderson;
-import NPC.MrLouis;
-import NPC.MrsNataliSmith;
-import NPC.NPC;
-import NPC.SomeRandomGuy;
+import NPC.*;
 import Player.Player;
 import Rooms.*;
 import Item.Item;
@@ -49,7 +45,7 @@ public class GameLoop implements Serializable {
     }};
 
     private boolean debug = false;
-    private boolean allowDebug = false;
+    private boolean allowDebug = true;
 
 
     private List<Room> rooms;
@@ -796,12 +792,12 @@ public class GameLoop implements Serializable {
         MrAnderson anderson = new MrAnderson("Anderson", false, player);
         SomeRandomGuy randomGuy = new SomeRandomGuy("RandomGuy", false, player);
         MrLouis louis = new MrLouis("Louis",false, player);
-        MrsNataliSmith nataliSmith = new MrsNataliSmith("Natali Smith",false,player );
+//        MrsNataliSmith nataliSmith = new MrsNataliSmith("Natali Smith",false,player );
 
         startingRoom.addNPC(anderson);
         startingRoom.addNPC(randomGuy);
         kitchen.addNPC(louis);
-        dinningRoom.addNPC(nataliSmith);
+//        dinningRoom.addNPC(nataliSmith);
 
 
         // Item initialization

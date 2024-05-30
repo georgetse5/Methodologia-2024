@@ -16,7 +16,7 @@ public class MrLouis extends NPC {
     public MrLouis(String name, boolean intro, Player player) {
         super(name, intro, player);
         this.examineQuestSmith = new ExamineQuestSmith("Examine Mr Smith's Past", "Find information about Mr Smith's hidden past.", "Suspicious Note");
-        this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter");
+        this.examineQuestSmith_2 = new ExamineQuestSmith_2("The suspicious Note", "Find more information about the sender of that Note", "Letter", player);
         this.examineQuestSmith_3 = new ExamineQuestSmith_3("The Employee List", "Find the List ", "Employee List");
     }
 
