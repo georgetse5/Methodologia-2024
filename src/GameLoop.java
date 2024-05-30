@@ -638,8 +638,10 @@ public class GameLoop implements Serializable {
             if (!map.isVisible()) {
                 map.setVisible(true);
             }
-            map.toFront();
-            map.repaint(); // Ensure the map is updated with the latest player position
+            else {
+                map.repaint();
+                map.toFront();
+            }
         }
     }
 
@@ -844,6 +846,7 @@ public class GameLoop implements Serializable {
         Item Shelves = new Item("Shelves with wines","Aged wines on shelves.",false);
         Item Tirbuson = new Item("Tirbuson","A tirbuson on a table with two glasses of wine.",true);
         Item Glasses_of_wine = new Item("Glasses of Wine","Two glasses of wine, one of which with a mark from red lipstick.",false);
+        Item Puzzle_Box = new Item("Puzzle Box","The strange box mr.anderson talked about. I should take it back and ask about it",true);
          //Library items
         Item Bookcase = new Item("Bookcase","A big old bookcase with many books",false);
          //Office items
@@ -900,6 +903,7 @@ public class GameLoop implements Serializable {
         wineCellar.addItem(Shelves);
         wineCellar.addItem(Tirbuson);
         wineCellar.addItem(Glasses_of_wine);
+        wineCellar.addItem(Puzzle_Box);
 
         library.addItem(Bookcase);
 
