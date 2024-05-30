@@ -6,14 +6,14 @@ import Player.Player;
 
 import java.util.ArrayList;
 
-public class ExamineQuestSmith_3 extends Quest {
+public class ExamineQuestSmith_4 extends Quest {
 
     String requiredItem;
     private boolean itemFound;
 
     Colors color = new Colors();
 
-    public ExamineQuestSmith_3(String name, String description, String requiredItem) {
+    public ExamineQuestSmith_4(String name, String description, String requiredItem) {
         super(name, description);
         this.requiredItem = requiredItem;
         this.itemFound = false;
@@ -22,9 +22,9 @@ public class ExamineQuestSmith_3 extends Quest {
 
     @Override
     public void startQuest() {
-        System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "Find Employee List" + color.reset());
-        System.out.println(color.gold() + "Find the employee list\n" + color.reset());
-        System.out.println(color.gold() + "MrLouis: " + color.reset() + "You may start from Mr Smith's office \n");
+        System.out.println(color.cyan() + "Quest Accepted: " + color.gold() + "Find Photos" + color.reset());
+        System.out.println(color.gold() + "Find the photos\n" + color.reset());
+        System.out.println(color.gold() + "Mrs Natali: " + color.reset() + "You may start from Secret Room \n");
     }
 
     public void checkItems(Player player) {
@@ -44,7 +44,7 @@ public class ExamineQuestSmith_3 extends Quest {
 
     public void completeQuest(Player player) {
         if (itemFound) {
-            System.out.println(color.blue() + "Quest Completed: " + color.gold() + "Employee List" + color.reset());
+            System.out.println(color.blue() + "Quest Completed: " + color.gold() + "Find Photos" + color.reset());
             super.complete();
             player.addProgressPoints(20);
         } else {

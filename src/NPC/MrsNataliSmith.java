@@ -6,16 +6,18 @@ import Quests.*;
 
 import java.util.Scanner;
 
-public class MrLouis extends NPC {
+public class MrsNataliSmith extends NPC {
 
     private ExamineQuestSmith examineQuestSmith;
     private ExamineQuestSmith_2 examineQuestSmith_2;
     private ExamineQuestSmith_3 examineQuestSmith_3;
+    private ExamineQuestSmith_4 examineQuestSmith_4;
     Colors color = new Colors();
 
-    public MrLouis(String name, boolean intro, Player player) {
+    public MrsNataliSmith(String name, boolean intro, Player player) {
         super(name, intro, player);
-        this.examineQuestSmith_3 = new ExamineQuestSmith_3("The Employee List", "Find the List ", "Employee List");
+
+        this.examineQuestSmith_4 = new ExamineQuestSmith_4("The Photos", "Find the Photos ", "Photos");
     }
 
     @Override
@@ -36,11 +38,11 @@ public class MrLouis extends NPC {
                     familySmithInfo();
                     break;
                 case 2:
-                    if (!examineQuestSmith_3.isCompleted()) {
-                        if (examineQuestSmith_3.isQuestAccepted()) {
-                            checkThirdQuestProgress();
+                     if (!examineQuestSmith_4.isCompleted()) {
+                        if (examineQuestSmith_4.isQuestAccepted()) {
+                            checkFourthQuestProgress();
                         } else {
-                            startThirdQuest();
+                            startFourthQuest();
                         }
                     }
                     break;
@@ -57,11 +59,11 @@ public class MrLouis extends NPC {
 
     @Override
     void selectOption() {
-        System.out.println("\t1. What can you tell me about the Smith Family ?");
-        if (!examineQuestSmith_3.isCompleted()) {
+        System.out.println("\t1. What can you tell me about your husband ?");
+        if (!examineQuestSmith_4.isCompleted()) {
             System.out.println("\t2. There is something I need to know about Mr Smith ?");
-        } else if (!examineQuestSmith_3.isCompleted()){
-            System.out.println("\t2. Find the employees list");
+        } else if (!examineQuestSmith_4.isCompleted()){
+            System.out.println("\t2. Find the photos");
         } else {
             System.out.println("\t2. ...");
         }
@@ -75,7 +77,8 @@ public class MrLouis extends NPC {
         if (!getIntro()) {
             System.out.println("Hello, my name is "
                     + getName()
-                    + "\nI am family's Smith caretaker, It's nice to meet you!"
+                    + "\nI am Smith wife, It's nice to meet you!"
+                    + "\nI am very upset"
                     + "\nIf you have any questions do not hesitate to ask.");
             setIntro(true);
         } else {
@@ -89,12 +92,12 @@ public class MrLouis extends NPC {
     }
 
     public void startQuest() {
-        System.out.println(color.gold() + "MrLouis: " + color.reset() + "Yes there are rumors about MrSmith's secret life\n" +
-                "A secret affair I heard, but I do not know if it's true\n" +
+        System.out.println(color.gold() + "Mrs Natali: " + color.reset() + "Υes you must know that my husband had a mistress\n" +
+                "Υou can find photos in the secret room next to the office\n" +
                 "If you can investigate about it maybe you can find useful info\n");
         System.out.println(color.gold() + player.getName() + ": " + color.reset() + "Alright. I will investigate it\n");
-        examineQuestSmith_3.setQuestAccepted();
-        examineQuestSmith_3.startQuest();
+        examineQuestSmith_4.setQuestAccepted();
+        examineQuestSmith_4.startQuest();
     }
 
 
@@ -112,11 +115,32 @@ public class MrLouis extends NPC {
     }
 
 
+    public void startSecondQuest() {
+        examineQuestSmith_2.setQuestAccepted();
+        examineQuestSmith_2.startQuest();
+    }
+
     public void startThirdQuest() {
         examineQuestSmith_3.setQuestAccepted();
         examineQuestSmith_3.startQuest();
     }
+    public void startFourthQuest() {
+        examineQuestSmith_4.setQuestAccepted();
+        examineQuestSmith_4.startQuest();
+    }
 
+    public void checkSecondQuestProgress() {
+        if (examineQuestSmith_2 != null) {
+            examineQuestSmith_2.checkItems(player);
+            if (examineQuestSmith_2.isItemFound()) {
+                examineQuestSmith_2.completeQuest(player);
+            } else {
+                System.out.println(color.gold() + "You need to find the required item to complete the quest." + color.reset());
+            }
+        } else {
+            System.out.println("There are no active quests.");
+        }
+    }
 
 
     public void checkThirdQuestProgress() {
@@ -131,9 +155,24 @@ public class MrLouis extends NPC {
             System.out.println("There are no active quests.");
         }
     }
+    public void checkFourthQuestProgress() {
+        if (examineQuestSmith_4 != null) {
+            examineQuestSmith_4.checkItems(player);
+            if (examineQuestSmith_4.isItemFound()) {
+                examineQuestSmith_4.completeQuest(player);
+            } else {
+                System.out.println(color.gold() + "You need to find the required item to complete the quest." + color.reset());
+            }
+        } else {
+            System.out.println("There are no active quests.");
+        }
+    }
 
 
     private void familySmithInfo() {
-        System.out.println(color.blue() + "Louis: " + color.gold() + "I am shocked. I didn't think Mr. Smith was in any danger" + color.reset());
+        System.out.println(color.blue() + "Mrs Natali: " + color.gold() + "I can't believe what is happening to my husband"
+        + " but you must know that my husband had a mistress\n" +
+                "Υou can find photos in the secret room next to the office\n" +
+                        "If you can investigate about it maybe you can find useful info\n" + color.reset());
     }
 }
